@@ -15,7 +15,7 @@ class IconAndText extends StatelessWidget {
         Text(
           text,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.titleSmall,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );

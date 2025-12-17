@@ -11,11 +11,7 @@ class CancelButton extends StatelessWidget {
       },
       child: Text(
         "Cancel",
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       ),
     );
   }

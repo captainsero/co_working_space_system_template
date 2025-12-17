@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 
 class OrderedItemsColumn extends StatelessWidget {
@@ -81,23 +81,22 @@ class _ItemCardState extends State<_ItemCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Col.dark2,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Spacer(),
           Column(
             children: [
               Text(
                 widget.item.name,
-                style: const TextStyle(color: Colors.white),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
               Text(
-                '\$${widget.item.price.toStringAsFixed(2)} each',
-                style: const TextStyle(color: Colors.white),
+                '\$${widget.item.price.toStringAsFixed(2)}',
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ],
           ),
-          const Spacer(),
+
           _QtyButton(
             icon: Icons.remove,
             onPressed: () {
@@ -106,12 +105,12 @@ class _ItemCardState extends State<_ItemCard> {
               }
             },
           ),
-          const Spacer(),
+
           Text(
             '${widget.item.quantity}',
-            style: const TextStyle(color: Colors.white),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
-          const Spacer(),
+
           _QtyButton(
             icon: Icons.add,
             onPressed: () {
@@ -120,23 +119,23 @@ class _ItemCardState extends State<_ItemCard> {
               }
             },
           ),
-          const Spacer(),
+
           Column(
             children: [
               Text(
                 '\$${(widget.item.price * widget.item.quantity).toStringAsFixed(2)}',
-                style: const TextStyle(color: Colors.white),
+                style: Theme.of(context).textTheme.titleSmall,
               ),
+
               TextButton(
                 onPressed: () => widget.box.deleteAt(widget.index),
-                child: const Text(
+                child: Text(
                   'Remove',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ),
             ],
           ),
-          const Spacer(),
         ],
       ),
     );
@@ -152,17 +151,20 @@ class _QtyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 20,
-      height: 20,
+      width: AppSize.s7,
+      height: AppSize.s7,
       decoration: BoxDecoration(
-        color: Col.light1,
-        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).colorScheme.secondary,
+        borderRadius: BorderRadius.circular(RadiusSize.r30),
       ),
       child: IconButton(
-        icon: Icon(icon, color: Colors.white, size: 16),
+        icon: Icon(
+          icon,
+          color: Theme.of(context).colorScheme.onSecondary,
+          size: AppSize.s6,
+        ),
         onPressed: onPressed,
         padding: EdgeInsets.zero,
-        splashRadius: 20,
       ),
     );
   }

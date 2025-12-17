@@ -16,7 +16,7 @@ ThemeData getDarkTheme() {
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
       primary: ColorManager.primary,
-      onPrimary: ColorManager.white,
+      onPrimary: ColorManager.light,
       secondary: ColorManager.secondory,
       onSecondary: ColorManager.black,
       surface: ColorManager.darkPrimary,
@@ -141,17 +141,17 @@ ThemeData getDarkTheme() {
 
       // Body
       bodyLarge: getMediumStyle(
-        color: ColorManager.lightPrimary,
+        color: ColorManager.light,
         fontSize: FontSize.s7,
         fontFamily: FontConstants.libertinusFamily,
       ),
       bodyMedium: getRegularStyle(
-        color: ColorManager.lightPrimary,
+        color: ColorManager.light,
         fontSize: FontSize.s6,
         fontFamily: FontConstants.libertinusFamily,
       ),
       bodySmall: getRegularStyle(
-        color: ColorManager.lightPrimary,
+        color: ColorManager.light,
         fontSize: FontSize.s5,
         fontFamily: FontConstants.libertinusFamily,
       ),

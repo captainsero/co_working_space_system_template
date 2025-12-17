@@ -21,7 +21,6 @@ import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customer
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/delete_button.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/items_container.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/pay_button.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/price_text.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/total_checkout_column.dart';
 import 'package:toastification/toastification.dart';
 
@@ -631,7 +630,12 @@ class TimeScreenLogic {
                   ),
 
                   Spacer(),
-                  PriceText(total: finalTotal),
+
+                  Text(
+                    "Price After Offer = $finalTotal EGP",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  
                   Spacer(),
 
                   Column(

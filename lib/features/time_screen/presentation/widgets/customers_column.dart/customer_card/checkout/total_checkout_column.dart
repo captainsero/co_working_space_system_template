@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/confirm_text.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/oreded_items_column.dart';
 
@@ -26,53 +26,36 @@ class TotalCheckoutColumn extends StatelessWidget {
 
         SizedBox(
           width: ScreenSize.width / 5,
-          child: Divider(color: Col.light2.withOpacity(0.4), thickness: 1),
+          child: Divider(
+            color: Theme.of(context).colorScheme.onPrimary.withAlpha(50),
+            thickness: AppSize.s0_5,
+          ),
         ),
 
         Spacer(flex: 2),
 
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Hours Fee:",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Spacer(),
-            Text(
-              "\$$hoursFee",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text("Hours Fee:", style: Theme.of(context).textTheme.titleSmall),
+            Text("\$$hoursFee", style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
 
         Spacer(flex: 1),
 
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Items Fee:",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Spacer(),
+            Text("Items Fee:", style: Theme.of(context).textTheme.titleSmall),
+
             ValueListenableBuilder<Box<double>>(
               valueListenable: totalBox.listenable(),
               builder: (context, box, _) {
                 final itemsTotal = box.get('${number}total');
                 return Text(
                   "\$$itemsTotal",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 );
               },
             ),
@@ -81,21 +64,19 @@ class TotalCheckoutColumn extends StatelessWidget {
 
         SizedBox(
           width: ScreenSize.width / 5,
-          child: Divider(color: Col.light2.withOpacity(0.4), thickness: 1),
+          child: Divider(
+            color: Theme.of(context).colorScheme.onPrimary.withAlpha(50),
+            thickness: AppSize.s0_5,
+          ),
         ),
 
         Spacer(flex: 1),
 
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Total:",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Spacer(),
+            Text("Total:", style: Theme.of(context).textTheme.titleMedium),
+
             ValueListenableBuilder<Box<double>>(
               valueListenable: totalBox.listenable(),
               builder: (context, box, _) {
@@ -109,10 +90,7 @@ class TotalCheckoutColumn extends StatelessWidget {
                 }
                 return Text(
                   "\$$total",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 );
               },
             ),
@@ -120,7 +98,7 @@ class TotalCheckoutColumn extends StatelessWidget {
         ),
 
         Spacer(flex: 2),
-
+        
         ConfirmText(priceController: priceController),
       ],
     );

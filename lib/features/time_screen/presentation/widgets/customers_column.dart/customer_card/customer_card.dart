@@ -54,7 +54,7 @@ class CustomerCard extends StatelessWidget {
                     children: [
                       Text(
                         StringExtensions.getElapsedTime(item.timer),
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
 
                       FutureBuilder<String>(

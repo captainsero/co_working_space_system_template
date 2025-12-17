@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
+import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/items_model.dart';
 import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
@@ -65,8 +67,10 @@ class _ItemsContainerState extends State<ItemsContainer> {
             width: ScreenSize.width / 1.8,
             height: ScreenSize.height / 1.8,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Col.light1.withOpacity(0.4)),
+              borderRadius: BorderRadius.circular(RadiusSize.r12),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.onPrimary.withAlpha(50),
+              ),
             ),
             child: Column(
               children: [
@@ -78,8 +82,8 @@ class _ItemsContainerState extends State<ItemsContainer> {
                       child: Text(
                         "Drinks",
                         style: isChosen
-                            ? TextStyle(fontSize: 20, color: Colors.white)
-                            : TextStyle(fontSize: 16, color: Col.light2),
+                            ? Theme.of(context).textTheme.titleMedium
+                            : Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
 
@@ -88,8 +92,8 @@ class _ItemsContainerState extends State<ItemsContainer> {
                       child: Text(
                         "Snacks",
                         style: isChosen
-                            ? TextStyle(fontSize: 16, color: Col.light2)
-                            : TextStyle(fontSize: 20, color: Colors.white),
+                            ? Theme.of(context).textTheme.bodyLarge
+                            : Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                   ],
@@ -101,7 +105,7 @@ class _ItemsContainerState extends State<ItemsContainer> {
                       physics: const BouncingScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, // 3 items per row
-                        childAspectRatio: 2.5, // Adjust for card shape
+                        childAspectRatio: 1.2, // Adjust for card shape
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
                       ),
@@ -115,50 +119,38 @@ class _ItemsContainerState extends State<ItemsContainer> {
 
                         if (item.quantity == 0) {
                           label = "Out Of Stock";
-                          textColor = Colors.red;
+                          textColor = Theme.of(context).colorScheme.error;
                         } else if (item.quantity < 5 && item.quantity > 0 ||
                             item.quantity == 5) {
                           // 👈 quantity less than 5
                           label = "Low Stock";
-                          textColor = Colors.orange;
+                          textColor = ColorManager.orange;
                         } else {
                           label = "Add";
-                          textColor = Colors.white;
+                          textColor = Theme.of(context).colorScheme.onSecondary;
                         }
 
                         return Card(
-                          color: Col.light1,
                           child: Padding(
-                            padding: const EdgeInsets.all(10),
+                            padding: EdgeInsets.all(AppPadding.p4),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      item.name,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "${item.quantity}",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "\$${item.price}",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  item.name,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Spacer(),
+                                Text(
+                                  "Quantity: ${item.quantity}",
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                Spacer(),
+                                Text(
+                                  "Price: ${item.price}\$",
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
 
                                 Spacer(),
@@ -199,17 +191,11 @@ class _ItemsContainerState extends State<ItemsContainer> {
                                             );
                                           },
 
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Col.dark2,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
                                     child: Text(
                                       label,
                                       style: TextStyle(
                                         color: textColor,
-                                        fontSize: 20,
+                                        fontSize: FontSize.s6,
                                       ),
                                     ),
                                   ),

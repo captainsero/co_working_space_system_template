@@ -82,19 +82,14 @@ class PayButton extends StatelessWidget {
               content: Text(
                 'Failed to delete user from today, try to press delete button: $e',
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.error,
             ),
           );
         }
       },
 
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Col.dark2,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      ),
       child: const Text(
         "Pay",
-        style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
   }

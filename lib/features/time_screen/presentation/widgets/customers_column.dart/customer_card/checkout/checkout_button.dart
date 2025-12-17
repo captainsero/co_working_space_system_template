@@ -4,6 +4,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/style_manager.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/in_team_users.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
@@ -15,7 +17,6 @@ import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customer
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/delete_button.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/items_container.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/pay_button.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/price_text.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/total_checkout_column.dart'
     show TotalCheckoutColumn;
 
@@ -87,12 +88,6 @@ class _CheckoutButtonState extends State<CheckoutButton> {
             return BlocBuilder<TimeScreenCubit, TimeScreenState>(
               builder: (context, state) {
                 return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: Col.light1, width: 1),
-                  ),
-
-                  backgroundColor: Col.dark1.withOpacity(0.8),
                   title: Row(
                     children: [
                       Column(
@@ -100,61 +95,60 @@ class _CheckoutButtonState extends State<CheckoutButton> {
                         children: [
                           Text(
                             "Price: $baseTotal EGP",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Col.light2,
-                              fontFamily: Fonts.tableHead,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
+
                           Text(
                             "Offer: $offerDis",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.green.shade700,
-                              fontFamily: Fonts.tableHead,
-                              fontWeight: FontWeight.w600,
+                            style: getRegularStyle(
+                              color: ColorManager.green,
+                              fontFamily: FontConstants.libertinusFamily,
+                              fontSize: FontSize.s8,
                             ),
                           ),
                         ],
                       ),
 
                       Spacer(),
-                      PriceText(total: finalTotal),
+
+                      Text(
+                        "Price After Offer = $finalTotal EGP",
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+
                       Spacer(),
 
                       Column(
+                        spacing: AppSize.s1,
                         children: [
                           Icon(
                             Icons.shopping_cart_checkout,
-                            color: Col.light2,
-                            size: 40,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            size: AppSize.s12,
                           ),
-                          const SizedBox(height: 10),
+
                           Text(
                             widget.user.name,
-                            style: TextStyle(
-                              color: Col.light2,
-                              fontFamily: Fonts.names,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         ],
                       ),
                     ],
                   ),
+
                   content: SizedBox(
                     width: ScreenSize.width / 1.2,
-                    height: ScreenSize.height / 1.5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Divider(
-                          color: Col.light2.withOpacity(0.4),
-                          thickness: 1,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimary.withAlpha(50),
+                          thickness: AppSize.s0_5,
                         ),
-                        const SizedBox(height: 16),
+
+                        SizedBox(height: AppSize.s4),
 
                         Row(
                           children: [
@@ -169,15 +163,16 @@ class _CheckoutButtonState extends State<CheckoutButton> {
                             ),
 
                             SizedBox(
-                              height: ScreenSize.height / 2,
+                              height: ScreenSize.height / 1.8,
                               child: VerticalDivider(
-                                color: Col.light2.withOpacity(0.4),
-                                thickness: 1,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimary.withAlpha(50),
+                                thickness: AppSize.s0_5,
                               ),
                             ),
 
                             Spacer(),
-
                             ItemsContainer(user: widget.user.number),
                             Spacer(),
                           ],
@@ -185,9 +180,11 @@ class _CheckoutButtonState extends State<CheckoutButton> {
                       ],
                     ),
                   ),
-                  actionsPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+                  actionsPadding: EdgeInsets.only(
+                    top: AppPadding.p0,
+                    left: AppPadding.p12,
+                    bottom: AppPadding.p4,
+                    right: AppPadding.p12,
                   ),
                   actions: [
                     Row(

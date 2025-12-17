@@ -13,7 +13,7 @@ class PriceContainer extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(RadiusSize.r12),
         border: Border.all(
-          color: Theme.of(context).colorScheme.tertiary,
+          color: Theme.of(context).colorScheme.onPrimary,
           width: AppSize.s0_5,
         ),
       ),
@@ -26,7 +26,7 @@ class PriceContainer extends StatelessWidget {
               children: [
                 Icon(
                   Icons.attach_money_rounded,
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   size: AppSize.s10,
                 ),
                 SizedBox(width: AppSize.s2),
@@ -45,7 +45,7 @@ class PriceContainer extends StatelessWidget {
 
             Text(
               "From active sessions and room reservations",
-              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),

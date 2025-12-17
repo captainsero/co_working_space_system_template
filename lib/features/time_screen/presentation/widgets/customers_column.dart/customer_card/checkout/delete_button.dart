@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/in_team_cubit.dart';
 
@@ -32,15 +33,16 @@ class DeleteButton extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Failed to delete user: $e'),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.error,
             ),
           );
         }
       },
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ),
       child: const Text(
         "Delete",
-        style: TextStyle(color: Colors.black, fontSize: 20),
       ),
     );
   }
