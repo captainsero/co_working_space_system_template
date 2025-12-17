@@ -86,9 +86,13 @@ class _ItemCardState extends State<_ItemCard> {
         children: [
           Column(
             children: [
-              Text(
-                widget.item.name,
-                style: Theme.of(context).textTheme.titleSmall,
+              SizedBox(
+                width: AppSize.s16,
+                child: Text(
+                  widget.item.name,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Text(
                 '\$${widget.item.price.toStringAsFixed(2)}',
