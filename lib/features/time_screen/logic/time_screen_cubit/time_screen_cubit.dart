@@ -1,7 +1,11 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:team_egypt_v3/core/models/in_team_users.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
+import 'package:team_egypt_v3/core/models/subscription_model.dart';
+import 'package:team_egypt_v3/core/models/users_class.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/customers_data/data/supabase_customers_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/data/supabase_days_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/data/supabase_partnership.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/data/supabase_subscriptions.dart';
@@ -98,5 +102,48 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
       number: number,
       minutesToAdd: timeSpent,
     );
+  }
+
+  Future<SubscriptionModel?> getSupbscriptionByNumber(String number) async {
+    final sub = await SupabaseSubscriptions.getSubscriptionByNumber(number);
+    return sub;
+  }
+
+  Future<InTeamUsers?> insertInTeam(String number, BuildContext context) async {
+    final newUser = await SupabaseInTeam.insertInTeam(
+      context: context,
+      number: number,
+      isSub: false,
+    );
+    return newUser;
+  }
+
+  Future<InTeamUsers?> getInTeamUser(String number) async {
+    final user = await SupabaseInTeam.getInTeam(number);
+    return user;
+  }
+
+  Future<bool> insertCustomer(
+    BuildContext context,
+    String name,
+    String number,
+    String collage,
+    String partnershipCode,
+  ) async {
+    final isInserted = await SupabaseCustomersData.insertUserData(
+      context: context,
+      name: name,
+      number: number,
+      collage: collage,
+      partnershipCode: partnershipCode,
+    );
+    return isInserted;
+  }
+
+  Future<UsersClass?> getUserData(String number) async {
+    final user = await SupabaseCustomersData.getUsersDataByNumber(
+      number: number,
+    );
+    return user;
   }
 }

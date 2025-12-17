@@ -41,9 +41,22 @@ class CustomerCard extends StatelessWidget {
                         icon: Icons.phone_outlined,
                         text: item.number,
                       ),
-                      IconAndText(
-                        icon: Icons.school_outlined,
-                        text: item.collage,
+                      Row(
+                        spacing: AppSize.s2,
+                        children: [
+                          Icon(
+                            Icons.school_outlined,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          SizedBox(
+                            width: AppSize.s55,
+                            child: Text(
+                              item.collage,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

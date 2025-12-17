@@ -1,24 +1,21 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/offer_class.dart';
 import 'package:team_egypt_v3/core/models/subscription_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/customers_data/data/supabase_customers_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/data/supabase_partnership.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/data/supabase_subscriptions.dart';
-import 'package:team_egypt_v3/features/time_screen/data/supabase_in_team.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/in_team_cubit.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/time_screen_cubit/time_screen_cubit.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/barcode_dialog.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/checkin_dialog.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/checkout_dialog.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/chekcout_button_dialog.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/subscription_end_dialog.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/subscription_valid_dialog.dart';
 import 'package:toastification/toastification.dart';
 
 class TimeScreenLogic {
@@ -81,7 +78,9 @@ class TimeScreenLogic {
       return;
     }
 
-    final sub = await SupabaseSubscriptions.getSubscriptionByNumber(number);
+    final sub = await context.read<TimeScreenCubit>().getSupbscriptionByNumber(
+      number,
+    );
 
     if (sub != null) {
       Navigator.of(context).pop();
@@ -98,10 +97,9 @@ class TimeScreenLogic {
         }
       }
     } else {
-      final newUser = await SupabaseInTeam.insertInTeam(
-        context: context,
-        number: number,
-        isSub: false,
+      final newUser = await context.read<TimeScreenCubit>().insertInTeam(
+        number,
+        context,
       );
 
       if (newUser != null) {
@@ -136,92 +134,10 @@ class TimeScreenLogic {
   ) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Col.light1,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(
-          "${sub.plan} Subscription",
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-          textAlign: TextAlign.center,
-        ),
-        content: SizedBox(
-          height: 150,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "⚠ Subscription Ended",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                "End Date : ${StringExtensions.formatDate(sub.endDate)}",
-                style: const TextStyle(fontSize: 16),
-              ),
-
-              SizedBox(height: 20),
-
-              Text(
-                "Plan Time : ${sub.planHours} h",
-                style: const TextStyle(fontSize: 16),
-              ),
-
-              SizedBox(height: 10),
-
-              Text(
-                "Time Spent : ${StringExtensions.formatMinutesToHoursMinutes(sub.hours)}",
-                style: const TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-        ),
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        actions: [
-          TextButton.icon(
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            onPressed: () async {
-              await SupabaseSubscriptions.deleteSubscription(sub.number);
-              final newUser = await SupabaseInTeam.insertInTeam(
-                context: context,
-                number: number,
-                isSub: false,
-              );
-              if (newUser != null) {
-                BlocProvider.of<InTeamCubit>(context).loadUsers();
-                numberController.clear();
-              } else {
-                ModernToast.showToast(
-                  context,
-                  'Error',
-                  'User not found',
-                  ToastificationType.error,
-                );
-              }
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.delete),
-            label: const Text("Delete"),
-          ),
-          TextButton.icon(
-            style: TextButton.styleFrom(foregroundColor: Colors.green),
-            onPressed: () async {
-              await SupabaseSubscriptions.deleteSubscription(sub.number);
-              ModernToast.showToast(
-                context,
-                'Warning',
-                "Update the user subscription from Dashboard",
-                ToastificationType.warning,
-              );
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_forward),
-            label: const Text("Update"),
-          ),
-        ],
+      builder: (context) => SubscriptionEndedDialog(
+        sub: sub,
+        number: number,
+        numberController: numberController,
       ),
     );
   }
@@ -238,77 +154,12 @@ class TimeScreenLogic {
     final remText = StringExtensions.formatMinutesToHoursMinutes(remainingTima);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Col.light1,
-        title: Text(
-          "${sub.plan} Subscription",
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: SizedBox(
-          height: 150,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "End Date : ${StringExtensions.formatDate(sub.endDate)}",
-                style: const TextStyle(fontSize: 20),
-              ),
-              Text(
-                "Still : ${remaining.inDays} days",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 20),
-
-              Text(
-                sub.planHours == 0 ? "Unlimited Time" : "Still: $remText",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              final newUser = await SupabaseInTeam.insertInTeam(
-                context: context,
-                number: number,
-                isSub: true,
-              );
-              if (newUser != null) {
-                BlocProvider.of<InTeamCubit>(context).loadUsers();
-                numberController.clear();
-                ModernToast.showToast(
-                  context,
-                  'Success',
-                  'User added successfully',
-                  ToastificationType.success,
-                );
-                await Hive.openBox<CheckoutItems>(number);
-              } else {
-                ModernToast.showToast(
-                  context,
-                  'Error',
-                  'User not found',
-                  ToastificationType.error,
-                );
-              }
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "Add User",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
+      builder: (context) => SubscriptionValidDialog(
+        remaining: remaining,
+        remText: remText,
+        sub: sub,
+        number: number,
+        numberController: numberController,
       ),
     );
   }
@@ -344,7 +195,8 @@ class TimeScreenLogic {
       return;
     }
 
-    final user = await SupabaseInTeam.getInTeam(number);
+    // final user = await SupabaseInTeam.getInTeam(number);
+    final user = await context.read<TimeScreenCubit>().getInTeamUser(number);
 
     if (user == null) {
       ModernToast.showToast(
@@ -373,9 +225,9 @@ class TimeScreenLogic {
     }
 
     if (user.isSub) {
-      final sub = await SupabaseSubscriptions.getSubscriptionByNumber(
-        user.number,
-      );
+      final sub = await context
+          .read<TimeScreenCubit>()
+          .getSupbscriptionByNumber(user.number);
       final int planMin = sub!.planHours * 60;
 
       if (timeSpent + sub.hours > planMin && planMin != 0) {
@@ -465,24 +317,18 @@ class TimeScreenLogic {
       return;
     }
 
-    final isInserted = await SupabaseCustomersData.insertUserData(
-      context: context,
-      name: name,
-      number: number,
-      collage: collage,
-      partnershipCode: partnershipCode,
+    final isInserted = await context.read<TimeScreenCubit>().insertCustomer(
+      context,
+      name,
+      number,
+      collage,
+      partnershipCode,
     );
 
     if (isInserted == true) {
-      final user = await SupabaseCustomersData.getUsersDataByNumber(
-        number: number,
-      );
+      final user = await context.read<TimeScreenCubit>().getUserData(number);
 
-      await SupabaseInTeam.insertInTeam(
-        number: user!.number,
-        isSub: false,
-        context: context,
-      );
+      await context.read<TimeScreenCubit>().insertInTeam(user!.number, context);
 
       ModernToast.showToast(
         context,
@@ -496,15 +342,7 @@ class TimeScreenLogic {
 
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text("${user.name} Barcodes"),
-          content: BarcodeWidget(
-            data: user.number,
-            barcode: Barcode.code128(),
-            width: ScreenSize.width / 5,
-            height: ScreenSize.height / 8,
-          ),
-        ),
+        builder: (context) => BarcodeDialog(user: user),
       );
     } else {
       ModernToast.showToast(
@@ -514,7 +352,5 @@ class TimeScreenLogic {
         ToastificationType.error,
       );
     }
-
-    // ✅ All checks passed → Insert data
   }
 }
