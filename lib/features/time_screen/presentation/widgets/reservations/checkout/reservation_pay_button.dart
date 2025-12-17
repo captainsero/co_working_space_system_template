@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -47,14 +46,7 @@ class ReservationPayButton extends StatelessWidget {
         Navigator.of(context).pop();
       },
 
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Col.dark2,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      ),
-      child: const Text(
-        "Pay",
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
+      child: const Text("Pay"),
     );
   }
 }
