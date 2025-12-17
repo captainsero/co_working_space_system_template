@@ -22,6 +22,7 @@ import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customer
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/items_container.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/pay_button.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/total_checkout_column.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/checkin_dialog.dart';
 import 'package:toastification/toastification.dart';
 
 class TimeScreenLogic {
@@ -62,96 +63,7 @@ class TimeScreenLogic {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Col.light2, width: 2),
-        ),
-        // ignore: deprecated_member_use
-        backgroundColor: Colors.black.withOpacity(0.7),
-        contentPadding: const EdgeInsets.all(24),
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.move_to_inbox, color: Col.light2),
-              const SizedBox(width: 8),
-              Text(
-                "Enter Customer Number",
-                style: TextStyle(
-                  color: Col.light2,
-                  fontFamily: Fonts.head,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        content: SizedBox(
-          width: ScreenSize.width / 5,
-          child: TextField(
-            cursorColor: Colors.white70,
-            controller: numberController,
-            autofocus: true,
-            onSubmitted: (_) => tryInsertUser(context, numberController),
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: Fonts.head,
-            ),
-            decoration: InputDecoration(
-              hintText: "Enter Number",
-              hintStyle: TextStyle(
-                color: Colors.white70,
-                fontWeight: FontWeight.bold,
-                fontFamily: Fonts.head,
-              ),
-              filled: true,
-              fillColor: Colors.black.withOpacity(0.3),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: Col.light2, width: 1.3),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: Col.light2, width: 1.8),
-              ),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text(
-              "Cancel",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => tryInsertUser(context, numberController),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Col.light2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text("Add", style: TextStyle(color: Colors.black)),
-          ),
-        ],
-      ),
+      builder: (context) => CheckinDialog(numberController: numberController),
     );
   }
 
@@ -635,7 +547,7 @@ class TimeScreenLogic {
                     "Price After Offer = $finalTotal EGP",
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  
+
                   Spacer(),
 
                   Column(
