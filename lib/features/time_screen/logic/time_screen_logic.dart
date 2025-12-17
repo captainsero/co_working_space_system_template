@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/offer_class.dart';
@@ -17,12 +16,9 @@ import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/data/sup
 import 'package:team_egypt_v3/features/time_screen/data/supabase_in_team.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/in_team_cubit.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/time_screen_cubit/time_screen_cubit.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/cancel_button.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/delete_button.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/items_container.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/pay_button.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/total_checkout_column.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/checkin_dialog.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/checkout_dialog.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/dialogs/chekcout_button_dialog.dart';
 import 'package:toastification/toastification.dart';
 
 class TimeScreenLogic {
@@ -322,104 +318,10 @@ class TimeScreenLogic {
 
     showDialog(
       context: perantcontext,
-      builder: (dialogCtx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Col.light2, width: 2),
-        ),
-        // ignore: deprecated_member_use
-        backgroundColor: Colors.black.withOpacity(0.7),
-        contentPadding: const EdgeInsets.all(24),
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.outbox, color: Col.light2),
-              const SizedBox(width: 8),
-              Text(
-                "Enter Customer Number",
-                style: TextStyle(
-                  color: Col.light2,
-                  fontFamily: Fonts.head,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        content: SizedBox(
-          width: ScreenSize.width / 5,
-          child: TextField(
-            cursorColor: Colors.white70,
-            controller: numberController,
-            autofocus: true,
-            onSubmitted: (_) async {
-              Navigator.pop(dialogCtx);
-              await tryCheckoutUser(perantcontext, numberController);
-            },
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: Fonts.head,
-            ),
-            decoration: InputDecoration(
-              hintText: "Enter Number",
-              hintStyle: TextStyle(
-                color: Colors.white70,
-                fontWeight: FontWeight.bold,
-                fontFamily: Fonts.head,
-              ),
-              filled: true,
-              fillColor: Colors.black.withOpacity(0.3),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: Col.light2, width: 1.3),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
-                borderSide: BorderSide(color: Col.light2, width: 1.8),
-              ),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(perantcontext).pop(),
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text(
-              "Cancel",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pop(dialogCtx);
-              await tryCheckoutUser(perantcontext, numberController);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Col.light2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text(
-              "Checkout",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ],
+      builder: (dialogCtx) => ChekcoutButtonDialog(
+        numberController: numberController,
+        perantcontext: perantcontext,
+        dialogCtx: dialogCtx,
       ),
     );
   }
@@ -508,131 +410,14 @@ class TimeScreenLogic {
       builder: (_) {
         return BlocBuilder<TimeScreenCubit, TimeScreenState>(
           builder: (context, state) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-                side: BorderSide(color: Col.light1, width: 1),
-              ),
-
-              backgroundColor: Col.dark1.withOpacity(0.8),
-              title: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Price: $baseTotal EGP",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Col.light2,
-                          fontFamily: Fonts.tableHead,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Offer: $offerDis",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.green.shade700,
-                          fontFamily: Fonts.tableHead,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  Spacer(),
-
-                  Text(
-                    "Price After Offer = $finalTotal EGP",
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-
-                  Spacer(),
-
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.shopping_cart_checkout,
-                        color: Col.light2,
-                        size: 40,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        user.name,
-                        style: TextStyle(
-                          color: Col.light2,
-                          fontFamily: Fonts.names,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              content: SizedBox(
-                width: ScreenSize.width / 1.2,
-                height: ScreenSize.height / 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Divider(color: Col.light2.withOpacity(0.4), thickness: 1),
-                    const SizedBox(height: 16),
-
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: ScreenSize.width / 5,
-                          height: ScreenSize.height / 2.2,
-                          child: TotalCheckoutColumn(
-                            priceController: priceController,
-                            hoursFee: finalTotal,
-                            number: user.number,
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: ScreenSize.height / 2.2,
-                          child: VerticalDivider(
-                            color: Col.light2.withOpacity(0.4),
-                            thickness: 1,
-                          ),
-                        ),
-
-                        Spacer(),
-
-                        ItemsContainer(user: user.number),
-                        Spacer(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              actionsPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              actions: [
-                Row(
-                  children: [
-                    PayButton(
-                      priceController: priceController,
-                      user: user,
-                      time: durationString,
-                      timespent: timeSpent,
-                    ),
-
-                    const Spacer(),
-
-                    CancelButton(),
-
-                    const SizedBox(width: 12),
-
-                    DeleteButton(number: user.number),
-                  ],
-                ),
-              ],
+            return CheckoutDialog(
+              baseTotal: baseTotal,
+              offerDis: offerDis,
+              finalTotal: finalTotal,
+              user: user,
+              priceController: priceController,
+              durationString: durationString,
+              timeSpent: timeSpent,
             );
           },
         );
