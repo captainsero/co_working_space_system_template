@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/customer_card_dashboard/customer_card_dashboard.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/customer_card_dashboard/error_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
@@ -25,27 +26,28 @@ class CustomersData extends StatelessWidget {
     return Column(
       children: [
         HeadText(),
+
+        SizedBox(height: AppSize.s5),
+
         Align(
           alignment: Alignment.topLeft,
           child: Row(
+            spacing: AppSize.s10,
             children: [
               PreviousButton(),
 
-              const SizedBox(width: 20),
+              PageText(),
 
               NextButton(),
 
-              const SizedBox(width: 20),
-
-              PageText(),
-
-              Spacer(),
+              const Spacer(),
 
               SearchPersonButton(),
             ],
           ),
         ),
-        const SizedBox(height: 30),
+
+        SizedBox(height: AppSize.s5),
 
         if (isLoading) const Center(child: CircularProgressIndicator()),
         if (error != null) ErrorText(error: error),

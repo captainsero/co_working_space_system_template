@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class SideButton extends StatelessWidget {
   const SideButton({
@@ -19,17 +18,16 @@ class SideButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: onpressed,
-      icon: Icon(icon, color: isChanged ? Col.light1 : Col.light2),
-      label: Text(
-        label,
-        style: TextStyle(
-          fontSize: ScreenSize.width / 90,
-          fontFamily: Fonts.head,
-          color: isChanged ? Col.light1 : Col.light2,
-        ),
-      ),
-    );
+    return isChanged
+        ? ElevatedButton.icon(
+            onPressed: onpressed,
+            icon: Icon(icon, size: AppSize.s6),
+            label: Text(label, style: TextStyle(fontSize: FontSize.s7)),
+          )
+        : TextButton.icon(
+            onPressed: onpressed,
+            icon: Icon(icon),
+            label: Text(label),
+          );
   }
 }

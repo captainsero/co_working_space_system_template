@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 
 class NextButton extends StatelessWidget {
@@ -13,15 +11,7 @@ class NextButton extends StatelessWidget {
       onPressed: () {
         context.read<CustomersDataCubit>().nextPage();
       },
-      style: ElevatedButton.styleFrom(backgroundColor: Col.light2),
-      child: Text(
-        "Next",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontFamily: Fonts.head,
-          color: Colors.black,
-        ),
-      ),
+      child: Text("Next"),
     );
   }
 }

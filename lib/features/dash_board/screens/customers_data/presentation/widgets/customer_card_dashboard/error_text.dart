@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/style_manager.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class ErrorText extends StatelessWidget {
   const ErrorText({super.key, required this.error});
@@ -10,13 +11,13 @@ class ErrorText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(AppPadding.p4),
       child: Text(
         'Error: $error',
-        style: TextStyle(
-          fontFamily: Fonts.head,
-          fontSize: ScreenSize.width / 50,
-          color: Colors.red,
+        style: getMediumStyle(
+          color: Theme.of(context).colorScheme.error,
+          fontFamily: FontConstants.libertinusFamily,
+          fontSize: FontSize.s10,
         ),
       ),
     );

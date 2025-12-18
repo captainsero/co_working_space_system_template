@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
 
 class PressText extends StatelessWidget {
   const PressText({super.key});
@@ -12,11 +9,7 @@ class PressText extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Text(
         'Press Next To load The data.',
-        style: TextStyle(
-          fontFamily: Fonts.head,
-          fontSize: ScreenSize.width / 50,
-          color: Col.light2,
-        ),
+        style: Theme.of(context).textTheme.headlineMedium,
       ),
     );
   }

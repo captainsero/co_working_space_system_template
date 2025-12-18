@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/side_screen_button/side_button.dart';
 
@@ -14,13 +14,14 @@ class SideButtonContainer extends StatelessWidget {
       width: ScreenSize.width / 5,
       height: ScreenSize.height,
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(RadiusSize.r12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(AppPadding.p2),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: AppSize.s3,
           children: [
             SideButton(
               label: "Customers Data",
@@ -31,7 +32,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 1,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Days Data",
               icon: Icons.bar_chart_rounded,
@@ -42,7 +43,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 2,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Partnerships",
               icon: Icons.people_alt_sharp,
@@ -53,7 +54,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 3,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Subscriptions",
               icon: Icons.payment,
@@ -63,7 +64,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 4,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Rooms",
               icon: Icons.location_on,
@@ -73,7 +74,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 5,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Stuff",
               icon: Icons.person_add_alt_1,
@@ -84,7 +85,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 6,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Items",
               icon: Icons.inventory,
@@ -94,7 +95,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 7,
             ),
-            const SizedBox(height: 5),
+
             SideButton(
               label: "Prices",
               icon: Icons.monetization_on,
@@ -104,7 +105,7 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 8,
             ),
-            const SizedBox(height: 5),
+
             // SideButton(
             //   label: "Monthly Report",
             //   icon: Icons.calendar_month,
@@ -114,6 +115,7 @@ class SideButtonContainer extends StatelessWidget {
             //   isChanged:
             //       context.watch<CustomersDataCubit>().state.selectedPage == 9,
             // ),
+            
             SideButton(
               label: "Tasks",
               icon: Icons.task_rounded,

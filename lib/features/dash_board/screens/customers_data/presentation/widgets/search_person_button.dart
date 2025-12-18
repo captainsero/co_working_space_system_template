@@ -1,97 +1,87 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/style_manager.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/users_class.dart';
+import 'package:team_egypt_v3/core/widgets/custom_barcode.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/data/supabase_customers_data.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/in_team_cubit.dart';
 import 'package:toastification/toastification.dart';
 
-class SearchPersonButton extends StatelessWidget {
+class SearchPersonButton extends StatefulWidget {
   const SearchPersonButton({super.key});
+
+  @override
+  State<SearchPersonButton> createState() => _SearchPersonButtonState();
+}
+
+class _SearchPersonButtonState extends State<SearchPersonButton> {
+  TextEditingController numberController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController collageController = TextEditingController();
+  TextEditingController partnershipCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        TextEditingController numberController = TextEditingController();
-        TextEditingController nameController = TextEditingController();
-        TextEditingController collageController = TextEditingController();
-        TextEditingController partnershipCodeController =
-            TextEditingController();
         await showDialog(
           context: context,
           builder: (context) {
             return StatefulBuilder(
               builder: (context, setState) => AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: Col.light2, width: 2),
-                ),
-                backgroundColor: Colors.black.withOpacity(0.7),
-                contentPadding: const EdgeInsets.all(24),
                 title: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: AppSize.s2,
                     children: [
-                      Icon(Icons.search, color: Col.light2),
-                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.search,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                       Text(
                         "Search a Person",
-                        style: TextStyle(
-                          color: Col.light2,
-                          fontFamily: Fonts.head,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ],
                   ),
                 ),
+
                 content: SizedBox(
                   width: ScreenSize.width / 5,
-                  height: ScreenSize.height / 1.8,
                   child: Column(
+                    spacing: AppSize.s5,
                     children: [
                       CustomTextField(
                         controller: numberController,
                         hint: "Enter Number",
                       ),
 
-                      const SizedBox(height: 16),
                       CustomTextField(controller: nameController, hint: "Name"),
 
-                      const SizedBox(height: 16),
                       CustomTextField(
                         controller: collageController,
                         hint: "Collage",
                       ),
 
-                      const SizedBox(height: 16),
                       CustomTextField(
                         controller: partnershipCodeController,
                         hint: "Partnership Code",
                       ),
 
-                      const Spacer(),
-                      Container(
-                        width: ScreenSize.width / 6,
-                        height: ScreenSize.height / 6,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(color: Colors.white),
-                        child: BarcodeWidget(
-                          data: numberController.text,
-                          backgroundColor: Colors.white,
-                          barcode: Barcode.code128(),
-                        ),
+                      SizedBox(
+                        width: AppSize.s70,
+                        height: AppSize.s30,
+                        child: CustomBarcode(number: numberController.text),
                       ),
                     ],
                   ),
                 ),
+
                 actions: [
                   ElevatedButton(
                     onPressed: () async {
@@ -164,19 +154,9 @@ class SearchPersonButton extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Col.light2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s10),
                     ),
-                    child: const Text(
-                      "Edit",
-                      style: TextStyle(color: Colors.black),
-                    ),
+                    child: const Text("Edit"),
                   ),
 
                   TextButton(
@@ -220,19 +200,14 @@ class SearchPersonButton extends StatelessWidget {
                     },
 
                     style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s10),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Delete",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
+                      style: getSemiBoldStyle(
+                        color: Theme.of(context).colorScheme.error,
+                        fontFamily: FontConstants.libertinusFamily,
+                        fontSize: FontSize.s7,
                       ),
                     ),
                   ),
@@ -241,20 +216,11 @@ class SearchPersonButton extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(),
 
                     style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s10),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Cancel",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
 
@@ -299,19 +265,9 @@ class SearchPersonButton extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Col.light2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s10),
                     ),
-                    child: const Text(
-                      "Search",
-                      style: TextStyle(color: Colors.black),
-                    ),
+                    child: const Text("Search"),
                   ),
                 ],
               ),
@@ -319,15 +275,7 @@ class SearchPersonButton extends StatelessWidget {
           },
         );
       },
-      style: ElevatedButton.styleFrom(backgroundColor: Col.light2),
-      child: Text(
-        "Search person",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontFamily: Fonts.head,
-          color: Colors.black,
-        ),
-      ),
+      child: const Text("Search person"),
     );
   }
 }
