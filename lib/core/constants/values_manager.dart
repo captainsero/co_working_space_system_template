@@ -36,6 +36,7 @@ class AppSize {
   static double get s10 => 10.0.w;
   static double get s12 => 12.0.w;
   static double get s14 => 14.0.w;
+  static double get s15 => 15.0.w;
   static double get s16 => 16.0.w;
   static double get s20 => 20.0.w;
   static double get s25 => 25.0.w;

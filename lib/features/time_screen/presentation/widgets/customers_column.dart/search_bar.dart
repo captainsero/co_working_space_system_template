@@ -12,8 +12,10 @@ class SearchByNumber extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: AppSize.s70,
+      height: AppSize.s15,
       child: Center(
         child: TextField(
+          cursorHeight: AppSize.s7,
           cursorColor: Theme.of(context).colorScheme.tertiary,
           style: TextStyle(
             color: Theme.of(context).colorScheme.tertiary,
@@ -27,9 +29,7 @@ class SearchByNumber extends StatelessWidget {
               color: Theme.of(context).colorScheme.tertiary,
             ),
           ),
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: widget.onSearchChanged,
         ),
       ),
