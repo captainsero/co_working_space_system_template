@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class ScreensButton extends StatelessWidget {
   const ScreensButton({
@@ -37,16 +37,11 @@ class ScreensButton extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected ? Col.dark2 : Col.light2,
-          elevation: 0,
+          elevation: AppSize.s0,
         ),
         child: Text(
           title,
-          style: TextStyle(
-            color: isSelected ? Col.light2 : Colors.black,
-            fontSize: 20,
-            fontFamily: Fonts.appBarButtons,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: isSelected ? Col.light2 : Colors.black),
         ),
       ),
     );

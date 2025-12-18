@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/images.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/app_bar/presentation/widgets/screens_button.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/dash_board.dart';
@@ -23,29 +22,21 @@ class _AppBarMainState extends State<AppBarMain> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
     return AppBar(
-      backgroundColor: Col.light2,
       leadingWidth: ScreenSize.width / 3,
-      leading: Row(
-        children: [
-          SizedBox(width: 10),
-          CircleAvatar(
-            backgroundImage: AssetImage(Images.tWithoutBackground),
-            backgroundColor: Colors.transparent,
-            radius: 25,
-          ),
-          SizedBox(width: 10),
-          Text(
-            "Team Egypt",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ScreenSize.width / 50,
-              fontWeight: FontWeight.bold,
-              fontFamily: Fonts.head,
+      leading: Padding(
+        padding: EdgeInsets.only(left: AppPadding.p4),
+        child: Row(
+          spacing: AppSize.s2,
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage(Images.tWithoutBackground),
+              backgroundColor: Colors.transparent,
+              radius: RadiusSize.r20,
             ),
-          ),
-        ],
+            Text("Team Egypt", style: Theme.of(context).textTheme.labelLarge),
+          ],
+        ),
       ),
       actions: [
         ScreensButton(

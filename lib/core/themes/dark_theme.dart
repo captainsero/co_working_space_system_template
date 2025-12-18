@@ -43,7 +43,7 @@ ThemeData getDarkTheme() {
       iconTheme: IconThemeData(color: ColorManager.white, size: AppSize.s25),
       toolbarHeight: AppSize.s40,
       centerTitle: true,
-      backgroundColor: ColorManager.primary,
+      backgroundColor: ColorManager.light,
       elevation: AppSize.s0,
       shadowColor: Colors.transparent,
       shape: RoundedRectangleBorder(
@@ -159,7 +159,7 @@ ThemeData getDarkTheme() {
       // Labels (smallest)
       labelLarge: getSemiBoldStyle(
         color: ColorManager.primary,
-        fontSize: FontSize.s6,
+        fontSize: FontSize.s8,
         fontFamily: FontConstants.libertinusFamily,
       ),
       labelMedium: getMediumStyle(
