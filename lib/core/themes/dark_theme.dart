@@ -230,7 +230,7 @@ ThemeData getDarkTheme() {
       ),
       labelMedium: getMediumStyle(
         color: ColorManager.primary,
-        fontSize: FontSize.s5,
+        fontSize: FontSize.s7,
         fontFamily: FontConstants.libertinusFamily,
       ),
       labelSmall: getRegularStyle(

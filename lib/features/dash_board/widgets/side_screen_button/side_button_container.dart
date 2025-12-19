@@ -14,7 +14,7 @@ class SideButtonContainer extends StatelessWidget {
       width: ScreenSize.width / 5,
       height: ScreenSize.height,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(RadiusSize.r12),
       ),
       child: Padding(
@@ -115,7 +115,6 @@ class SideButtonContainer extends StatelessWidget {
             //   isChanged:
             //       context.watch<CustomersDataCubit>().state.selectedPage == 9,
             // ),
-            
             SideButton(
               label: "Tasks",
               icon: Icons.task_rounded,

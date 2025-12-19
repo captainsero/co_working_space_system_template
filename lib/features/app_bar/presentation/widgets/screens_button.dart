@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class ScreensButton extends StatelessWidget {
@@ -19,31 +18,56 @@ class ScreensButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
-      child: ElevatedButton(
-        onPressed: () {
-          onSelected();
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => screen,
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
-              transitionDuration: Duration(milliseconds: 200),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p2),
+      child: isSelected
+          ? ElevatedButton(
+              onPressed: () {
+                onSelected();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        screen,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                    transitionDuration: Duration(milliseconds: 200),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+              child: Text(title, style: Theme.of(context).textTheme.bodyMedium),
+            )
+          : TextButton(
+              onPressed: () {
+                onSelected();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        screen,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                    transitionDuration: Duration(milliseconds: 200),
+                  ),
+                );
+              },
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
             ),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Col.dark2 : Col.light2,
-          elevation: AppSize.s0,
-        ),
-        child: Text(
-          title,
-          style: TextStyle(color: isSelected ? Col.light2 : Colors.black),
-        ),
-      ),
     );
   }
 }
