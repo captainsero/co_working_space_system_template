@@ -15,7 +15,6 @@ import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/rooms_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/Pick_time_theme.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/pick_date_theme.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/time_picker_button.dart';
 import 'package:toastification/toastification.dart';
 
@@ -77,9 +76,6 @@ class _AddReservationState extends State<AddReservation> {
       initialDate: selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
-      builder: (context, child) {
-        return PickDateTheme(child: child!);
-      },
     );
 
     if (picked != null) {

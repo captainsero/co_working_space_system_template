@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class TableHeader extends StatelessWidget {
   final String text;
@@ -8,14 +9,8 @@ class TableHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
+      padding: EdgeInsets.all(AppPadding.p2),
+      child: Text(text, style: Theme.of(context).textTheme.bodyLarge),
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/style_manager.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/pick_date_theme.dart';
 import 'package:team_egypt_v3/features/splash/data/supabase_splash.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,9 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
       initialDate: selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
-      builder: (context, child) {
-        return PickDateTheme(child: child!);
-      },
     );
     if (picked != null) {
       setState(() => selectedDate = picked);

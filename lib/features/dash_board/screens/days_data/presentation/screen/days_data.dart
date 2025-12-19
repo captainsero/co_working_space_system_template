@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
@@ -10,7 +11,6 @@ import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/rooms_reservation_card.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/stuff_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/total_salary_card.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/pick_date_theme.dart';
 
 class DaysData extends StatefulWidget {
   const DaysData({super.key});
@@ -40,9 +40,6 @@ class _DaysDataState extends State<DaysData> {
       initialDate: selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
-      builder: (context, child) {
-        return PickDateTheme(child: child!);
-      },
     );
     if (picked != null) {
       setState(() {
@@ -74,17 +71,14 @@ class _DaysDataState extends State<DaysData> {
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: AppSize.s5,
             children: [
               Align(
                 alignment: Alignment.topRight,
                 child: DatePickerButton(onPick: _pickDate),
               ),
 
-              const SizedBox(height: 5),
-
               CustomersTable(data: customers),
-
-              const SizedBox(height: 10),
 
               TotalSalaryCard(
                 total: total,
@@ -93,15 +87,9 @@ class _DaysDataState extends State<DaysData> {
                 revenues: revenues,
               ),
 
-              const SizedBox(height: 10),
-
               RoomsReservationCard(dateFormat: dateFormat),
 
-              const SizedBox(height: 10),
-
               StuffData(dateFormat: dateFormat),
-
-              const SizedBox(height: 10),
 
               ExpensesTable(dateFormat: dateFormat, date: selectedDate),
             ],

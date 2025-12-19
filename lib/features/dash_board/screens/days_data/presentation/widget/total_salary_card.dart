@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class TotalSalaryCard extends StatelessWidget {
   final double total;
@@ -20,64 +18,52 @@ class TotalSalaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.width / 1.5,
-      height: ScreenSize.height / 3,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: const Color(0xFF102021),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Col.light1, width: 0.5),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onPrimary,
+          width: AppSize.s0_5,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
+            spacing: AppSize.s1,
             children: [
-              Icon(Icons.attach_money_rounded, color: Col.light1),
-              const SizedBox(width: 3),
+              Icon(
+                Icons.attach_money_rounded,
+                color: Theme.of(context).colorScheme.onPrimary,
+                size: AppSize.s7,
+              ),
+
               Text(
                 "Total Salary For $dateFormat",
-                style: TextStyle(
-                  color: Col.light1,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),
-          const Spacer(),
-          Text(
-            "Revenues: $revenues EGP",
-            style: TextStyle(
-              color: Col.light1,
-              fontSize: 25,
-              fontFamily: Fonts.tableHead,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Spacer(),
-          Text(
-            "Expenses: $expenses EGP",
-            style: TextStyle(
-              color: Col.light1,
-              fontSize: 25,
-              fontFamily: Fonts.tableHead,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Spacer(),
-          Text(
-            "Total: $total EGP",
-            style: TextStyle(
-              color: Col.light1,
-              fontSize: 25,
-              fontFamily: Fonts.tableHead,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Spacer(),
-          Text(
-            "From active sessions and room reservations",
-            style: TextStyle(color: Col.light1),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Revenues: $revenues EGP",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+
+              Text(
+                "Expenses: $expenses EGP",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+
+              Text(
+                "Total: $total EGP",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ],
           ),
         ],
       ),

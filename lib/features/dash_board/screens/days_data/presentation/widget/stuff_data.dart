@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/stuff_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
@@ -16,12 +16,11 @@ class StuffData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.width / 1.5,
       height: ScreenSize.height / 3,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: SingleChildScrollView(
         child: Align(
@@ -32,14 +31,11 @@ class StuffData extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Stuff Data - $dateFormat",
-                  style: TextStyle(
-                    color: Col.light2,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: AppSize.s3),
 
               BlocBuilder<DaysDataCubit, DaysDataState>(
                 builder: (context, state) {

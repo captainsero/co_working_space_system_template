@@ -49,6 +49,9 @@ class _AppBarMainState extends State<AppBarMain> {
             });
           },
         ),
+
+        SizedBox(width: AppSize.s3),
+        
         ScreensButton(
           screen: TimeScreen(),
           title: "Time Screen",

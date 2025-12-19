@@ -86,6 +86,72 @@ ThemeData getDarkTheme() {
       ),
     ),
 
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        // Text/icon color
+        foregroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
+            return ColorManager.grey;
+          }
+          return ColorManager.light; // modern: light text on dark theme
+        }),
+
+        // Border
+        side: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
+            return BorderSide(
+              color: ColorManager.grey.withAlpha(120),
+              width: AppSize.s0_5,
+            );
+          }
+          if (states.contains(WidgetState.pressed)) {
+            return BorderSide(
+              color: ColorManager.lightPrimary,
+              width: AppSize.s0_5,
+            );
+          }
+          return BorderSide(
+            color: ColorManager.light.withAlpha(180),
+            width: AppSize.s0_5,
+          );
+        }),
+
+        // Shape
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(RadiusSize.r12),
+          ),
+        ),
+
+        // Size & padding (more “modern” + consistent)
+        padding: WidgetStatePropertyAll(EdgeInsets.all(AppPadding.p4)),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+
+        // Ripple/hover/pressed overlay (important for modern feel)
+        overlayColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.pressed)) {
+            return ColorManager.light.withAlpha(35);
+          }
+          if (states.contains(WidgetState.hovered)) {
+            return ColorManager.light.withAlpha(18);
+          }
+          if (states.contains(WidgetState.focused)) {
+            return ColorManager.light.withAlpha(22);
+          }
+          return null;
+        }),
+
+        // Typography
+        textStyle: WidgetStatePropertyAll(
+          getSemiBoldStyle(
+            color: ColorManager.light,
+            fontFamily: FontConstants.libertinusFamily,
+            fontSize: FontSize.s7,
+          ),
+        ),
+      ),
+    ),
+
     // text theme (scaled down for large screens)
     textTheme: TextTheme(
       // Largest
@@ -178,6 +244,97 @@ ThemeData getDarkTheme() {
       cursorColor: ColorManager.primary,
       selectionColor: ColorManager.grey,
       selectionHandleColor: ColorManager.primary,
+    ),
+
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: ColorManager.darkPrimary,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: Colors.black54,
+
+      // Header (top area)
+      headerBackgroundColor: ColorManager.primary,
+      headerForegroundColor: ColorManager.white,
+      headerHelpStyle: getMediumStyle(
+        color: ColorManager.white.withAlpha(220),
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s6,
+      ),
+      headerHeadlineStyle: getBoldStyle(
+        color: ColorManager.white,
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s10,
+      ),
+
+      // Body text
+      weekdayStyle: getMediumStyle(
+        color: ColorManager.light.withAlpha(200),
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s8,
+      ),
+      dayStyle: getRegularStyle(
+        color: ColorManager.white,
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s6,
+      ),
+      yearStyle: getRegularStyle(
+        color: ColorManager.white,
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s7,
+      ),
+
+      // Day cell shape
+      dayShape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(RadiusSize.r16)),
+        ),
+      ),
+
+      // Today highlight
+      todayForegroundColor: WidgetStatePropertyAll(ColorManager.light),
+      todayBorder: BorderSide(
+        color: ColorManager.light,
+        width: AppSize.s0_5,
+      ), // supported prop
+      // todayBackgroundColor: WidgetStatePropertyAll(Colors.transparent),
+
+      // Selected day styling
+      dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return ColorManager.black;
+        return ColorManager.white;
+      }),
+      dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return ColorManager.light;
+        return Colors.transparent;
+      }),
+      dayOverlayColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.hovered)) {
+          return ColorManager.light.withAlpha(25);
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return ColorManager.light.withAlpha(35);
+        }
+        return null;
+      }),
+
+      // Year chip styling
+      yearForegroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return ColorManager.black;
+        return ColorManager.white;
+      }),
+
+      yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return ColorManager.light;
+        return Colors.transparent;
+      }),
+      dividerColor: ColorManager.light.withAlpha(40),
+
+      // Buttons
+      cancelButtonStyle: TextButton.styleFrom(
+        foregroundColor: ColorManager.light,
+      ),
+      confirmButtonStyle: TextButton.styleFrom(
+        foregroundColor: ColorManager.light,
+      ),
     ),
 
     // time picker theme
