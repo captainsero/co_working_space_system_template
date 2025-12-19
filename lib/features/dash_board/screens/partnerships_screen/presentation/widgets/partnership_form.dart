@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:toastification/toastification.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
@@ -93,11 +94,10 @@ class _PartnershipFormState extends State<PartnershipForm> {
     ScreenSize.intial(context);
 
     return Container(
-      width: ScreenSize.width / 1.5,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: _formKey,
@@ -106,16 +106,13 @@ class _PartnershipFormState extends State<PartnershipForm> {
           children: [
             Text(
               "Add New Partnership",
-              style: TextStyle(
-                color: Col.light2,
-                fontFamily: Fonts.head,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-            const SizedBox(height: 20),
+
+            SizedBox(height: AppSize.s3),
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   width: ScreenSize.width / 5.5,
@@ -133,7 +130,7 @@ class _PartnershipFormState extends State<PartnershipForm> {
                     },
                   ),
                 ),
-                const Spacer(),
+
                 SizedBox(
                   width: ScreenSize.width / 5.5,
                   child: CustomTextField(
@@ -151,7 +148,7 @@ class _PartnershipFormState extends State<PartnershipForm> {
                     },
                   ),
                 ),
-                const Spacer(),
+
                 SizedBox(
                   width: ScreenSize.width / 5.5,
                   child: CustomDropdownField(

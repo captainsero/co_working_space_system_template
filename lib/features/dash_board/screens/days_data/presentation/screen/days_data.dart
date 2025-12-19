@@ -4,6 +4,7 @@ import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/customers_table.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/date_picker_button.dart';
@@ -73,9 +74,13 @@ class _DaysDataState extends State<DaysData> {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: AppSize.s5,
             children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: DatePickerButton(onPick: _pickDate),
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  HeadText(text: "Days Data"),
+                  DatePickerButton(onPick: _pickDate),
+                ],
               ),
 
               CustomersTable(data: customers),

@@ -414,7 +414,7 @@ ThemeData getDarkTheme() {
         fontSize: FontSize.s8,
       ),
       hintStyle: getRegularStyle(
-        color: ColorManager.grey,
+        color: ColorManager.light.withAlpha(150),
         fontFamily: FontConstants.libertinusFamily,
         fontSize: FontSize.s6,
       ),
@@ -488,13 +488,7 @@ ThemeData getDarkTheme() {
     ),
 
     // Dropdown Theme
-    dropdownMenuTheme: DropdownMenuThemeData(
-      textStyle: getRegularStyle(
-        color: ColorManager.primary,
-        fontSize: FontSize.s7,
-        fontFamily: FontConstants.libertinusFamily,
-      ),
-    ),
+
 
     checkboxTheme: CheckboxThemeData(
       checkColor: WidgetStatePropertyAll(ColorManager.white),

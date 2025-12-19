@@ -25,7 +25,7 @@ class CustomersData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        HeadText(),
+        HeadText(text: "Customers Data",),
 
         SizedBox(height: AppSize.s5),
 
