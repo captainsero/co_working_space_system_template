@@ -26,7 +26,7 @@ class _AddPositionState extends State<AddPosition> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 3.4,
-      height: ScreenSize.height / 2.2,
+      height: ScreenSize.height / 2,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,

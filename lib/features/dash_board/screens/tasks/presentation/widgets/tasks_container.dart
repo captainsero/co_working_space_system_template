@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/tasks_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
@@ -18,18 +19,19 @@ class TasksContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 1.5,
-      height: ScreenSize.height / 2.5,
-      padding: const EdgeInsets.all(16),
+      height: ScreenSize.height / 2,
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: AppSize.s3,
           children: [
             IconAndText(text: "Tasks", icon: Icons.book),
-            const SizedBox(height: 20),
+
             BlocBuilder<TasksCubit, TasksState>(
               builder: (context, state) {
                 List<TasksModel> tasks = [];
@@ -93,16 +95,46 @@ class TasksContainer extends StatelessWidget {
                                   }
                                 },
                                 icon: Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(AppPadding.p2),
                                   child: ele.done
-                                      ? const Icon(
+                                      ? Icon(
                                           Icons.done_all,
-                                          color: Colors.green,
+                                          color: ColorManager.green,
+                                          size: AppSize.s7,
                                         )
-                                      : const Icon(
+                                      : Icon(
                                           Icons.download_done_sharp,
-                                          color: Colors.black,
+                                          color: ColorManager.black,
+                                          size: AppSize.s7,
                                         ),
+                                ),
+                              ),
+
+                              IconButton(
+                                onPressed: () async {
+                                  final remove = await context
+                                      .read<TasksCubit>()
+                                      .removeTask(ele.name);
+                                  if (remove) {
+                                    ModernToast.showToast(
+                                      context,
+                                      'Success',
+                                      'Task Removed Successfully',
+                                      ToastificationType.success,
+                                    );
+                                  } else {
+                                    ModernToast.showToast(
+                                      context,
+                                      'Error',
+                                      "Can't delete This task Write now",
+                                      ToastificationType.error,
+                                    );
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Theme.of(context).colorScheme.error,
+                                  size: AppSize.s7,
                                 ),
                               ),
                             ],

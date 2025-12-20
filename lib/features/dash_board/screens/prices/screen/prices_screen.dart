@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/add_expenses.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/edit_hour_fee.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/add_room.dart';
@@ -21,6 +22,8 @@ class PricesScreen extends StatelessWidget {
                 spacing: AppSize.s5,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  HeadText(text: "Prices"),
+
                   Row(children: [AddRoom(), Spacer(), AddPosition()]),
 
                   Row(

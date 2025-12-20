@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/tasks_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -35,7 +34,6 @@ class _AddTaskState extends State<AddTask> {
       initialDate: selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
-
     );
 
     if (picked != null) {
@@ -52,11 +50,10 @@ class _AddTaskState extends State<AddTask> {
       key: _formKey,
       child: Container(
         width: ScreenSize.width / 2.6,
-        // height: ScreenSize.height / 1.8,
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppPadding.p4),
         decoration: BoxDecoration(
-          color: Col.dark2,
-          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(RadiusSize.r16),
         ),
         child: BlocBuilder<TasksCubit, TasksState>(
           builder: (context, state) {
@@ -98,25 +95,21 @@ class _AddTaskState extends State<AddTask> {
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: AppSize.s3,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconAndText(text: "Add New Task", icon: Icons.task_alt),
-                      const Spacer(),
+
                       TextButton.icon(
                         onPressed: addTask,
-                        icon: Icon(Icons.add_circle, color: Col.light2),
-                        label: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: Col.light2,
-                            fontFamily: Fonts.names,
-                          ),
-                        ),
+                        icon: Icon(Icons.add_circle),
+                        label: Text("Add"),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -130,8 +123,7 @@ class _AddTaskState extends State<AddTask> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  // const Spacer(),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -145,25 +137,18 @@ class _AddTaskState extends State<AddTask> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  // const Spacer(),
+
                   Row(
+                    spacing: AppSize.s10,
                     children: [
                       DatePickerButton(onPick: _pickDate),
-                      SizedBox(width: ScreenSize.width / 20),
+
                       Text(
                         dateFormat.isEmpty ? "No date" : dateFormat,
-                        style: TextStyle(
-                          color: Col.light2,
-                          fontFamily: Fonts.head,
-                          fontSize: 20,
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 20),
-                  // const Spacer(),
                 ],
               );
             }
