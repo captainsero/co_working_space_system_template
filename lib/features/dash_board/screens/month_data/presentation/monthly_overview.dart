@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/expenses_model.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/month_data/logic/cubit/month_data_cubit.dart';
 
@@ -46,8 +45,7 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
 
   @override
   Widget build(BuildContext context) {
-
-    final int startYear = 2020;
+    final int startYear = 2024;
     final int endYear = DateTime.now().year + 1;
     final List<int> years = List.generate(
       endYear - startYear + 1,
@@ -57,41 +55,33 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: Col.dark2,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButton<int>(
-                value: selectedYear,
-                dropdownColor: Col.dark2,
-                underline: const SizedBox(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: Fonts.head,
-                  fontSize: 18,
-                ),
-                items: years
-                    .map(
-                      (year) => DropdownMenuItem<int>(
-                        value: year,
-                        child: Text(year.toString()),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (int? newYear) {
-                  if (newYear != null && newYear != selectedYear) {
-                    selectedYear = newYear;
-                    _loadYearData(selectedYear); // reload data on year change
-                    setState(() {});
-                  }
-                },
-              ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            padding: EdgeInsets.all(AppPadding.p4),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(RadiusSize.r16),
+            ),
+            child: DropdownButton<int>(
+              value: selectedYear,
+              dropdownColor: Theme.of(context).colorScheme.primary,
+              style: Theme.of(context).textTheme.titleMedium,
+              items: years
+                  .map(
+                    (year) => DropdownMenuItem<int>(
+                      value: year,
+                      child: Text(year.toString()),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (int? newYear) {
+                if (newYear != null && newYear != selectedYear) {
+                  selectedYear = newYear;
+                  _loadYearData(selectedYear); // reload data on year change
+                  setState(() {});
+                }
+              },
             ),
           ),
         ),
@@ -104,7 +94,7 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                 final expensesTotals = state.expensesTotal;
 
                 return ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  // padding: const EdgeInsets.symmetric(vertical: 8),
                   itemCount: 12,
                   itemBuilder: (context, index) {
                     final month = index + 1;
@@ -130,31 +120,27 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                       child: Container(
                         width: ScreenSize.width / 1.5,
                         height: ScreenSize.height / 2.5,
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 16,
-                        ),
-                        padding: const EdgeInsets.all(16),
+                        margin: EdgeInsets.all(AppMargin.m4),
+                        padding: EdgeInsets.all(AppPadding.p4),
                         decoration: BoxDecoration(
-                          color: Col.dark2,
-                          borderRadius: BorderRadius.circular(20),
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(RadiusSize.r16),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: AppSize.s3,
                           children: [
                             Text(
                               '${_monthName(month)} $selectedYear',
-                              style: const TextStyle(
-                                fontFamily: Fonts.head,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
-                            const SizedBox(height: 16),
                             _buildRow('Total', total),
                             _buildRow('Expenses', expensesTotal),
-                            const Divider(color: Colors.white70),
+                            Divider(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimary.withAlpha(150),
+                            ),
                             _buildRow('Difference', difference),
                           ],
                         ),
@@ -178,29 +164,15 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
   }
 
   Widget _buildRow(String label, double value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontFamily: Fonts.names,
-              fontSize: 18,
-              color: Col.light2,
-            ),
-          ),
-          Text(
-            value.toStringAsFixed(2),
-            style: const TextStyle(
-              fontFamily: Fonts.names,
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: Theme.of(context).textTheme.bodyLarge),
+        Text(
+          value.toStringAsFixed(2),
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ],
     );
   }
 
@@ -238,76 +210,62 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: Col.dark2,
-        title: Text(
-          'Details for ${_monthName(month)} $selectedYear',
-          style: const TextStyle(fontFamily: Fonts.head, color: Colors.white),
-        ),
+        title: Text('Details for ${_monthName(month)} $selectedYear'),
         content: SizedBox(
           width: ScreenSize.width / 1.5,
-          height: ScreenSize.height / 3,
           child: SingleChildScrollView(
-            child: Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  'Daily Totals:',
-                  style: const TextStyle(
-                    fontFamily: Fonts.names,
-                    fontSize: 30,
-                    color: Col.light1,
-                    fontWeight: FontWeight.bold,
+                SingleChildScrollView(
+                  child: Column(
+                    spacing: AppSize.s3,
+                    children: [
+                      Text(
+                        'Daily Totals:',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+
+                      ...dailyTotals.asMap().entries.map((e) {
+                        int dayNum = e.key + 1;
+                        double value = e.value;
+                        return Text(
+                          'Day $dayNum: ${value.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        );
+                      }),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                ...dailyTotals.asMap().entries.map((e) {
-                  int dayNum = e.key + 1;
-                  double value = e.value;
-                  return Text(
-                    'Day $dayNum: ${value.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontFamily: Fonts.names,
-                      color: Col.light2,
-                      fontSize: 24,
+
+                SizedBox(width: AppSize.s5),
+
+                Column(
+                  spacing: AppSize.s3,
+                  children: [
+                    Text(
+                      'Expenses:',
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  );
-                }),
-                const SizedBox(height: 16),
-                Text(
-                  'Expenses:',
-                  style: const TextStyle(
-                    fontFamily: Fonts.names,
-                    fontSize: 30,
-                    color: Col.light1,
-                    fontWeight: FontWeight.bold,
-                  ),
+
+                    ...expensesList.map((expense) {
+                      return Text(
+                        '${expense.name}: ${expense.price.toStringAsFixed(2)}',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      );
+                    }),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                ...expensesList.map((expense) {
-                  return Text(
-                    '${expense.name}: ${expense.price.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontFamily: Fonts.names,
-                      color: Col.light2,
-                      fontSize: 24,
-                    ),
-                  );
-                }),
               ],
             ),
           ),
         ),
+
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'Close',
-              style: TextStyle(
-                color: Col.light1,
-                fontFamily: Fonts.appBarButtons,
-                fontSize: 16,
-              ),
-            ),
+            child: const Text('Close'),
           ),
         ],
       ),

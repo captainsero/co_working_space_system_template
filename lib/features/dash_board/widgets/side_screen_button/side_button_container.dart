@@ -106,15 +106,6 @@ class SideButtonContainer extends StatelessWidget {
                   context.watch<CustomersDataCubit>().state.selectedPage == 8,
             ),
 
-            // SideButton(
-            //   label: "Monthly Report",
-            //   icon: Icons.calendar_month,
-            //   onpressed: () {
-            //     context.read<CustomersDataCubit>().changePage(9);
-            //   },
-            //   isChanged:
-            //       context.watch<CustomersDataCubit>().state.selectedPage == 9,
-            // ),
             SideButton(
               label: "Tasks",
               icon: Icons.task_rounded,
@@ -123,6 +114,16 @@ class SideButtonContainer extends StatelessWidget {
               },
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 10,
+            ),
+
+            SideButton(
+              label: "Monthly Report",
+              icon: Icons.calendar_month,
+              onpressed: () {
+                context.read<CustomersDataCubit>().changePage(9);
+              },
+              isChanged:
+                  context.watch<CustomersDataCubit>().state.selectedPage == 9,
             ),
           ],
         ),
