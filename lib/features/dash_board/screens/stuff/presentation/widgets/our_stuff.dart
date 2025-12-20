@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/stuff_model.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -16,18 +16,18 @@ class OurStuff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.width / 1.5,
       height: ScreenSize.height / 2.5,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: AppSize.s3,
         children: [
           IconAndText(text: "Our Stuff", icon: Icons.group_sharp),
-          const SizedBox(height: 20),
+
           BlocBuilder<StuffCubit, StuffState>(
             builder: (context, state) {
               List<StuffModel> stuff = [];
@@ -81,8 +81,12 @@ class OurStuff extends StatelessWidget {
                             }
                           },
                           icon: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: const Icon(Icons.delete, color: Colors.red),
+                            padding: EdgeInsets.all(AppPadding.p2),
+                            child: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).colorScheme.error,
+                              size: AppSize.s7,
+                            ),
                           ),
                         ),
                       ],

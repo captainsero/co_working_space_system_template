@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/logic/cubit/stuff_cubit.dart';
@@ -22,20 +21,19 @@ class _CheckinCheckoutState extends State<CheckinCheckout> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 3.4,
-      height: ScreenSize.height / 2.4,
-      padding: const EdgeInsets.all(16),
+      height: ScreenSize.height / 3,
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
+          spacing: AppSize.s5,
           children: [
-            const SizedBox(height: 20),
-
             SizedBox(
               width: ScreenSize.width / 5.5,
               child: CustomTextField(
@@ -53,16 +51,14 @@ class _CheckinCheckoutState extends State<CheckinCheckout> {
               ),
             ),
 
-            const SizedBox(height: 20),
-
             BlocBuilder<StuffCubit, StuffState>(
               builder: (context, state) {
                 if (state is StuffLoading) {
                   return CircularProgressIndicator();
                 } else {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Spacer(),
                       TextButton.icon(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -86,18 +82,9 @@ class _CheckinCheckoutState extends State<CheckinCheckout> {
                             }
                           }
                         },
-                        icon: Icon(Icons.login, color: Col.light2, size: 20),
-                        label: Text(
-                          "Checkin",
-                          style: TextStyle(
-                            color: Col.light2,
-                            fontFamily: Fonts.names,
-                            fontSize: 20,
-                          ),
-                        ),
+                        icon: Icon(Icons.login),
+                        label: Text("Checkin"),
                       ),
-
-                      const SizedBox(width: 20),
 
                       TextButton.icon(
                         onPressed: () async {
@@ -122,17 +109,9 @@ class _CheckinCheckoutState extends State<CheckinCheckout> {
                             }
                           }
                         },
-                        icon: Icon(Icons.logout, color: Col.light2, size: 20),
-                        label: Text(
-                          "Checkout",
-                          style: TextStyle(
-                            color: Col.light2,
-                            fontFamily: Fonts.names,
-                            fontSize: 20,
-                          ),
-                        ),
+                        icon: Icon(Icons.logout),
+                        label: Text("Checkout"),
                       ),
-                      Spacer(),
                     ],
                   );
                 }

@@ -86,7 +86,7 @@ class AvailableRooms extends StatelessWidget {
                                 }
                               },
                               icon: Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: EdgeInsets.all(AppPadding.p2),
                                 child: Icon(
                                   Icons.delete,
                                   color: Theme.of(context).colorScheme.error,

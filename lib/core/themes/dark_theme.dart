@@ -454,7 +454,7 @@ ThemeData getDarkTheme() {
       errorStyle: getRegularStyle(
         color: ColorManager.error,
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s6,
+        fontSize: FontSize.s5,
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
