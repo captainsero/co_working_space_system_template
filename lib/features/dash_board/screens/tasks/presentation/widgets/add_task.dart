@@ -5,7 +5,6 @@ import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/tasks_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/date_picker_button.dart';
@@ -95,7 +94,7 @@ class _AddTaskState extends State<AddTask> {
             }
 
             if (state is TasksLoading) {
-              return CircularIndicator();
+              return CircularProgressIndicator();
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

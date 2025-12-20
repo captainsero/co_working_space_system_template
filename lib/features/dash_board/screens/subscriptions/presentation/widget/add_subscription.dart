@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_plan_model.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/core/widgets/custom_drop_down_field.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -158,7 +157,7 @@ class _AddSubscriptionState extends State<AddSubscription> {
 
                     if (subState is SubscriptionLoading) ...[
                       SizedBox(height: AppSize.s5),
-                      const Center(child: CircularIndicator()),
+                      const Center(child: CircularProgressIndicator()),
                     ],
                   ],
                 ),

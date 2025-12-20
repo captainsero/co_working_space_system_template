@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/expenses_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/month_data/logic/cubit/month_data_cubit.dart';
 
 class MonthlyOverview extends StatefulWidget {
@@ -167,7 +166,7 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
 
               // Add special case for initial loading spinner
               if (state is Loading) {
-                return Center(child: CircularIndicator());
+                return Center(child: CircularProgressIndicator());
               }
 
               return const SizedBox.shrink();

@@ -5,7 +5,6 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/custom_drop_down_field.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
@@ -136,7 +135,7 @@ class _AddReservationState extends State<AddReservation> {
           }
 
           if (state is InsertReservationLoading) {
-            return CircularIndicator();
+            return CircularProgressIndicator();
           } else {
             return Form(
               key: _formKey,

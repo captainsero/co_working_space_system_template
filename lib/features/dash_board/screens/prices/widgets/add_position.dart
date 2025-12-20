@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/stuff_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -46,7 +45,7 @@ class _AddPositionState extends State<AddPosition> {
                 BlocBuilder<StuffCubit, StuffState>(
                   builder: (context, state) {
                     if (state is StuffLoading) {
-                      return CircularIndicator();
+                      return CircularProgressIndicator();
                     }
                     return TextButton.icon(
                       onPressed: () async {

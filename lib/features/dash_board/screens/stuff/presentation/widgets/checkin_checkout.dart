@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/logic/cubit/stuff_cubit.dart';
@@ -59,7 +58,7 @@ class _CheckinCheckoutState extends State<CheckinCheckout> {
             BlocBuilder<StuffCubit, StuffState>(
               builder: (context, state) {
                 if (state is StuffLoading) {
-                  return CircularIndicator();
+                  return CircularProgressIndicator();
                 } else {
                   return Row(
                     children: [

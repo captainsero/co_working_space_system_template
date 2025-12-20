@@ -19,12 +19,11 @@ ThemeData getDarkTheme() {
     onTertiary: ColorManager.black,
   );
 
-  TimePickerThemeData _modernTimePickerTheme(ColorScheme cs) {
+  TimePickerThemeData modernTimePickerTheme(ColorScheme cs) {
     return TimePickerThemeData(
       backgroundColor: cs.surface,
       elevation: 2,
-      cancelButtonStyle: ButtonStyle(
-      ),
+      cancelButtonStyle: ButtonStyle(),
 
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(RadiusSize.r12),
@@ -116,7 +115,7 @@ ThemeData getDarkTheme() {
     colorScheme: cs,
     useMaterial3: true,
 
-    timePickerTheme: _modernTimePickerTheme(cs),
+    timePickerTheme: modernTimePickerTheme(cs),
     // cardView
     cardTheme: CardThemeData(
       margin: EdgeInsets.all(AppMargin.m2),
@@ -534,12 +533,23 @@ ThemeData getDarkTheme() {
     ),
 
     progressIndicatorTheme: ProgressIndicatorThemeData(
-      color: ColorManager.darkPrimary,
-      linearTrackColor: ColorManager.lightGrey,
-      circularTrackColor: ColorManager.lightGrey,
-      linearMinHeight: AppSize.s6,
-      refreshBackgroundColor: ColorManager.white,
-      circularTrackPadding: EdgeInsets.all(AppPadding.p4),
+      // Main spinning arc color (modern: use primary as accent)
+      color: ColorManager.light,
+
+      // Subtle track behind the arc (dark theme: low alpha on onSurface)
+      circularTrackColor: ColorManager.light.withAlpha(50),
+
+      // Modern feel: slightly thicker than default
+      strokeWidth: AppSize.s1_5,
+
+      // Rounded ends look more modern than square ends
+      strokeCap: StrokeCap.round,
+
+      // (Optional) Keep indicators visually consistent if you use them a lot
+      // constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+
+      // (Optional) If you want spacing around the painted circle in tight UIs
+      circularTrackPadding: EdgeInsets.all(AppPadding.p2),
     ),
   );
 }

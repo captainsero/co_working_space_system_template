@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -65,7 +64,7 @@ class AddRoom extends StatelessWidget {
             }
 
             if (state is RoomsLoading) {
-              return CircularIndicator();
+              return CircularProgressIndicator();
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

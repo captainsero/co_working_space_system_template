@@ -6,7 +6,6 @@ import 'package:team_egypt_v3/core/constants/images.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/style_manager.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/features/splash/data/supabase_splash.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -123,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
               // Insert button
               isLoading
-                  ? const CircularIndicator()
+                  ? const CircularProgressIndicator()
                   : SizedBox(
                       width: ScreenSize.width / 5,
                       child: ElevatedButton(

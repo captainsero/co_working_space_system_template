@@ -26,8 +26,8 @@ class SideButton extends StatelessWidget {
           )
         : TextButton.icon(
             onPressed: onpressed,
-            icon: Icon(icon),
-            label: Text(label),
+            icon: Icon(icon, size: AppSize.s5),
+            label: Text(label, style: TextStyle(fontSize: FontSize.s6)),
           );
   }
 }

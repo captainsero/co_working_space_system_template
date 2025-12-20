@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/subscription_plan_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/logic/cubit/plans_cubit.dart';
@@ -97,7 +96,7 @@ class _AddSubscriptionPlanState extends State<AddSubscriptionPlan> {
             }
 
             if (state is PlansLoading) {
-              return CircularIndicator();
+              return CircularProgressIndicator();
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

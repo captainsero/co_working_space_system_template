@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/items_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/custom_drop_down_field.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
@@ -244,7 +243,7 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                 }
 
                 if (state is ItemsLoading) {
-                  return CircularIndicator();
+                  return CircularProgressIndicator();
                 } else {
                   return Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,

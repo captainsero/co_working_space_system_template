@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
@@ -44,7 +43,7 @@ class RoomReservation extends StatelessWidget {
                 }
 
                 if (state is GetReservationLoading) {
-                  return CircularIndicator();
+                  return CircularProgressIndicator();
                 } else {
                   return Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,

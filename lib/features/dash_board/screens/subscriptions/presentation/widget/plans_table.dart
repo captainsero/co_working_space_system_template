@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_plan_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/logic/cubit/plans_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_cell.dart';
@@ -18,7 +17,7 @@ class PlansTable extends StatelessWidget {
     return BlocBuilder<PlansCubit, PlansState>(
       builder: (context, state) {
         if (state is PlansInitial || state is PlansLoading) {
-          return CircularIndicator();
+          return CircularProgressIndicator();
         } else if (state is GetPlans) {
           plans = state.plans;
         }

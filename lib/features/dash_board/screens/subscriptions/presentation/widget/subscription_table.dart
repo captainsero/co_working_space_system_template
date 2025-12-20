@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/logic/cubit/subscription_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_cell.dart';
@@ -24,7 +23,7 @@ class _SubscriptionTableState extends State<SubscriptionTable> {
       builder: (context, state) {
         List<SubscriptionModel> sub = [];
         if (state is SubscriptionInitial || state is SubscriptionLoading) {
-          return CircularIndicator();
+          return CircularProgressIndicator();
         } else if (state is GetSubscriptions) {
           sub = state.sub;
           return _buildTable(sub);

@@ -7,7 +7,6 @@ import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/items_model.dart';
-import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/logic/cubit/items_cubit.dart';
 
 class ItemsContainer extends StatefulWidget {
@@ -61,7 +60,7 @@ class _ItemsContainerState extends State<ItemsContainer> {
         }
 
         if (state is ItemsLoading) {
-          return CircularIndicator();
+          return CircularProgressIndicator();
         } else {
           return Container(
             width: ScreenSize.width / 1.8,
