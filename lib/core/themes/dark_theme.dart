@@ -5,6 +5,106 @@ import 'package:team_egypt_v3/core/constants/style_manager.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 ThemeData getDarkTheme() {
+  final cs = ColorScheme(
+    brightness: Brightness.dark,
+    primary: ColorManager.primary,
+    onPrimary: ColorManager.light,
+    secondary: ColorManager.secondory,
+    onSecondary: ColorManager.black,
+    surface: ColorManager.darkPrimary,
+    onSurface: ColorManager.white,
+    error: ColorManager.error,
+    onError: ColorManager.black,
+    tertiary: ColorManager.light,
+    onTertiary: ColorManager.black,
+  );
+
+  TimePickerThemeData _modernTimePickerTheme(ColorScheme cs) {
+    return TimePickerThemeData(
+      backgroundColor: cs.surface,
+      elevation: 2,
+      cancelButtonStyle: ButtonStyle(
+      ),
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(RadiusSize.r12),
+        side: BorderSide(
+          color: cs.onSurface.withAlpha(25),
+          width: AppSize.s0_5,
+        ),
+      ),
+
+      // Header/help text
+      helpTextStyle: getMediumStyle(
+        color: cs.onSurface.withAlpha(180),
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s5,
+      ),
+
+      // Hour/minute "chips"
+      hourMinuteShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(RadiusSize.r12),
+      ),
+      hourMinuteTextStyle: getBoldStyle(
+        color: cs.onSurface,
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s7,
+      ),
+      hourMinuteColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return cs.primary;
+        return cs.onSurface.withAlpha(18);
+      }),
+      hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return cs.onPrimary;
+        return cs.onSurface;
+      }),
+
+      // AM/PM styling (important for dark themes)
+      dayPeriodColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return cs.primary;
+        return cs.onSurface.withAlpha(14);
+      }),
+      dayPeriodTextColor: WidgetStateColor.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return cs.onPrimary;
+        return cs.onSurface.withAlpha(190);
+      }),
+      dayPeriodTextStyle: getSemiBoldStyle(
+        color: cs.onSurface,
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s5,
+      ),
+
+      // Dial (clock)
+      dialBackgroundColor: cs.onSurface.withAlpha(10),
+      dialHandColor: cs.primary,
+      dialTextColor: cs.onSurface.withAlpha(220),
+      dialTextStyle: getMediumStyle(
+        color: cs.onSurface,
+        fontFamily: FontConstants.libertinusFamily,
+        fontSize: FontSize.s6,
+      ),
+
+      // Input mode (keyboard icon + fields)
+      entryModeIconColor: cs.onSurface.withAlpha(220),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: cs.onSurface.withAlpha(10),
+        contentPadding: EdgeInsets.all(AppPadding.p2),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(RadiusSize.r12),
+          borderSide: BorderSide(
+            color: cs.onSurface.withAlpha(40),
+            width: AppSize.s0_5,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(RadiusSize.r12),
+          borderSide: BorderSide(color: cs.primary, width: AppSize.s0_5),
+        ),
+      ),
+    );
+  }
+
   return ThemeData(
     primaryColor: ColorManager.primary,
     primaryColorLight: ColorManager.lightPrimary,
@@ -13,20 +113,10 @@ ThemeData getDarkTheme() {
     splashColor: ColorManager.primary,
     scaffoldBackgroundColor: ColorManager.darkPrimary,
 
-    colorScheme: ColorScheme(
-      brightness: Brightness.dark,
-      primary: ColorManager.primary,
-      onPrimary: ColorManager.light,
-      secondary: ColorManager.secondory,
-      onSecondary: ColorManager.black,
-      surface: ColorManager.darkPrimary,
-      onSurface: ColorManager.white,
-      error: ColorManager.error,
-      onError: ColorManager.black,
-      tertiary: ColorManager.light,
-      onTertiary: ColorManager.black,
-    ),
+    colorScheme: cs,
+    useMaterial3: true,
 
+    timePickerTheme: _modernTimePickerTheme(cs),
     // cardView
     cardTheme: CardThemeData(
       margin: EdgeInsets.all(AppMargin.m2),
@@ -73,10 +163,11 @@ ThemeData getDarkTheme() {
     // elevated button theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        iconSize: AppSize.s6,
         foregroundColor: ColorManager.black,
         textStyle: getRegularStyle(
           color: ColorManager.black,
-          fontSize: FontSize.s8,
+          fontSize: FontSize.s7,
           fontFamily: FontConstants.libertinusFamily,
         ),
         shape: RoundedRectangleBorder(
@@ -89,6 +180,7 @@ ThemeData getDarkTheme() {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
         // Text/icon color
+        iconSize: WidgetStatePropertyAll(AppSize.s6),
         foregroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.disabled)) {
             return ColorManager.grey;
@@ -334,69 +426,6 @@ ThemeData getDarkTheme() {
       ),
       confirmButtonStyle: TextButton.styleFrom(
         foregroundColor: ColorManager.light,
-      ),
-    ),
-
-    // time picker theme
-    timePickerTheme: TimePickerThemeData(
-      confirmButtonStyle: TextButton.styleFrom(
-        foregroundColor: ColorManager.darkPrimary,
-        textStyle: getBoldStyle(
-          color: ColorManager.primary,
-          fontSize: FontSize.s8,
-          fontFamily: FontConstants.libertinusFamily,
-        ),
-      ),
-      cancelButtonStyle: TextButton.styleFrom(
-        foregroundColor: ColorManager.darkPrimary,
-        textStyle: getBoldStyle(
-          color: ColorManager.primary,
-          fontSize: FontSize.s8,
-          fontFamily: FontConstants.libertinusFamily,
-        ),
-      ),
-      backgroundColor: ColorManager.white,
-      hourMinuteColor: WidgetStateColor.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? ColorManager.primary
-            : ColorManager.white,
-      ),
-      hourMinuteTextColor: WidgetStateColor.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? ColorManager.white
-            : ColorManager.primary,
-      ),
-      dayPeriodColor: WidgetStateColor.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? ColorManager.primary
-            : ColorManager.white,
-      ),
-      dayPeriodTextColor: WidgetStateColor.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? ColorManager.white
-            : ColorManager.primary,
-      ),
-      dialBackgroundColor: ColorManager.white,
-      dialHandColor: ColorManager.primary,
-      dialTextColor: WidgetStateColor.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? ColorManager.white
-            : ColorManager.primary,
-      ),
-      entryModeIconColor: ColorManager.primary,
-      helpTextStyle: getMediumStyle(
-        color: ColorManager.primary,
-        fontFamily: FontConstants.libertinusFamily,
-      ),
-      hourMinuteShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSize.s14),
-        side: BorderSide(color: ColorManager.primary),
-      ),
-      dayPeriodShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSize.s14),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSize.s20),
       ),
     ),
 

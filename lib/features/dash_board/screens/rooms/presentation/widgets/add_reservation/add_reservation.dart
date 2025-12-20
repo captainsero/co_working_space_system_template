@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
@@ -14,7 +13,6 @@ import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/date_picker_button.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/rooms_cubit.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/Pick_time_theme.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/time_picker_button.dart';
 import 'package:toastification/toastification.dart';
 
@@ -42,9 +40,6 @@ class _AddReservationState extends State<AddReservation> {
     final picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
-      builder: (context, child) {
-        return PickTimeTheme(child: child!);
-      },
     );
 
     if (picked != null) {
@@ -58,9 +53,6 @@ class _AddReservationState extends State<AddReservation> {
     final picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
-      builder: (context, child) {
-        return PickTimeTheme(child: child!);
-      },
     );
 
     if (picked != null) {
@@ -96,12 +88,10 @@ class _AddReservationState extends State<AddReservation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.width / 3,
-      height: ScreenSize.height / 2,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: BlocBuilder<ReservationCubit, ReservationState>(
         builder: (context, state) {
@@ -152,150 +142,131 @@ class _AddReservationState extends State<AddReservation> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: AppSize.s3,
                 children: [
                   /// Header
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconAndText(
                         text: "Add Reservation",
                         icon: Icons.ring_volume_rounded,
                       ),
-                      const Spacer(),
-                      TextButton.icon(
+
+                      ElevatedButton.icon(
                         onPressed: addRes,
-                        icon: Icon(Icons.add_box, color: Col.light2),
-                        label: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: Col.light2,
-                            fontFamily: Fonts.names,
-                          ),
-                        ),
+                        icon: Icon(Icons.add_box),
+                        label: Text("Add"),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// Name field
+                      SizedBox(
+                        width: ScreenSize.width / 5.5,
+                        child: CustomTextField(
+                          controller: nameController,
+                          hint: "Name",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Name cannot be empty";
+                            }
+                            if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                              return "Name must contain only letters and numbers";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
 
-                  /// Name field
-                  SizedBox(
-                    width: ScreenSize.width / 5.5,
-                    child: CustomTextField(
-                      controller: nameController,
-                      hint: "Name",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Name cannot be empty";
-                        }
-                        if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
-                          return "Name must contain only letters and numbers";
-                        }
-                        return null;
-                      },
-                    ),
+                      SizedBox(
+                        width: ScreenSize.width / 5.5,
+                        child: CustomTextField(
+                          controller: numberController,
+                          hint: "Number",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Number cannot be empty";
+                            }
+                            if (!RegExp(r'^\d{11}$').hasMatch(value)) {
+                              return "Number must contain only numbers and must be 11";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+
+                      BlocBuilder<RoomsCubit, RoomsState>(
+                        builder: (context, state) {
+                          if (state is GetRooms) {
+                            rooms = state.rooms;
+                          }
+                          return SizedBox(
+                            width: ScreenSize.width / 5.5,
+                            child: CustomDropdownField(
+                              value: selectedRoom?.name,
+                              items: rooms.map((p) => p.name).toList(),
+                              hint: "Select Room",
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedRoom = rooms.firstWhere(
+                                    (p) => p.name == value,
+                                  );
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please select a Room";
+                                }
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-
-                  const SizedBox(height: 10),
-
-                  SizedBox(
-                    width: ScreenSize.width / 5.5,
-                    child: CustomTextField(
-                      controller: numberController,
-                      hint: "Number",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Number cannot be empty";
-                        }
-                        if (!RegExp(r'^\d{11}$').hasMatch(value)) {
-                          return "Number must contain only numbers and must be 11";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
 
                   /// Date + Time pickers
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: AppSize.s3,
                     children: [
                       Column(
                         children: [
                           DatePickerButton(onPick: _pickDate),
-                          const SizedBox(width: 3),
                           Text(
                             dateFormat.isEmpty ? "No date" : dateFormat,
-                            style: TextStyle(
-                              color: Col.light2,
-                              fontFamily: Fonts.head,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
 
-                      const SizedBox(width: 10),
                       Column(
                         children: [
                           TimePickerButton(
                             onPick: _pickFromTime,
                             title: "From",
                           ),
-                          const SizedBox(height: 3),
                           Text(
                             _formatTime(selectedFromTime),
-                            style: TextStyle(
-                              color: Col.light2,
-                              fontFamily: Fonts.head,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
-                      const SizedBox(width: 10),
                       Column(
                         children: [
                           TimePickerButton(onPick: _pickToTime, title: "To"),
-                          const SizedBox(width: 3),
                           Text(
                             _formatTime(selectedToTime),
-                            style: TextStyle(
-                              color: Col.light2,
-                              fontFamily: Fonts.head,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
                     ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  BlocBuilder<RoomsCubit, RoomsState>(
-                    builder: (context, state) {
-                      if (state is GetRooms) {
-                        rooms = state.rooms;
-                      }
-                      return SizedBox(
-                        width: ScreenSize.width / 5.5,
-                        child: CustomDropdownField(
-                          value: selectedRoom?.name,
-                          items: rooms.map((p) => p.name).toList(),
-                          hint: "Select Room",
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRoom = rooms.firstWhere(
-                                (p) => p.name == value,
-                              );
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please select a Room";
-                            }
-                            return null;
-                          },
-                        ),
-                      );
-                    },
                   ),
                 ],
               ),
