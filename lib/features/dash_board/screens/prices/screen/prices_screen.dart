@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/add_expenses.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/edit_hour_fee.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/add_room.dart';
@@ -17,20 +18,18 @@ class PricesScreen extends StatelessWidget {
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: IntrinsicHeight(
               child: Column(
+                spacing: AppSize.s5,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(children: [AddRoom(), Spacer(), AddPosition()]),
-                  SizedBox(height: 20),
+
                   Row(
                     children: [
                       AddSubscriptionPlan(),
                       Spacer(),
                       Column(
-                        children: [
-                          EditHourFee(),
-                          SizedBox(height: 20),
-                          AddExpenses(),
-                        ],
+                        spacing: AppSize.s5,
+                        children: [EditHourFee(), AddExpenses()],
                       ),
                     ],
                   ),

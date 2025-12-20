@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/stuff_model.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
@@ -27,21 +26,22 @@ class _AddPositionState extends State<AddPosition> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 3.4,
-      height: ScreenSize.height / 2.4,
-      padding: const EdgeInsets.all(16),
+      height: ScreenSize.height / 2.2,
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: _formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconAndText(text: "Add Position", icon: Icons.person_add),
-                Spacer(),
                 BlocBuilder<StuffCubit, StuffState>(
                   builder: (context, state) {
                     if (state is StuffLoading) {
@@ -81,20 +81,13 @@ class _AddPositionState extends State<AddPosition> {
                           }
                         }
                       },
-                      icon: Icon(Icons.add_circle_sharp, color: Col.light2),
-                      label: Text(
-                        "Add",
-                        style: TextStyle(
-                          color: Col.light2,
-                          fontFamily: Fonts.names,
-                        ),
-                      ),
+                      icon: Icon(Icons.add_circle_sharp),
+                      label: Text("Add"),
                     );
                   },
                 ),
               ],
             ),
-            Spacer(),
 
             SizedBox(
               width: ScreenSize.width / 5.5,
@@ -113,8 +106,6 @@ class _AddPositionState extends State<AddPosition> {
               ),
             ),
 
-            const Spacer(),
-
             // Number field
             SizedBox(
               width: ScreenSize.width / 5.5,
@@ -132,8 +123,6 @@ class _AddPositionState extends State<AddPosition> {
                 },
               ),
             ),
-
-            const Spacer(),
 
             SizedBox(
               width: ScreenSize.width / 5.5,

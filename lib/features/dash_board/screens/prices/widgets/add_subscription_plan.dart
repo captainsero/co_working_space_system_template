@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_plan_model.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -33,12 +32,13 @@ class _AddSubscriptionPlanState extends State<AddSubscriptionPlan> {
       key: _formKey,
       child: Container(
         width: ScreenSize.width / 3.3,
-        height: ScreenSize.height / 1.8,
-        padding: const EdgeInsets.all(16),
+        height: ScreenSize.height / 1.6,
+        padding: EdgeInsets.all(AppPadding.p4),
         decoration: BoxDecoration(
-          color: Col.dark2,
-          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(RadiusSize.r16),
         ),
+
         child: BlocBuilder<PlansCubit, PlansState>(
           builder: (context, state) {
             void addSubscriptionPlan() async {
@@ -100,28 +100,24 @@ class _AddSubscriptionPlanState extends State<AddSubscriptionPlan> {
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconAndText(
                         text: "Add Subscription Plan",
                         icon: Icons.subscriptions,
                       ),
-                      const Spacer(),
+
                       TextButton.icon(
                         onPressed: addSubscriptionPlan,
-                        icon: Icon(Icons.add_circle, color: Col.light2),
-                        label: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: Col.light2,
-                            fontFamily: Fonts.names,
-                          ),
-                        ),
+                        icon: Icon(Icons.add_circle),
+                        label: Text("Add"),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -138,7 +134,7 @@ class _AddSubscriptionPlanState extends State<AddSubscriptionPlan> {
                       },
                     ),
                   ),
-                  const Spacer(),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -155,43 +151,31 @@ class _AddSubscriptionPlanState extends State<AddSubscriptionPlan> {
                       },
                     ),
                   ),
-                  const Spacer(),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
-                    child: TextField(
+                    child: TextFormField(
                       controller: hoursController,
-                      style: TextStyle(
-                        color: Col.light2,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      cursorColor: Theme.of(context).colorScheme.onPrimary,
+
                       decoration: InputDecoration(
                         hintText: "Hours (Unlimited)",
-                        hintStyle: TextStyle(
-                          color: Col.light2.withOpacity(0.7),
-                          fontWeight: FontWeight.w400,
-                        ),
-                        filled: true,
-                        fillColor: Col.light2.withOpacity(0.1),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 16,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: Col.light2.withOpacity(0.4),
-                            width: 1.2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Col.light2, width: 1.5),
-                        ),
+                        fillColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary.withAlpha(20),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        }
+                        if (double.tryParse(value) == null) {
+                          return "Hours must be a number";
+                        }
+                        return null;
+                      },
                     ),
                   ),
 
-                  const Spacer(),
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -208,7 +192,6 @@ class _AddSubscriptionPlanState extends State<AddSubscriptionPlan> {
                       },
                     ),
                   ),
-                  Spacer(),
                 ],
               );
             }

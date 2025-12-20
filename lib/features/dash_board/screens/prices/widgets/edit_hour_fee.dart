@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
@@ -25,24 +24,26 @@ class _EditHourFeeState extends State<EditHourFee> {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 3.4,
-      height: ScreenSize.height / 3.5,
-      padding: const EdgeInsets.all(16),
+      height: ScreenSize.height / 3.9,
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: AppSize.s5,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconAndText(
                   text: "Edit Hour Fee",
                   icon: Icons.attach_money_rounded,
                 ),
-                Spacer(),
+
                 TextButton.icon(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
@@ -58,19 +59,12 @@ class _EditHourFeeState extends State<EditHourFee> {
                       );
                     }
                   },
-                  icon: Icon(Icons.edit, color: Col.light2),
-                  label: Text(
-                    "Edit",
-                    style: TextStyle(
-                      color: Col.light2,
-                      fontFamily: Fonts.names,
-                    ),
-                  ),
+                  icon: Icon(Icons.edit),
+                  label: Text("Edit"),
                 ),
               ],
             ),
 
-            const SizedBox(height: 20),
             SizedBox(
               width: ScreenSize.width / 5.5,
               child: CustomTextField(

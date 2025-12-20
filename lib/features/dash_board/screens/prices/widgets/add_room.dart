@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
@@ -22,11 +21,11 @@ class AddRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 3.4,
-      height: ScreenSize.height / 3,
-      padding: const EdgeInsets.all(16),
+      height: ScreenSize.height / 2.8,
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: _formKey,
@@ -68,25 +67,21 @@ class AddRoom extends StatelessWidget {
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconAndText(text: "Add Room", icon: Icons.room),
-                      Spacer(),
+
                       TextButton.icon(
                         onPressed: addRoom,
-                        icon: Icon(Icons.add_circle_sharp, color: Col.light2),
-                        label: Text(
-                          "Add",
-                          style: TextStyle(
-                            color: Col.light2,
-                            fontFamily: Fonts.names,
-                          ),
-                        ),
+                        icon: Icon(Icons.add_circle_sharp),
+                        label: Text("Add"),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -103,7 +98,7 @@ class AddRoom extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Spacer(),
+
                   SizedBox(
                     width: ScreenSize.width / 5.5,
                     child: CustomTextField(
@@ -120,7 +115,6 @@ class AddRoom extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Spacer(),
                 ],
               );
             }

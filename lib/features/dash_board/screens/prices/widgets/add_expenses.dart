@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/expenses_model.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -26,23 +25,25 @@ class _AddExpensesState extends State<AddExpenses> {
     return Container(
       width: ScreenSize.width / 3.4,
       height: ScreenSize.height / 2.4,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: formKey,
         child: Column(
+          spacing: AppSize.s5,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconAndText(
                   text: "Add Expenses",
                   icon: Icons.money_off_csred_outlined,
                 ),
-                Spacer(),
+
                 TextButton.icon(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
@@ -74,19 +75,11 @@ class _AddExpensesState extends State<AddExpenses> {
                       priceController.clear();
                     }
                   },
-                  icon: Icon(Icons.add_circle, color: Col.light2),
-                  label: Text(
-                    "Add",
-                    style: TextStyle(
-                      color: Col.light2,
-                      fontFamily: Fonts.names,
-                    ),
-                  ),
+                  icon: Icon(Icons.add_circle),
+                  label: Text("Add"),
                 ),
               ],
             ),
-
-            const SizedBox(height: 20),
 
             SizedBox(
               width: ScreenSize.width / 5.5,
@@ -102,7 +95,6 @@ class _AddExpensesState extends State<AddExpenses> {
               ),
             ),
 
-            const SizedBox(height: 10),
             SizedBox(
               width: ScreenSize.width / 5.5,
               child: CustomTextField(
