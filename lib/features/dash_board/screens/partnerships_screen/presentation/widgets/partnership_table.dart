@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/core/constants/color_manager.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/offer_class.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_cell.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_header.dart';
@@ -12,7 +14,12 @@ class PartnershipTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (offers.isEmpty) {
-      return const Center(child: Text("No offers found"));
+      return Center(
+        child: Text(
+          "No offers found",
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      );
     }
 
     return SingleChildScrollView(
@@ -50,7 +57,10 @@ class PartnershipTable extends StatelessWidget {
                           offer.code,
                         );
                       },
-                      icon: const Icon(Icons.delete, color: Colors.red),
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
                     IconButton(
                       onPressed: () {
@@ -60,8 +70,10 @@ class PartnershipTable extends StatelessWidget {
                       },
                       icon: Icon(
                         offer.active ? Icons.toggle_on : Icons.toggle_off,
-                        color: offer.active ? Colors.green : Colors.grey,
-                        size: 32,
+                        color: offer.active
+                            ? ColorManager.green
+                            : ColorManager.grey,
+                        size: AppSize.s10,
                       ),
                     ),
                   ],

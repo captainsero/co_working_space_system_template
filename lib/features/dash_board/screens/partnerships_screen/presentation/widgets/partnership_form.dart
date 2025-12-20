@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:toastification/toastification.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/offer_class.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -25,7 +23,8 @@ class _PartnershipFormState extends State<PartnershipForm> {
   final nameController = TextEditingController();
   final valueController = TextEditingController();
   final descriptionController = TextEditingController();
-  final codeController = TextEditingController();
+  // final codeController = TextEditingController();
+  String? code;
 
   final List<String> offerTypes = [
     "percentage",
@@ -54,7 +53,7 @@ class _PartnershipFormState extends State<PartnershipForm> {
   void insertData() async {
     if (_formKey.currentState!.validate()) {
       final generatedCode = generateCode(nameController.text);
-      codeController.text = generatedCode;
+      code = generatedCode;
 
       final valued = double.parse(valueController.text);
 
@@ -86,6 +85,8 @@ class _PartnershipFormState extends State<PartnershipForm> {
           ToastificationType.error,
         );
       }
+
+      setState(() {});
     }
   }
 
@@ -103,13 +104,12 @@ class _PartnershipFormState extends State<PartnershipForm> {
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: AppSize.s3,
           children: [
             Text(
               "Add New Partnership",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-
-            SizedBox(height: AppSize.s3),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,46 +168,37 @@ class _PartnershipFormState extends State<PartnershipForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 15),
 
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
+                Container(
                   width: ScreenSize.width / 5.5,
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Col.light2,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    controller: codeController,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: "Code",
-                      hintStyle: TextStyle(
-                        color: Col.light2.withOpacity(0.7),
-                        fontWeight: FontWeight.w400,
-                      ),
-                      filled: true,
-                      fillColor: Col.light2.withOpacity(0.1),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                  padding: EdgeInsets.all(AppPadding.p2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColorDark,
+                    borderRadius: BorderRadius.circular(RadiusSize.r12),
+                  ),
+                  child: Center(
+                    child: SelectableText(
+                      code ?? '',
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ),
                 ),
-                const Spacer(),
+
                 TextButton.icon(
                   onPressed: insertData,
-                  icon: Icon(Icons.group_add, color: Col.light2),
+                  icon: Icon(
+                    Icons.group_add_outlined,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                   label: Text(
                     "Add",
-                    style: TextStyle(
-                      color: Col.light2,
-                      fontFamily: Fonts.names,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
-                const Spacer(),
+
                 SizedBox(
                   width: ScreenSize.width / 5.5,
                   child: CustomTextField(

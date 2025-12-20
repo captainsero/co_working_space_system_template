@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 
 class CustomDropdownField extends StatelessWidget {
   final String? value;
@@ -26,34 +26,34 @@ class CustomDropdownField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
-          color: Col.light2.withOpacity(0.7),
+          color: Theme.of(context).colorScheme.onPrimary,
           fontWeight: FontWeight.w400,
         ),
         filled: true,
-        fillColor: Col.light2.withOpacity(0.1),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 16,
-        ),
+        fillColor: Theme.of(context).colorScheme.onPrimary.withAlpha(50),
+        contentPadding: EdgeInsets.all(AppPadding.p4),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(RadiusSize.r12),
           borderSide: BorderSide(
-            color: Col.light2.withOpacity(0.4),
-            width: 1.2,
+            color: Theme.of(context).colorScheme.onPrimary,
+            width: AppSize.s0_5,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Col.light2, width: 1.5),
+          borderRadius: BorderRadius.circular(RadiusSize.r12),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.onPrimary,
+            width: AppSize.s0_5,
+          ),
         ),
       ),
-      dropdownColor: Col.dark2, // لون القائمة المنسدلة
-      style: TextStyle(color: Col.light2, fontWeight: FontWeight.w600),
+      dropdownColor: Theme.of(context).primaryColorDark,
+      style: Theme.of(context).textTheme.bodyMedium,
       items: items
           .map(
             (e) => DropdownMenuItem(
               value: e,
-              child: Text(e, style: TextStyle(color: Col.light2)),
+              child: Text(e, style: Theme.of(context).textTheme.bodyMedium),
             ),
           )
           .toList(),

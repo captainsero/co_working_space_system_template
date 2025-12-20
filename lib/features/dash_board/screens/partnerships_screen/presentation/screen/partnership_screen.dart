@@ -20,38 +20,40 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
   Widget build(BuildContext context) {
     ScreenSize.intial(context);
 
-    return Column(
-      children: [
-        HeadText(text: "Partnerships"),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          HeadText(text: "Partnerships"),
 
-        /// Add Offer Form
-        PartnershipForm(),
+          /// Add Offer Form
+          PartnershipForm(),
 
-        SizedBox(height: AppSize.s5),
+          SizedBox(height: AppSize.s5),
 
-        /// Offers Table
-        Container(
-          height: ScreenSize.height / 2.3,
-          padding: EdgeInsets.all(AppPadding.p4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(20),
+          /// Offers Table
+          Container(
+            height: ScreenSize.height / 2,
+            padding: EdgeInsets.all(AppPadding.p4),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: BlocBuilder<PartnerShipCubit, PartnerShipState>(
+              builder: (context, state) {
+                if (state is PartnerShipLoading) {
+                  return Center(child: CircularIndicator());
+                } else if (state is PartnerShipLoadOffers) {
+                  return PartnershipTable(offers: state.offers);
+                } else {
+                  return const Center(
+                    child: Text("Press reload to fetch offers"),
+                  );
+                }
+              },
+            ),
           ),
-          child: BlocBuilder<PartnerShipCubit, PartnerShipState>(
-            builder: (context, state) {
-              if (state is PartnerShipLoading) {
-                return Center(child: CircularIndicator());
-              } else if (state is PartnerShipLoadOffers) {
-                return PartnershipTable(offers: state.offers);
-              } else {
-                return const Center(
-                  child: Text("Press reload to fetch offers"),
-                );
-              }
-            },
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
