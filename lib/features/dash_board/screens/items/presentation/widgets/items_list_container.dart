@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/items_model.dart';
 import 'package:team_egypt_v3/core/widgets/custom_drop_down_field.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -45,20 +44,7 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
           String category = item.category;
 
           return AlertDialog(
-            title: Text(
-              "Edit ${item.name}",
-              style: TextStyle(
-                color: Col.light2,
-                fontWeight: FontWeight.bold,
-                fontFamily: Fonts.tableHead,
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: BorderSide(color: Col.light2, width: 2),
-            ),
-            backgroundColor: Colors.black.withOpacity(0.8),
-            contentPadding: const EdgeInsets.all(24),
+            title: Text("Edit ${item.name}"),
             content: SizedBox(
               width: ScreenSize.width / 3,
               height: ScreenSize.height / 3,
@@ -66,8 +52,8 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                 key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Spacer(),
                     Row(
                       children: [
                         SizedBox(
@@ -89,16 +75,11 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
 
                         Text(
                           "=> Price",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Col.light1,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
                     ),
 
-                    Spacer(),
                     Row(
                       children: [
                         SizedBox(
@@ -120,15 +101,11 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
 
                         Text(
                           "=> Quantity",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Col.light1,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
                     ),
-                    Spacer(),
+
                     SizedBox(
                       width: ScreenSize.width / 5.5,
                       child: CustomDropdownField(
@@ -155,20 +132,10 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(
-                  Icons.cancel_outlined,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                label: Text(
-                  "Cancle",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: Fonts.names,
-                    fontSize: 20,
-                  ),
-                ),
+                icon: Icon(Icons.cancel_outlined),
+                label: Text("Cancle"),
               ),
+
               TextButton.icon(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
@@ -205,15 +172,8 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                     Navigator.pop(context);
                   }
                 },
-                icon: Icon(Icons.done_all, color: Col.light2, size: 20),
-                label: Text(
-                  "Done",
-                  style: TextStyle(
-                    color: Col.light2,
-                    fontFamily: Fonts.names,
-                    fontSize: 20,
-                  ),
-                ),
+                icon: Icon(Icons.done_all),
+                label: Text("Done"),
               ),
             ],
           );
@@ -222,19 +182,19 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
     }
 
     return Container(
-      width: ScreenSize.width / 1.5,
       height: ScreenSize.height / 1.7,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: AppSize.s3,
           children: [
             IconAndText(text: "Items List", icon: Icons.format_list_bulleted),
-            SizedBox(height: 20),
+
             BlocBuilder<ItemsCubit, ItemsState>(
               builder: (context, state) {
                 List<ItemsModel> items = [];
@@ -252,7 +212,7 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                       1: FlexColumnWidth(2),
                       2: FlexColumnWidth(2),
                       3: FlexColumnWidth(2),
-                      4: FlexColumnWidth(1.4),
+                      4: FlexColumnWidth(1.7),
                       5: FlexColumnWidth(2),
                     },
                     children: [
@@ -283,7 +243,13 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                                   onPressed: () => showEditDialog(ele),
                                   icon: Padding(
                                     padding: const EdgeInsets.all(8),
-                                    child: Icon(Icons.edit, color: Col.light2),
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimary,
+                                      size: AppSize.s7,
+                                    ),
                                   ),
                                 ),
                                 IconButton(
@@ -297,10 +263,13 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
                                     );
                                   },
                                   icon: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: const Icon(
+                                    padding: EdgeInsets.all(AppPadding.p2),
+                                    child: Icon(
                                       Icons.delete,
-                                      color: Colors.red,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                      size: AppSize.s7,
                                     ),
                                   ),
                                 ),

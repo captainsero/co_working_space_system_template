@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/items_model.dart';
 import 'package:team_egypt_v3/core/widgets/custom_drop_down_field.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -32,21 +31,21 @@ class _AddItemContainerState extends State<AddItemContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.width / 1.5,
-      height: ScreenSize.height / 3.5,
-      padding: const EdgeInsets.all(16),
+      height: ScreenSize.height / 2.8,
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconAndText(text: "Add Item", icon: Icons.playlist_add),
-            SizedBox(height: 20),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   width: ScreenSize.width / 5.5,
@@ -64,7 +63,7 @@ class _AddItemContainerState extends State<AddItemContainer> {
                     },
                   ),
                 ),
-                Spacer(),
+
                 SizedBox(
                   width: ScreenSize.width / 5.5,
                   child: CustomTextField(
@@ -82,7 +81,6 @@ class _AddItemContainerState extends State<AddItemContainer> {
                   ),
                 ),
 
-                Spacer(),
                 SizedBox(
                   width: ScreenSize.width / 5.5,
                   child: CustomTextField(
@@ -101,8 +99,9 @@ class _AddItemContainerState extends State<AddItemContainer> {
                 ),
               ],
             ),
-            Spacer(),
+
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   width: ScreenSize.width / 5.5,
@@ -123,7 +122,7 @@ class _AddItemContainerState extends State<AddItemContainer> {
                     },
                   ),
                 ),
-                Spacer(),
+
                 BlocBuilder<ItemsCubit, ItemsState>(
                   builder: (context, state) {
                     void addButton() async {
@@ -170,19 +169,8 @@ class _AddItemContainerState extends State<AddItemContainer> {
                         alignment: Alignment.center,
                         child: TextButton.icon(
                           onPressed: addButton,
-                          icon: Icon(
-                            Icons.add_circle_sharp,
-                            color: Col.light2,
-                            size: 20,
-                          ),
-                          label: Text(
-                            "Add",
-                            style: TextStyle(
-                              color: Col.light2,
-                              fontFamily: Fonts.names,
-                              fontSize: 20,
-                            ),
-                          ),
+                          icon: Icon(Icons.add_circle_sharp),
+                          label: Text("Add"),
                         ),
                       );
                     }

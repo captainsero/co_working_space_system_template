@@ -76,7 +76,7 @@ class SideButtonContainer extends StatelessWidget {
             ),
 
             SideButton(
-              label: "Stuff",
+              label: "Staff",
               icon: Icons.person_add_alt_1,
 
               onpressed: () {
