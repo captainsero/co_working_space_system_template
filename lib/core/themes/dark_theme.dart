@@ -47,7 +47,7 @@ ThemeData getDarkTheme() {
       hourMinuteTextStyle: getBoldStyle(
         color: cs.onSurface,
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s7,
+        fontSize: FontSize.s9,
       ),
       hourMinuteColor: WidgetStateColor.resolveWith((states) {
         if (states.contains(WidgetState.selected)) return cs.primary;

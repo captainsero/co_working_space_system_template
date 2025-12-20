@@ -26,7 +26,7 @@ class _RoomsState extends State<Rooms> {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: AppSize.s3,
+        spacing: AppSize.s5,
         children: [
           HeadText(text: "Rooms"),
 

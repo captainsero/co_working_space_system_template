@@ -19,15 +19,12 @@ class _PartnershipScreenState extends State<PartnershipScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        spacing: AppSize.s5,
         children: [
           HeadText(text: "Partnerships"),
 
-          SizedBox(height: AppSize.s5),
-
           /// Add Offer Form
           PartnershipForm(),
-
-          SizedBox(height: AppSize.s5),
 
           /// Offers Table
           Container(

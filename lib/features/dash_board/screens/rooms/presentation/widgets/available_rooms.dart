@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -16,20 +16,18 @@ class AvailableRooms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.width / 1.5,
       height: ScreenSize.height / 2.5,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
-        color: Col.dark2,
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(RadiusSize.r16),
       ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: AppSize.s3,
           children: [
             IconAndText(text: "Available Rooms", icon: Icons.room_preferences),
-
-            const SizedBox(height: 20),
 
             BlocBuilder<RoomsCubit, RoomsState>(
               builder: (context, state) {
@@ -45,16 +43,16 @@ class AvailableRooms extends StatelessWidget {
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     columnWidths: const {
                       0: FlexColumnWidth(2),
-                      1: FlexColumnWidth(2),
+                      1: FlexColumnWidth(1),
                       2: FlexColumnWidth(2),
-                      3: FlexColumnWidth(1.5),
+                      3: FlexColumnWidth(2),
                     },
                     children: [
                       TableRow(
                         children: [
                           TableHeader("Name"),
                           TableHeader("Price"),
-                          TableHeader("Subscriptions"),
+                          Center(child: TableHeader("Subscriptions")),
                           Center(child: TableHeader("Actions")),
                         ],
                       ),
@@ -63,7 +61,7 @@ class AvailableRooms extends StatelessWidget {
                           children: [
                             TableCell1(ele.name),
                             TableCell1("${ele.price}"),
-                            TableCell1("${ele.reservationNum}"),
+                            Center(child: TableCell1("${ele.reservationNum}")),
 
                             IconButton(
                               onPressed: () async {
@@ -89,9 +87,10 @@ class AvailableRooms extends StatelessWidget {
                               },
                               icon: Padding(
                                 padding: const EdgeInsets.all(8),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.delete,
-                                  color: Colors.red,
+                                  color: Theme.of(context).colorScheme.error,
+                                  size: AppSize.s7,
                                 ),
                               ),
                             ),
