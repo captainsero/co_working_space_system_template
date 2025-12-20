@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/in_team_users.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
@@ -24,7 +23,6 @@ class _CheckoutButtonState extends State<CheckoutButton> {
   @override
   Widget build(BuildContext context) {
     TextEditingController priceController = TextEditingController();
-    ScreenSize.intial(context);
     return TextButton.icon(
       onPressed: () async {
         await Hive.openBox<CheckoutItems>(widget.user.number);

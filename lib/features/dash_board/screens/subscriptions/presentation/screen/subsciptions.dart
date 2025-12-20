@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/widget/add_subscription.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/widget/plans_table.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/widget/subscription_table.dart';
@@ -16,51 +17,50 @@ class Subsciptions extends StatefulWidget {
 class _SubsciptionsState extends State<Subsciptions> {
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
     return SingleChildScrollView(
       child: Column(
+        spacing: AppSize.s5,
         children: [
-          Row(children: [Spacer(), AddSubscription(), Spacer()]),
+          HeadText(text: "Subsciptions"),
 
-          const SizedBox(height: 20),
+          AddSubscription(),
+
           Container(
-            width: ScreenSize.width / 1.5,
             height: ScreenSize.height / 2.5,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(AppPadding.p4),
             decoration: BoxDecoration(
-              color: Col.dark2,
-              borderRadius: BorderRadius.circular(20),
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(RadiusSize.r16),
             ),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: AppSize.s3,
                 children: [
                   IconAndText(
                     text: "Manage Subscriptions",
                     icon: Icons.manage_accounts,
                   ),
-                  SizedBox(height: 10),
+
                   SubscriptionTable(),
                 ],
               ),
             ),
           ),
 
-          const SizedBox(height: 20),
-
           Container(
-            width: ScreenSize.width / 1.5,
             height: ScreenSize.height / 2.5,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(AppPadding.p4),
             decoration: BoxDecoration(
-              color: Col.dark2,
-              borderRadius: BorderRadius.circular(20),
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(RadiusSize.r16),
             ),
             child: SingleChildScrollView(
               child: Column(
+                spacing: AppSize.s3,
                 children: [
                   IconAndText(text: "Mannage Plans", icon: Icons.edit_square),
-                  SizedBox(height: 10),
+
                   PlansTable(),
                 ],
               ),

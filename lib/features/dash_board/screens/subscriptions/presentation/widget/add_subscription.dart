@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_plan_model.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
@@ -77,37 +76,37 @@ class _AddSubscriptionState extends State<AddSubscription> {
 
               return Container(
                 width: ScreenSize.width / 3.4,
-                height: ScreenSize.height / 2,
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(AppPadding.p4),
                 decoration: BoxDecoration(
-                  color: Col.dark2,
-                  borderRadius: BorderRadius.circular(20),
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(RadiusSize.r16),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: AppSize.s3,
                   children: [
                     // header
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconAndText(
                           text: "Add Subscription",
                           icon: Icons.person,
                         ),
-                        const Spacer(),
+
                         TextButton.icon(
                           onPressed: addSubscription,
-                          icon: Icon(Icons.person_add, color: Col.light2),
+                          icon: Icon(
+                            Icons.person_add_outlined,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                           label: Text(
                             "Add",
-                            style: TextStyle(
-                              color: Col.light2,
-                              fontFamily: Fonts.names,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
 
                     // Number field
                     SizedBox(
@@ -126,7 +125,6 @@ class _AddSubscriptionState extends State<AddSubscription> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 10),
 
                     // Dropdown for plan selection
                     SizedBox(
@@ -134,7 +132,7 @@ class _AddSubscriptionState extends State<AddSubscription> {
                       child: CustomDropdownField(
                         value: selectedPlan?.name,
                         items: plans.map((p) => p.name).toList(),
-                        hint: "Select Subscription Type",
+                        hint: "Subscription Type",
                         onChanged: (value) {
                           setState(() {
                             selectedPlan = plans.firstWhere(
@@ -150,21 +148,16 @@ class _AddSubscriptionState extends State<AddSubscription> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 10),
 
                     // Price text
                     if (selectedPlan != null)
                       Text(
                         "Subscription Price:- \n${selectedPlan!.price} EGP",
-                        style: TextStyle(
-                          color: Col.light2,
-                          fontFamily: Fonts.names,
-                          fontSize: 25,
-                        ),
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
 
                     if (subState is SubscriptionLoading) ...[
-                      const SizedBox(height: 15),
+                      SizedBox(height: AppSize.s5),
                       const Center(child: CircularIndicator()),
                     ],
                   ],

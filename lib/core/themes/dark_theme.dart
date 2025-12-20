@@ -257,29 +257,29 @@ ThemeData getDarkTheme() {
       headerHelpStyle: getMediumStyle(
         color: ColorManager.white.withAlpha(220),
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s6,
+        fontSize: FontSize.s4,
       ),
       headerHeadlineStyle: getBoldStyle(
         color: ColorManager.white,
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s10,
+        fontSize: FontSize.s7,
       ),
 
       // Body text
       weekdayStyle: getMediumStyle(
         color: ColorManager.light.withAlpha(200),
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s8,
+        fontSize: FontSize.s6,
       ),
       dayStyle: getRegularStyle(
         color: ColorManager.white,
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s6,
+        fontSize: FontSize.s5,
       ),
       yearStyle: getRegularStyle(
         color: ColorManager.white,
         fontFamily: FontConstants.libertinusFamily,
-        fontSize: FontSize.s7,
+        fontSize: FontSize.s5,
       ),
 
       // Day cell shape
@@ -488,8 +488,6 @@ ThemeData getDarkTheme() {
     ),
 
     // Dropdown Theme
-
-
     checkboxTheme: CheckboxThemeData(
       checkColor: WidgetStatePropertyAll(ColorManager.white),
       overlayColor: WidgetStatePropertyAll(ColorManager.white),

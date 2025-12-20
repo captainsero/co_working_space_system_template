@@ -24,7 +24,6 @@ class _ReservationCheckoutState extends State<ReservationCheckout> {
   @override
   Widget build(BuildContext context) {
     TextEditingController priceController = TextEditingController();
-    ScreenSize.intial(context);
     return TextButton.icon(
       onPressed: () async {
         await Hive.openBox<CheckoutItems>(widget.res.id!.toString());

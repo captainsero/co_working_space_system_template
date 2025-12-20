@@ -109,6 +109,7 @@ class ExpensesTable extends StatelessWidget {
                                 child: Icon(
                                   Icons.delete,
                                   color: Theme.of(context).colorScheme.error,
+                                  size: AppSize.s7,
                                 ),
                               ),
                             ),

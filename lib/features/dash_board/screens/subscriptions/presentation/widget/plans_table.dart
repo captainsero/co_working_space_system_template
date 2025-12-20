@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_plan_model.dart';
 import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -24,10 +25,10 @@ class PlansTable extends StatelessWidget {
         return Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {
-            0: FlexColumnWidth(2),
+            0: FlexColumnWidth(3),
             1: FlexColumnWidth(2),
-            2: FlexColumnWidth(2),
-            3: FlexColumnWidth(2),
+            2: FlexColumnWidth(1),
+            3: FlexColumnWidth(3),
             4: FlexColumnWidth(2),
             5: FlexColumnWidth(1.5),
           },
@@ -37,7 +38,7 @@ class PlansTable extends StatelessWidget {
                 TableHeader("Name"),
                 TableHeader("Price"),
                 TableHeader("Days"),
-                TableHeader("Subscriptions"),
+                Center(child: TableHeader("Subscriptions")),
                 TableHeader("Hours"),
                 Center(child: TableHeader("Actions")),
               ],
@@ -48,7 +49,7 @@ class PlansTable extends StatelessWidget {
                   TableCell1(ele.name),
                   TableCell1("${ele.price}"),
                   TableCell1("${ele.days}"),
-                  TableCell1(ele.subscriptionsNum),
+                  Center(child: TableCell1(ele.subscriptionsNum)),
                   TableCell1(ele.hours == 0 ? 'Unlimited' : ele.hours),
                   BlocBuilder<PlansCubit, PlansState>(
                     builder: (context, state) {
@@ -63,8 +64,12 @@ class PlansTable extends StatelessWidget {
                           );
                         },
                         icon: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: const Icon(Icons.delete, color: Colors.red),
+                          padding: EdgeInsets.all(AppPadding.p2),
+                          child: Icon(
+                            Icons.delete,
+                            color: Theme.of(context).colorScheme.error,
+                            size: AppSize.s7,
+                          ),
                         ),
                       );
                     },

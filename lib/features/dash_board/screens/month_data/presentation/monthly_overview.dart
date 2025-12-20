@@ -47,7 +47,6 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
 
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
 
     final int startYear = 2020;
     final int endYear = DateTime.now().year + 1;

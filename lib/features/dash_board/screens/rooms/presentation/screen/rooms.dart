@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/add_reservation.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/available_rooms.dart';
@@ -22,7 +21,6 @@ class _RoomsState extends State<Rooms> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

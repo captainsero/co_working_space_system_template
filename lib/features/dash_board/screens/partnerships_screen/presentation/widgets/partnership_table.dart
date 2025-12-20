@@ -60,6 +60,7 @@ class PartnershipTable extends StatelessWidget {
                       icon: Icon(
                         Icons.delete,
                         color: Theme.of(context).colorScheme.error,
+                        size: AppSize.s7,
                       ),
                     ),
                     IconButton(
@@ -73,7 +74,7 @@ class PartnershipTable extends StatelessWidget {
                         color: offer.active
                             ? ColorManager.green
                             : ColorManager.grey,
-                        size: AppSize.s10,
+                        size: AppSize.s7,
                       ),
                     ),
                   ],

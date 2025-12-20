@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:toastification/toastification.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/offer_class.dart';
@@ -92,8 +93,6 @@ class _PartnershipFormState extends State<PartnershipForm> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
-
     return Container(
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
@@ -106,10 +105,12 @@ class _PartnershipFormState extends State<PartnershipForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: AppSize.s3,
           children: [
-            Text(
-              "Add New Partnership",
-              style: Theme.of(context).textTheme.bodyMedium,
+            IconAndText(
+              text: "Add New PartnerShip",
+              icon: Icons.add_link_sharp,
             ),
+
+            SizedBox(height: AppSize.s3),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

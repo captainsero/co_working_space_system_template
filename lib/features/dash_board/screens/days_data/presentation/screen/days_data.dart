@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
@@ -53,7 +52,6 @@ class _DaysDataState extends State<DaysData> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
 
     return BlocBuilder<DaysDataCubit, DaysDataState>(
       builder: (context, state) {
@@ -74,7 +72,6 @@ class _DaysDataState extends State<DaysData> {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: AppSize.s5,
             children: [
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

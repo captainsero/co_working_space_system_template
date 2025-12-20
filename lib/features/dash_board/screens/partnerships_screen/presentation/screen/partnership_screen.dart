@@ -18,12 +18,12 @@ class PartnershipScreen extends StatefulWidget {
 class _PartnershipScreenState extends State<PartnershipScreen> {
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
-
     return SingleChildScrollView(
       child: Column(
         children: [
           HeadText(text: "Partnerships"),
+
+          SizedBox(height: AppSize.s5),
 
           /// Add Offer Form
           PartnershipForm(),

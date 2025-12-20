@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/subscription_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/circular_indicator.dart';
@@ -78,8 +79,12 @@ class _SubscriptionTableState extends State<SubscriptionTable> {
                   );
                 },
                 icon: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: const Icon(Icons.delete, color: Colors.red),
+                  padding: EdgeInsets.all(AppPadding.p2),
+                  child: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.error,
+                    size: AppSize.s7,
+                  ),
                 ),
               ),
             ],

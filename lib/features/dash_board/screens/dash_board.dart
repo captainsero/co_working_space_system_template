@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/features/app_bar/presentation/screen/app_bar_main.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/screen_switcher.dart';
@@ -25,7 +24,6 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenSize.intial(context);
 
     return Scaffold(
       appBar: AppBarMain(),
