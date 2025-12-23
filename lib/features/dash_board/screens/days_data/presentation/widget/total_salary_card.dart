@@ -6,6 +6,7 @@ class TotalSalaryCard extends StatelessWidget {
   final double expenses;
   final double revenues;
   final String dateFormat;
+  final double itemsTotal;
 
   const TotalSalaryCard({
     super.key,
@@ -13,6 +14,7 @@ class TotalSalaryCard extends StatelessWidget {
     required this.dateFormat,
     required this.expenses,
     required this.revenues,
+    required this.itemsTotal,
   });
 
   @override
@@ -64,6 +66,11 @@ class TotalSalaryCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
+          ),
+
+          Text(
+            "Items Revenues: $itemsTotal EGP",
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         ],
       ),

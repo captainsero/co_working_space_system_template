@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -25,6 +26,9 @@ class ReservationPayButton extends StatelessWidget {
         final input = priceController.text.trim();
         final value = double.tryParse(input);
 
+        final totalBox = Hive.box<double>("itemsTotal");
+        final itemsTotal = totalBox.get('${res.id!}total') ?? 0.0;
+
         if (value == null) {
           ModernToast.showToast(
             context,
@@ -37,8 +41,11 @@ class ReservationPayButton extends StatelessWidget {
 
         res.price = value;
 
-        context.read<TimeScreenCubit>().upsertRoom(Validators.choosenDay, res);
-
+        context.read<TimeScreenCubit>().upsertRoom(
+          Validators.choosenDay,
+          res,
+          itemsTotal,
+        );
         context.read<ReservationCubit>().deleteRev(res.id!);
 
         context.read<ItemsCubit>().updateQuantity(res.id!.toString());
