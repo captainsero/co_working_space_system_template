@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/constants/color_manager.dart';
-import 'package:team_egypt_v3/core/constants/fonts_manager.dart';
 
 class CardText extends StatelessWidget {
   const CardText({super.key, required this.text, required this.itemText});
@@ -12,7 +10,7 @@ class CardText extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectableText(
       '$text : ${itemText ?? ''}',
-      style: TextStyle(fontFamily: Fonts.head, fontSize: 20, color: Col.light2),
+      style: Theme.of(context).textTheme.bodyMedium,
     );
   }
 }
