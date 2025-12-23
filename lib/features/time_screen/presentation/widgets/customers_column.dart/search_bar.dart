@@ -27,6 +27,7 @@ class SearchByNumber extends StatelessWidget {
             prefixIcon: Icon(
               Icons.search,
               color: Theme.of(context).colorScheme.tertiary,
+              size: AppSize.s7,
             ),
           ),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],

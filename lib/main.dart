@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<DaysDataCubit>(create: (_) => DaysDataCubit()),
             BlocProvider<PartnerShipCubit>(create: (_) => PartnerShipCubit()),
             BlocProvider<SubscriptionCubit>(
-              create: (_) => SubscriptionCubit()..getSubscriptions(),
+              create: (_) => SubscriptionCubit()..getSubscriptions()
             ),
             BlocProvider<PlansCubit>(create: (_) => PlansCubit()..getPlans()),
             BlocProvider<RoomsCubit>(create: (_) => RoomsCubit()..getRooms()),
