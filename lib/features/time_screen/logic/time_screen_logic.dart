@@ -63,6 +63,7 @@ class TimeScreenLogic {
   static Future<void> tryInsertUser(
     BuildContext context,
     TextEditingController numberController,
+    bool isDialog,
   ) async {
     final number = numberController.text.trim();
 
@@ -83,7 +84,9 @@ class TimeScreenLogic {
     );
 
     if (sub != null) {
-      Navigator.of(context).pop();
+      if (isDialog) {
+        Navigator.of(context).pop();
+      }
       final planMin = sub.planHours * 60;
 
       if (sub.endDate.isBefore(DateTime.now())) {
@@ -106,7 +109,9 @@ class TimeScreenLogic {
         BlocProvider.of<InTeamCubit>(context).loadUsers();
         numberController.clear();
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.of(context).pop();
+          if (isDialog) {
+            Navigator.of(context).pop();
+          }
         });
         ModernToast.showToast(
           context,

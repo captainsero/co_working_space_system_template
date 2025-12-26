@@ -32,7 +32,7 @@ class CheckinDialog extends StatelessWidget {
           controller: numberController,
           autofocus: true,
           onSubmitted: (_) =>
-              TimeScreenLogic.tryInsertUser(context, numberController),
+              TimeScreenLogic.tryInsertUser(context, numberController, true),
           decoration: InputDecoration(hintText: "Enter Number"),
         ),
       ),
@@ -44,7 +44,7 @@ class CheckinDialog extends StatelessWidget {
 
         ElevatedButton(
           onPressed: () =>
-              TimeScreenLogic.tryInsertUser(context, numberController),
+              TimeScreenLogic.tryInsertUser(context, numberController, true),
           child: Text("Add"),
         ),
       ],
