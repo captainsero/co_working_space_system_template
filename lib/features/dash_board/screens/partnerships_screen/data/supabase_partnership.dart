@@ -115,23 +115,51 @@ class SupabasePartnership {
     }
   }
 
-  static Future<bool> isActive(String code) async {
+  static Future<List<OfferClass>> getAllActiveOffers() async {
     try {
       final response = await Supabase.instance.client
-          .from('partnership')
-          .select('active')
-          .eq('offer_code', code.trim());
+          .from("partnership")
+          .select()
+          .eq('active', true)
+          .order('id', ascending: true); // 👈 keep order stable
 
-      if (response.isNotEmpty) {
-        return response[0]['active'] as bool;
-      } else {
-        return false; // no row found = not active
+      if (response.isEmpty) {
+        return [];
       }
+
+      return response.map<OfferClass>((offerData) {
+        return OfferClass(
+          name: offerData['name'] as String,
+          code: offerData['offer_code'] as String,
+          type: offerData['offer_type'] as String,
+          value: (offerData['offer_value'] as num).toDouble(),
+          description: offerData['description'] as String,
+          active: offerData['active'] as bool,
+        );
+      }).toList();
     } catch (e) {
-      print("Error checking active: $e");
-      return false;
+      print("Error fetching offers: $e");
+      return [];
     }
   }
+
+  // static Future<bool> isActive(String code) async {
+  //   try {
+  //     final response = await Supabase.instance.client
+  //         .from('partnership')
+  //         .select('active')
+  //         .eq('offer_code', code.trim());
+
+  //     if (response.isNotEmpty) {
+  //       return response[0]['active'] as bool;
+  //     } else {
+  //       return false; // no row found = not active
+  //     }
+  //   } catch (e) {
+  //     print("Error checking active: $e");
+  //     return false;
+  //   }
+  // }
 
   static Future<void> toggleActive(String code) async {
     try {

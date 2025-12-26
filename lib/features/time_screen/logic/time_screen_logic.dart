@@ -244,11 +244,13 @@ class TimeScreenLogic {
         hours = 0;
       }
     }
+
     final offer = await SupabasePartnership.getOfferByCode(
       user.partnershipCode,
     );
     final finalTotal = TimeScreenLogic.applyOffer(baseTotal, hours, offer);
     late String offerDis;
+
     if (user.isSub && offer != null) {
       offerDis = "Subscribed And ${offer.description}";
     } else {
@@ -256,6 +258,7 @@ class TimeScreenLogic {
           ? "Subscribed"
           : (offer != null ? offer.description : "No Offer");
     }
+
     print("beffor the get total done");
 
     context.read<TimeScreenCubit>().getTotal(Validators.choosenDay);
@@ -275,6 +278,7 @@ class TimeScreenLogic {
               priceController: priceController,
               durationString: durationString,
               timeSpent: timeSpent,
+              hours: hours,
             );
           },
         );

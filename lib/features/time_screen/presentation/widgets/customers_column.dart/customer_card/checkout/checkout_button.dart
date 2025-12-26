@@ -84,6 +84,7 @@ class _CheckoutButtonState extends State<CheckoutButton> {
                   priceController: priceController,
                   durationString: durationString,
                   timeSpent: timeSpent,
+                  hours: hours,
                 );
               },
             );

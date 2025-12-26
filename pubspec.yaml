@@ -45,7 +45,6 @@ dependencies:
   hive_flutter: ^1.1.0
   intl: ^0.20.2
   path: ^1.9.1
-  rename_app: ^1.6.5
   supabase_flutter: ^2.9.1
   toastification: ^3.0.3
   virtual_keyboard_multi_language: ^1.1.2
@@ -57,6 +56,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   hive_generator: ^2.0.1
+  rename_app: ^1.6.5
+  flutter_launcher_icons: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,6 +72,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/icon.png
     - .env
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
