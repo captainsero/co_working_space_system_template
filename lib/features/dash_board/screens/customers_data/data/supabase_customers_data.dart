@@ -72,6 +72,7 @@ class SupabaseCustomersData {
       final response = await Supabase.instance.client
           .from("teamegypt_users_data")
           .select()
+          .order('id', ascending: true)
           .range(offset, offset + limit - 1); // range is inclusive
       return List<Map<String, dynamic>>.from(response);
     } catch (e) {
