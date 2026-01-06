@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/app_bar/presentation/screen/app_bar_main.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/screen_switcher.dart';
@@ -17,7 +18,7 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   void initState() {
-    context.read<CustomersDataCubit>().loadPage(0);
+    context.read<CustomersDataCubit>().loadPage(0, Validators.sortById);
     super.initState();
   }
 

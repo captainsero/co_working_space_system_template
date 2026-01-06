@@ -10,13 +10,14 @@ class CustomersDataCubit extends Cubit<CustomersDataState> {
   int _currentPage = 0;
   static const int _limit = 50;
 
-  Future<void> loadPage(int page) async {
+  Future<void> loadPage(int page, bool sortById) async {
     emit(CustomersDataLoading(state.selectedPage));
     try {
       final offset = page * _limit;
       final pageData = await CustomersDataLogic.getUsersPaginated(
         _limit,
         offset,
+        sortById, // Pass the boolean directly
       );
 
       _currentPage = page;
@@ -26,11 +27,12 @@ class CustomersDataCubit extends Cubit<CustomersDataState> {
     }
   }
 
-  void nextPage() => loadPage(_currentPage + 1);
+  // Update nextPage and previousPage to accept sorting parameter
+  void nextPage(bool sortById) => loadPage(_currentPage + 1, sortById);
 
-  void previousPage() {
+  void previousPage(bool sortById) {
     if (_currentPage > 0) {
-      loadPage(_currentPage - 1);
+      loadPage(_currentPage - 1, sortById);
     }
   }
 

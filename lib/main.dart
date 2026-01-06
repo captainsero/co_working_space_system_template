@@ -12,6 +12,7 @@ import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/themes/dark_theme.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/sorting_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/logic/cubit/items_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/month_data/logic/cubit/month_data_cubit.dart';
@@ -97,7 +98,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<DaysDataCubit>(create: (_) => DaysDataCubit()),
             BlocProvider<PartnerShipCubit>(create: (_) => PartnerShipCubit()),
             BlocProvider<SubscriptionCubit>(
-              create: (_) => SubscriptionCubit()..getSubscriptions()
+              create: (_) => SubscriptionCubit()..getSubscriptions(),
             ),
             BlocProvider<PlansCubit>(create: (_) => PlansCubit()..getPlans()),
             BlocProvider<RoomsCubit>(create: (_) => RoomsCubit()..getRooms()),
@@ -108,6 +109,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<ItemsCubit>(create: (_) => ItemsCubit()),
             BlocProvider<MonthDataCubit>(create: (_) => MonthDataCubit()),
             BlocProvider<TasksCubit>(create: (_) => TasksCubit()..getTasks()),
+            BlocProvider<SortingCubit>(create: (_) => SortingCubit()),
           ],
           child: MaterialApp(
             supportedLocales: S.delegate.supportedLocales,
