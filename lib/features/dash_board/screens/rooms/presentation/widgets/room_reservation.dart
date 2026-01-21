@@ -17,7 +17,7 @@ class RoomReservation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenSize.height / 2.5,
+      height: ScreenSize.height / 2,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,

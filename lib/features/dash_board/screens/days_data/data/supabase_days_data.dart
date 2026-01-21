@@ -2,7 +2,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:team_egypt_v3/core/models/expenses_model.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/stuff_model.dart';
-import 'package:team_egypt_v3/core/utils/validators.dart';
 
 class SupabaseDaysData {
   static Future<List<Map<String, dynamic>>> getDayUsers(DateTime date) async {
@@ -182,14 +181,14 @@ class SupabaseDaysData {
     }
   }
 
-  static Future<double> getItemsTotal() async {
+  static Future<double> getItemsTotal(DateTime date) async {
     try {
       final client = Supabase.instance.client;
 
       final data = await client
           .from('days_data')
           .select('items_total')
-          .eq('date', Validators.choosenDay)
+          .eq('date', date)
           .maybeSingle(); // returns null if no row[web:49]
 
       if (data == null || data['items_total'] == null) {

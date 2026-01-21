@@ -7,7 +7,7 @@ abstract class CustomersDataState {
 }
 
 class CustomersDataInitial extends CustomersDataState {
-  const CustomersDataInitial() : super(1);
+  const CustomersDataInitial() : super(8);
 }
 
 class CustomersDataLoading extends CustomersDataState {

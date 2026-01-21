@@ -26,7 +26,7 @@ class _SubsciptionsState extends State<Subsciptions> {
           AddSubscription(),
 
           Container(
-            height: ScreenSize.height / 2.5,
+            height: ScreenSize.height / 2,
             padding: EdgeInsets.all(AppPadding.p4),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
@@ -49,7 +49,7 @@ class _SubsciptionsState extends State<Subsciptions> {
           ),
 
           Container(
-            height: ScreenSize.height / 2.5,
+            height: ScreenSize.height / 2,
             padding: EdgeInsets.all(AppPadding.p4),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,

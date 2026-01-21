@@ -13,7 +13,7 @@ class CustomersTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width,
-      height: ScreenSize.height / 3,
+      height: ScreenSize.height / 2,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
