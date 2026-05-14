@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:team_egypt_v3/core/models/tools_model.dart';
 
 class ReservationModel {
   final int? id;
@@ -12,7 +11,7 @@ class ReservationModel {
   final TimeOfDay to;
   final int people;
   final String description;
-  final List<ToolsModel> tools;
+  final List tools;
   final String clientType;
 
   ReservationModel({
@@ -47,8 +46,8 @@ class ReservationModel {
       ),
       to: TimeOfDay(hour: int.parse(toParts[0]), minute: int.parse(toParts[1])),
       people: json['people'] as int,
-      description: json['decription'] as String,
-      tools: json['tools'] as List<ToolsModel>,
+      description: json['description'] as String,
+      tools: json['tools'],
       clientType: json['client_type'] as String,
     );
   }
@@ -63,7 +62,7 @@ class ReservationModel {
       "to": "${to.hour}:${to.minute.toString().padLeft(2, '0')}",
       "price": price,
       "people": people,
-      "decription": description,
+      "description": description,
       "tools": tools,
       "client_type": clientType,
     };

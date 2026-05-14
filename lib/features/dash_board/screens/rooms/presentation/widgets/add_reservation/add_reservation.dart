@@ -1,7 +1,9 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/core/models/reservation_date_model.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
@@ -27,52 +29,35 @@ class _AddReservationState extends State<AddReservation> {
   TextEditingController nameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
 
-  DateTime selectedDate = DateTime.now();
   String dateFormat = '';
-  TimeOfDay selectedFromTime = TimeOfDay.now();
-  TimeOfDay selectedToTime = TimeOfDay.now();
+  List<ReservationDateModel> selectedReservations = [];
   RoomsModel? selectedRoom;
   List<RoomsModel> rooms = [];
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _pickFromTime() async {
-    final picked = await showTimePicker(
+  Future<void> _pickMultiDates() async {
+    final dates = await showCalendarDatePicker2Dialog(
       context: context,
-      initialTime: TimeOfDay.now(),
+      config: CalendarDatePicker2WithActionButtonsConfig(
+        calendarType: CalendarDatePicker2Type.multi,
+      ),
+      dialogSize: const Size(500, 400),
+      value: [],
+      borderRadius: BorderRadius.circular(15),
     );
 
-    if (picked != null) {
+    if (dates != null && dates.isNotEmpty) {
       setState(() {
-        selectedFromTime = picked;
-      });
-    }
-  }
-
-  Future<void> _pickToTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (picked != null) {
-      setState(() {
-        selectedToTime = picked;
-      });
-    }
-  }
-
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null) {
-      setState(() {
-        selectedDate = picked;
-        dateFormat = StringExtensions.formatDate(selectedDate);
+        selectedReservations = dates
+            .whereType<DateTime>()
+            .map(
+              (date) => ReservationDateModel(
+                date: date,
+                from: TimeOfDay.now(),
+                to: TimeOfDay.now(),
+              ),
+            )
+            .toList();
       });
     }
   }
@@ -96,43 +81,57 @@ class _AddReservationState extends State<AddReservation> {
         builder: (context, state) {
           void addRes() async {
             if (_formKey.currentState!.validate()) {
-              final price = StringExtensions.calculateTotal(
-                selectedFromTime,
-                selectedToTime,
-                selectedRoom!.price,
-              );
-              ReservationModel rev = ReservationModel(
-                name: nameController.text,
-                number: numberController.text,
-                room: selectedRoom!.name,
-                date: selectedDate,
-                from: selectedFromTime,
-                to: selectedToTime,
-                price: price,
-                //TODO: add variables
-                people: 0,
-                description: '',
-                tools: [],
-                clientType: '',
-              );
+              bool hasError = false;
 
-              final isInsert = await context.read<ReservationCubit>().insertRev(
-                rev,
-              );
-              if (isInsert) {
+              for (final item in selectedReservations) {
+                final price = StringExtensions.calculateTotal(
+                  item.from,
+                  item.to,
+                  selectedRoom!.price,
+                );
+
+                ReservationModel rev = ReservationModel(
+                  name: nameController.text,
+                  number: numberController.text,
+                  room: selectedRoom!.name,
+                  date: item.date,
+                  from: item.from,
+                  to: item.to,
+                  price: price,
+                  people: 0,
+                  description: '',
+                  tools: [],
+                  clientType: '',
+                );
+
+                final isInsert = await context
+                    .read<ReservationCubit>()
+                    .insertRev(rev);
+
+                if (!isInsert) {
+                  hasError = true;
+                }
+              }
+
+              if (!hasError) {
                 ModernToast.showToast(
                   context,
                   'Success',
-                  'Reservation Inserted successfully',
+                  'Reservations inserted successfully',
                   ToastificationType.success,
                 );
+
                 nameController.clear();
                 numberController.clear();
+
+                setState(() {
+                  selectedReservations.clear();
+                });
               } else {
                 ModernToast.showToast(
                   context,
                   'Error',
-                  'There is a reservation with the same time or number',
+                  'Some reservations conflict with existing times',
                   ToastificationType.error,
                 );
               }
@@ -235,41 +234,97 @@ class _AddReservationState extends State<AddReservation> {
                   ),
 
                   /// Date + Time pickers
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: AppSize.s3,
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          DatePickerButton(onPick: _pickDate),
-                          Text(
-                            dateFormat.isEmpty ? "No date" : dateFormat,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
+                      DatePickerButton(onPick: _pickMultiDates),
 
-                      Column(
-                        children: [
-                          TimePickerButton(
-                            onPick: _pickFromTime,
-                            title: "From",
+                      const SizedBox(height: 20),
+
+                      if (selectedReservations.isNotEmpty)
+                        SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                            itemCount: selectedReservations.length,
+                            itemBuilder: (context, index) {
+                              final item = selectedReservations[index];
+
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        StringExtensions.formatDate(item.date),
+                                      ),
+
+                                      Row(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              TimePickerButton(
+                                                title: "From",
+                                                onPick: () async {
+                                                  final picked =
+                                                      await showTimePicker(
+                                                        context: context,
+                                                        initialTime: item.from,
+                                                      );
+
+                                                  if (picked != null) {
+                                                    setState(() {
+                                                      selectedReservations[index] =
+                                                          ReservationDateModel(
+                                                            date: item.date,
+                                                            from: picked,
+                                                            to: item.to,
+                                                          );
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                              Text(_formatTime(item.from)),
+                                            ],
+                                          ),
+
+                                          const SizedBox(width: 20),
+
+                                          Column(
+                                            children: [
+                                              TimePickerButton(
+                                                title: "To",
+                                                onPick: () async {
+                                                  final picked =
+                                                      await showTimePicker(
+                                                        context: context,
+                                                        initialTime: item.to,
+                                                      );
+
+                                                  if (picked != null) {
+                                                    setState(() {
+                                                      selectedReservations[index] =
+                                                          ReservationDateModel(
+                                                            date: item.date,
+                                                            from: item.from,
+                                                            to: picked,
+                                                          );
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                              Text(_formatTime(item.to)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                          Text(
-                            _formatTime(selectedFromTime),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          TimePickerButton(onPick: _pickToTime, title: "To"),
-                          Text(
-                            _formatTime(selectedToTime),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
+                        ),
                     ],
                   ),
                 ],
