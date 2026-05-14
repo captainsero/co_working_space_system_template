@@ -3,7 +3,6 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/custom_barcode.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/customer_card_dashboard/card_text.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/customer_card_dashboard/partnership_future_builder.dart';
 
 class CustomerCardDashboard extends StatelessWidget {
   const CustomerCardDashboard({super.key, required this.teamData});
@@ -50,8 +49,6 @@ class CustomerCardDashboard extends StatelessWidget {
                           item["total_time"],
                         ),
                       ),
-
-                      PartnershipFutureBuilder(item: item),
                     ],
                   ),
 

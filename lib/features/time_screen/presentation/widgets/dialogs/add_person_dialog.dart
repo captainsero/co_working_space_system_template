@@ -64,7 +64,7 @@ class AddPersonDialog extends StatelessWidget {
           ),
           child: const Text("Cancel"),
         ),
-        const Spacer(),
+        SizedBox(width: AppSize.s2,),
         ElevatedButton(
           onPressed: () => TimeScreenLogic.addPersonButtonLogic(
             nameController: nameController,

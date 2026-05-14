@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/models/in_team_users.dart';
-import 'package:team_egypt_v3/features/time_screen/logic/time_screen_logic.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/checkout_button.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/note_button/note_button.dart';
@@ -68,18 +67,6 @@ class CustomerCard extends StatelessWidget {
                       Text(
                         StringExtensions.getElapsedTime(item.timer),
                         style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-
-                      FutureBuilder<String>(
-                        future: TimeScreenLogic.getPartnerShipName(
-                          item.partnershipCode,
-                        ),
-                        builder: (context, snapshot) {
-                          return IconAndText(
-                            icon: Icons.group,
-                            text: snapshot.data ?? "No Partnership",
-                          );
-                        },
                       ),
                     ],
                   ),
