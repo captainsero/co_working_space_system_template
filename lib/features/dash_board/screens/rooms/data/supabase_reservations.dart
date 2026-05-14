@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:team_egypt_v3/core/models/client_type.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
+import 'package:team_egypt_v3/core/models/tools_model.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/data/supabase_rooms.dart';
 
 class SupabaseReservations {
@@ -105,6 +107,28 @@ class SupabaseReservations {
     } catch (e) {
       print("Error deleting Rev: $e");
       return false;
+    }
+  }
+
+  static Future<List<ToolsModel>> getTools() async {
+    try {
+      final response = await supabase.from('rooms_tools').select();
+
+      return (response as List).map((e) => ToolsModel.fromJson(e)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  static Future<List<ClientType>> getClientTypes() async {
+    try {
+      final response = await supabase.from('client_type').select();
+
+      return (response as List).map((e) => ClientType.fromJson(e)).toList();
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 }

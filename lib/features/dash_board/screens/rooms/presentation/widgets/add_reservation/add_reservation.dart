@@ -1,8 +1,10 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/core/constants/color_manager.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/core/models/client_type.dart';
 import 'package:team_egypt_v3/core/models/reservation_date_model.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
@@ -28,12 +30,21 @@ class AddReservation extends StatefulWidget {
 class _AddReservationState extends State<AddReservation> {
   TextEditingController nameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController peopleController = TextEditingController();
 
   String dateFormat = '';
   List<ReservationDateModel> selectedReservations = [];
   RoomsModel? selectedRoom;
   List<RoomsModel> rooms = [];
   final _formKey = GlobalKey<FormState>();
+  ClientType? selectedClientType;
+
+  @override
+  initState() {
+    context.read<ReservationCubit>().initReservationForm();
+    super.initState();
+  }
 
   Future<void> _pickMultiDates() async {
     final dates = await showCalendarDatePicker2Dialog(
@@ -72,6 +83,7 @@ class _AddReservationState extends State<AddReservation> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: ScreenSize.height,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
@@ -82,6 +94,7 @@ class _AddReservationState extends State<AddReservation> {
           void addRes() async {
             if (_formKey.currentState!.validate()) {
               bool hasError = false;
+              final peaoleNumber = int.parse(peopleController.text);
 
               for (final item in selectedReservations) {
                 final price = StringExtensions.calculateTotal(
@@ -98,10 +111,21 @@ class _AddReservationState extends State<AddReservation> {
                   from: item.from,
                   to: item.to,
                   price: price,
-                  people: 0,
-                  description: '',
-                  tools: [],
-                  clientType: '',
+                  people: peaoleNumber,
+                  description: descriptionController.text,
+                  tools: context
+                      .read<ReservationCubit>()
+                      .formState
+                      .selectedTools
+                      .map((e) => e.name)
+                      .toList(),
+                  clientType:
+                      context
+                          .read<ReservationCubit>()
+                          .formState
+                          .selectedClientType
+                          ?.type ??
+                      '',
                 );
 
                 final isInsert = await context
@@ -233,6 +257,119 @@ class _AddReservationState extends State<AddReservation> {
                     ],
                   ),
 
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: ScreenSize.width / 5.5,
+                        child: CustomTextField(
+                          controller: descriptionController,
+                          hint: "Description",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Description cannot be empty";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: ScreenSize.width / 7,
+                        child: CustomTextField(
+                          controller: peopleController,
+                          hint: "People number",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Paople cannot be empty";
+                            }
+
+                            if (!RegExp(r'^\d+$').hasMatch(value)) {
+                              return "People must contain only numbers";
+                            }
+
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: ScreenSize.width / 7,
+                        child: BlocBuilder<ReservationCubit, ReservationState>(
+                          builder: (context, state) {
+                            final cubit = context.read<ReservationCubit>();
+
+                            return CustomDropdownField(
+                              value: cubit.formState.selectedTool?.name,
+
+                              items: cubit.formState.tools
+                                  .map((e) => e.name)
+                                  .toList(),
+
+                              hint: "Select Tool",
+
+                              onChanged: (value) {
+                                final tool = cubit.formState.tools.firstWhere(
+                                  (e) => e.name == value,
+                                );
+
+                                cubit.selectTool(tool);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: ScreenSize.width / 5.5,
+                        child: CustomDropdownField(
+                          value: context
+                              .read<ReservationCubit>()
+                              .formState
+                              .selectedClientType
+                              ?.type,
+
+                          items: context
+                              .read<ReservationCubit>()
+                              .formState
+                              .clientTypes
+                              .map((e) => e.type)
+                              .toList(),
+
+                          hint: "Client Type",
+
+                          onChanged: (value) {
+                            final selected = context
+                                .read<ReservationCubit>()
+                                .formState
+                                .clientTypes
+                                .firstWhere((e) => e.type == value);
+
+                            context.read<ReservationCubit>().selectClientType(
+                              selected,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Wrap(
+                    spacing: 8,
+                    children: context
+                        .read<ReservationCubit>()
+                        .formState
+                        .selectedTools
+                        .map(
+                          (tool) => Chip(
+                            label: Text(tool.name),
+                            backgroundColor: ColorManager.orange,
+                            deleteIconColor: ColorManager.error,
+                            deleteIcon: Icon(Icons.close),
+                            onDeleted: () {
+                              context.read<ReservationCubit>().removeTool(tool);
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+
                   /// Date + Time pickers
                   Column(
                     children: [
@@ -242,7 +379,7 @@ class _AddReservationState extends State<AddReservation> {
 
                       if (selectedReservations.isNotEmpty)
                         SizedBox(
-                          height: 250,
+                          height: ScreenSize.height / 2,
                           child: ListView.builder(
                             itemCount: selectedReservations.length,
                             itemBuilder: (context, index) {
