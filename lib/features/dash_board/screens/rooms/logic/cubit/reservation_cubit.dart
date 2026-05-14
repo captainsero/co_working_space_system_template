@@ -1,76 +1,82 @@
 import 'package:bloc/bloc.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:team_egypt_v3/core/models/client_type.dart';
 import 'package:team_egypt_v3/core/models/reservation_date_model.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/models/tools_model.dart';
-import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/data/supabase_reservations.dart';
 
 part 'reservation_state.dart';
 
 class ReservationCubit extends Cubit<ReservationState> {
-  ReservationCubit() : super(ReservationInitial());
+  ReservationCubit() : super(const ReservationState());
 
-  ReservationFormState formState = ReservationFormState();
+  /// ========================
+  /// GET RESERVATIONS
+  /// ========================
+  void getResByDate({required DateTime date}) async {
+    emit(state.copyWith(isLoading: true));
 
-  void getAllRev() async {
-    emit(GetReservationLoading());
-    final reservations = await SupabaseReservations.getAllRev();
-    final reservationsByDate = await SupabaseReservations.getRevByDate(
-      Validators.choosenDay,
-    );
+    final reservationsByDate = await SupabaseReservations.getRevByDate(date);
 
     emit(
-      ReservationGet(
-        reservations: reservations,
-        reservationsByDate: reservationsByDate,
-      ),
+      state.copyWith(isLoading: false, reservationsByDate: reservationsByDate),
     );
   }
 
-  Future<bool> insertRev(ReservationModel newRev) async {
-    emit(InsertReservationLoading());
+  /// ========================
+  /// INSERT
+  /// ========================
+  Future<bool> insertRev(ReservationModel newRev, DateTime date) async {
+    emit(state.copyWith(isLoading: true));
+
     final rev = await SupabaseReservations.insertRev(newRev);
-    if (rev == true) {
-      getAllRev();
-      return true;
-      // Do NOT call getAllRev() here
-    } else {
-      getAllRev();
-      return false;
-      // Do NOT call getAllRev() here
-    }
+
+    getResByDate(date: date);
+
+    emit(state.copyWith(isLoading: false));
+
+    return rev;
   }
 
-  Future<bool> deleteRev(int id) async {
-    emit(DeleteReservationLoading());
+  /// ========================
+  /// DELETE
+  /// ========================
+  Future<bool> deleteRev(int id, DateTime date) async {
+    emit(state.copyWith(isLoading: true));
+
     final del = await SupabaseReservations.deleteRev(id);
 
-    if (del == false) {
-      getAllRev();
-      return false;
-      // Do NOT call getAllRev() here
-    } else {
-      getAllRev();
-      return true;
-      // Do NOT call getAllRev() here
-    }
+    getResByDate(date: date);
+
+    emit(state.copyWith(isLoading: false));
+
+    return del;
   }
 
+  /// ========================
+  /// INIT FORM DATA
+  /// ========================
   Future<void> initReservationForm() async {
     final tools = await SupabaseReservations.getTools();
 
     final clientTypes = await SupabaseReservations.getClientTypes();
 
-    formState = formState.copyWith(tools: tools, clientTypes: clientTypes);
-
-    emit(ReservationFormUpdated(formState));
+    emit(
+      state.copyWith(
+        formState: state.formState.copyWith(
+          tools: tools,
+          clientTypes: clientTypes,
+        ),
+      ),
+    );
   }
 
+  /// ========================
+  /// MULTI DATE PICKER
+  /// ========================
   Future<void> pickMultiDates(BuildContext context) async {
     final dates = await showCalendarDatePicker2Dialog(
       context: context,
@@ -81,33 +87,38 @@ class ReservationCubit extends Cubit<ReservationState> {
       value: [],
     );
 
-    if (dates != null) {
-      formState = formState.copyWith(
-        selectedDates: dates
-            .whereType<DateTime>()
-            .map(
-              (date) => ReservationDateModel(
-                date: date,
-                from: TimeOfDay.now(),
-                to: TimeOfDay.now(),
-              ),
-            )
-            .toList(),
-      );
+    if (dates == null) return;
 
-      emit(ReservationFormUpdated(formState));
-    }
+    final selectedDates = dates
+        .whereType<DateTime>()
+        .map(
+          (date) => ReservationDateModel(
+            date: date,
+            from: TimeOfDay.now(),
+            to: TimeOfDay.now(),
+          ),
+        )
+        .toList();
+
+    emit(
+      state.copyWith(
+        formState: state.formState.copyWith(selectedDates: selectedDates),
+      ),
+    );
   }
 
+  /// ========================
+  /// TIME UPDATES
+  /// ========================
   Future<void> updateFromTime(BuildContext context, int index) async {
     final picked = await showTimePicker(
       context: context,
-      initialTime: formState.selectedDates[index].from,
+      initialTime: state.formState.selectedDates[index].from,
     );
 
     if (picked == null) return;
 
-    final list = List<ReservationDateModel>.from(formState.selectedDates);
+    final list = List<ReservationDateModel>.from(state.formState.selectedDates);
 
     list[index] = ReservationDateModel(
       date: list[index].date,
@@ -115,20 +126,20 @@ class ReservationCubit extends Cubit<ReservationState> {
       to: list[index].to,
     );
 
-    formState = formState.copyWith(selectedDates: list);
-
-    emit(ReservationFormUpdated(formState));
+    emit(
+      state.copyWith(formState: state.formState.copyWith(selectedDates: list)),
+    );
   }
 
   Future<void> updateToTime(BuildContext context, int index) async {
     final picked = await showTimePicker(
       context: context,
-      initialTime: formState.selectedDates[index].to,
+      initialTime: state.formState.selectedDates[index].to,
     );
 
     if (picked == null) return;
 
-    final list = List<ReservationDateModel>.from(formState.selectedDates);
+    final list = List<ReservationDateModel>.from(state.formState.selectedDates);
 
     list[index] = ReservationDateModel(
       date: list[index].date,
@@ -136,48 +147,49 @@ class ReservationCubit extends Cubit<ReservationState> {
       to: picked,
     );
 
-    formState = formState.copyWith(selectedDates: list);
-
-    emit(ReservationFormUpdated(formState));
+    emit(
+      state.copyWith(formState: state.formState.copyWith(selectedDates: list)),
+    );
   }
 
+  /// ========================
+  /// CLIENT TYPE
+  /// ========================
   void selectClientType(ClientType type) {
-    formState = formState.copyWith(selectedClientType: type);
-
-    emit(ReservationFormUpdated(formState));
+    emit(
+      state.copyWith(
+        formState: state.formState.copyWith(selectedClientType: type),
+      ),
+    );
   }
 
+  /// ========================
+  /// TOOLS (MULTI SELECT)
+  /// ========================
   void addTool(ToolsModel tool) {
-    final tools = List<ToolsModel>.from(formState.selectedTools);
-
-    if (!tools.contains(tool)) {
-      tools.add(tool);
-    }
-
-    formState = formState.copyWith(selectedTools: tools);
-
-    emit(ReservationFormUpdated(formState));
-  }
-
-  void removeTool(ToolsModel tool) {
-    final tools = List<ToolsModel>.from(formState.selectedTools);
-
-    tools.remove(tool);
-
-    formState = formState.copyWith(selectedTools: tools);
-
-    emit(ReservationFormUpdated(formState));
-  }
-
-  void selectTool(ToolsModel tool) {
-    final tools = List<ToolsModel>.from(formState.selectedTools);
+    final tools = List<ToolsModel>.from(state.formState.selectedTools);
 
     if (!tools.any((e) => e.id == tool.id)) {
       tools.add(tool);
     }
 
-    formState = formState.copyWith(selectedTool: tool, selectedTools: tools);
+    emit(
+      state.copyWith(
+        formState: state.formState.copyWith(
+          selectedTools: tools,
+          selectedTool: tool,
+        ),
+      ),
+    );
+  }
 
-    emit(ReservationFormUpdated(formState));
+  void removeTool(ToolsModel tool) {
+    final tools = List<ToolsModel>.from(state.formState.selectedTools);
+
+    tools.removeWhere((e) => e.id == tool.id);
+
+    emit(
+      state.copyWith(formState: state.formState.copyWith(selectedTools: tools)),
+    );
   }
 }

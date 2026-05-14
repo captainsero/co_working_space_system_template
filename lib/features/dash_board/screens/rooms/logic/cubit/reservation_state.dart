@@ -1,66 +1,43 @@
 part of 'reservation_cubit.dart';
 
 @immutable
-sealed class ReservationState {}
+class ReservationState {
+  final bool isLoading;
 
-final class ReservationInitial extends ReservationState {}
-
-class InsertReservationLoading extends ReservationState {}
-
-class InsertReservationSuccess extends ReservationState {
-  final String message;
-
-  InsertReservationSuccess({required this.message});
-}
-
-class InsertReservationError extends ReservationState {
-  final String message;
-
-  InsertReservationError({required this.message});
-}
-
-class DeleteReservationLoading extends ReservationState {}
-
-class DeleteReservationSuccess extends ReservationState {
-  final String message;
-
-  DeleteReservationSuccess({required this.message});
-}
-
-class DeleteReservationError extends ReservationState {
-  final String message;
-
-  DeleteReservationError({required this.message});
-}
-
-class GetReservationLoading extends ReservationState {}
-
-class GetReservationSuccess extends ReservationState {
-  final String message;
-
-  GetReservationSuccess({required this.message});
-}
-
-class GetReservationError extends ReservationState {
-  final String message;
-
-  GetReservationError({required this.message});
-}
-
-class ReservationGet extends ReservationState {
-  final List<ReservationModel> reservations;
   final List<ReservationModel> reservationsByDate;
 
-  ReservationGet({
-    required this.reservations,
-    required this.reservationsByDate,
+  final ReservationFormState formState;
+
+  final String? errorMessage;
+  final String? successMessage;
+
+  const ReservationState({
+    this.isLoading = false,
+    this.reservationsByDate = const [],
+    this.formState = const ReservationFormState(),
+    this.errorMessage,
+    this.successMessage,
   });
-}
 
-class ReservationFormUpdated extends ReservationState {
-  final ReservationFormState form;
+  ReservationState copyWith({
+    bool? isLoading,
+    List<ReservationModel>? reservationsByDate,
+    ReservationFormState? formState,
+    String? errorMessage,
+    String? successMessage,
+  }) {
+    return ReservationState(
+      isLoading: isLoading ?? this.isLoading,
 
-  ReservationFormUpdated(this.form);
+      reservationsByDate: reservationsByDate ?? this.reservationsByDate,
+
+      formState: formState ?? this.formState,
+
+      errorMessage: errorMessage,
+
+      successMessage: successMessage,
+    );
+  }
 }
 
 class ReservationFormState {
@@ -73,7 +50,7 @@ class ReservationFormState {
   final bool isLoading;
   final ToolsModel? selectedTool;
 
-  ReservationFormState({
+  const ReservationFormState({
     this.selectedDates = const [],
     this.selectedTools = const [],
     this.tools = const [],

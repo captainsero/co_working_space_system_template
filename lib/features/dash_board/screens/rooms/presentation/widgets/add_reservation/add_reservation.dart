@@ -21,7 +21,8 @@ import 'package:toastification/toastification.dart';
 
 // ignore: must_be_immutable
 class AddReservation extends StatefulWidget {
-  const AddReservation({super.key});
+  const AddReservation({super.key, required this.date});
+  final DateTime date;
 
   @override
   State<AddReservation> createState() => _AddReservationState();
@@ -42,7 +43,6 @@ class _AddReservationState extends State<AddReservation> {
 
   @override
   initState() {
-    context.read<ReservationCubit>().initReservationForm();
     super.initState();
   }
 
@@ -114,6 +114,7 @@ class _AddReservationState extends State<AddReservation> {
                   description: descriptionController.text,
                   tools: context
                       .read<ReservationCubit>()
+                      .state
                       .formState
                       .selectedTools
                       .map((e) => e.name)
@@ -121,6 +122,7 @@ class _AddReservationState extends State<AddReservation> {
                   clientType:
                       context
                           .read<ReservationCubit>()
+                          .state
                           .formState
                           .selectedClientType
                           ?.type ??
@@ -129,7 +131,7 @@ class _AddReservationState extends State<AddReservation> {
 
                 final isInsert = await context
                     .read<ReservationCubit>()
-                    .insertRev(rev);
+                    .insertRev(rev, widget.date);
 
                 if (!isInsert) {
                   hasError = true;
@@ -161,7 +163,7 @@ class _AddReservationState extends State<AddReservation> {
             }
           }
 
-          if (state is InsertReservationLoading) {
+          if (state.isLoading) {
             return CircularProgressIndicator();
           } else {
             return Form(
@@ -297,20 +299,19 @@ class _AddReservationState extends State<AddReservation> {
                             final cubit = context.read<ReservationCubit>();
 
                             return CustomDropdownField(
-                              value: cubit.formState.selectedTool?.name,
+                              value: cubit.state.formState.selectedTool?.name,
 
-                              items: cubit.formState.tools
+                              items: cubit.state.formState.tools
                                   .map((e) => e.name)
                                   .toList(),
 
                               hint: "Select Tool",
 
                               onChanged: (value) {
-                                final tool = cubit.formState.tools.firstWhere(
-                                  (e) => e.name == value,
-                                );
+                                final tool = cubit.state.formState.tools
+                                    .firstWhere((e) => e.name == value);
 
-                                cubit.selectTool(tool);
+                                cubit.addTool(tool);
                               },
                             );
                           },
@@ -321,12 +322,14 @@ class _AddReservationState extends State<AddReservation> {
                         child: CustomDropdownField(
                           value: context
                               .read<ReservationCubit>()
+                              .state
                               .formState
                               .selectedClientType
                               ?.type,
 
                           items: context
                               .read<ReservationCubit>()
+                              .state
                               .formState
                               .clientTypes
                               .map((e) => e.type)
@@ -337,6 +340,7 @@ class _AddReservationState extends State<AddReservation> {
                           onChanged: (value) {
                             final selected = context
                                 .read<ReservationCubit>()
+                                .state
                                 .formState
                                 .clientTypes
                                 .firstWhere((e) => e.type == value);
@@ -353,6 +357,7 @@ class _AddReservationState extends State<AddReservation> {
                     spacing: 8,
                     children: context
                         .read<ReservationCubit>()
+                        .state
                         .formState
                         .selectedTools
                         .map(

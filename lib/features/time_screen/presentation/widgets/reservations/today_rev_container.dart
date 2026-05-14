@@ -36,81 +36,77 @@ class TodayRevContainer extends StatelessWidget {
           Expanded(
             child: BlocBuilder<ReservationCubit, ReservationState>(
               builder: (context, state) {
-                if (state is GetReservationLoading) {
+                if (state.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                if (state is ReservationGet) {
-                  final reservations = state.reservationsByDate;
+                final reservations = state.reservationsByDate;
 
-                  if (reservations.isEmpty) {
-                    return Center(
-                      child: Text(
-                        "No reservations today",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: reservations.length,
-                    itemBuilder: (context, index) {
-                      final res = reservations[index];
-                      return Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(AppPadding.p4),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: AppSize.s2,
-                            children: [
-                              /// Name + Status
-                              Row(
-                                children: [
-                                  SelectableText(
-                                    res.name,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleMedium,
-                                  ),
-                                  const Spacer(),
-                                  RoomCondition(from: res.from, to: res.to),
-                                ],
-                              ),
-
-                              /// Number
-                              IconAndText(
-                                text: res.number,
-                                icon: Icons.phone_outlined,
-                              ),
-
-                              /// Room
-                              IconAndText(
-                                text: res.room,
-                                icon: Icons.room_outlined,
-                              ),
-
-                              /// Time + Checkout
-                              Row(
-                                children: [
-                                  IconAndText(
-                                    text: StringExtensions.formatTimeRange(
-                                      res.from,
-                                      res.to,
-                                    ),
-                                    icon: Icons.watch_later_outlined,
-                                  ),
-                                  const Spacer(),
-                                  ReservationCheckout(res: res),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                if (reservations.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No reservations today",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                   );
                 }
 
-                return const SizedBox.shrink();
+                return ListView.builder(
+                  itemCount: reservations.length,
+                  itemBuilder: (context, index) {
+                    final res = reservations[index];
+                    return Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(AppPadding.p4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: AppSize.s2,
+                          children: [
+                            /// Name + Status
+                            Row(
+                              children: [
+                                SelectableText(
+                                  res.name,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
+                                ),
+                                const Spacer(),
+                                RoomCondition(from: res.from, to: res.to),
+                              ],
+                            ),
+
+                            /// Number
+                            IconAndText(
+                              text: res.number,
+                              icon: Icons.phone_outlined,
+                            ),
+
+                            /// Room
+                            IconAndText(
+                              text: res.room,
+                              icon: Icons.room_outlined,
+                            ),
+
+                            /// Time + Checkout
+                            Row(
+                              children: [
+                                IconAndText(
+                                  text: StringExtensions.formatTimeRange(
+                                    res.from,
+                                    res.to,
+                                  ),
+                                  icon: Icons.watch_later_outlined,
+                                ),
+                                const Spacer(),
+                                ReservationCheckout(res: res),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ),
