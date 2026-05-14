@@ -110,33 +110,33 @@ class TasksContainer extends StatelessWidget {
                                 ),
                               ),
 
-                              IconButton(
-                                onPressed: () async {
-                                  final remove = await context
-                                      .read<TasksCubit>()
-                                      .removeTask(ele.name);
-                                  if (remove) {
-                                    ModernToast.showToast(
-                                      context,
-                                      'Success',
-                                      'Task Removed Successfully',
-                                      ToastificationType.success,
-                                    );
-                                  } else {
-                                    ModernToast.showToast(
-                                      context,
-                                      'Error',
-                                      "Can't delete This task Write now",
-                                      ToastificationType.error,
-                                    );
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Theme.of(context).colorScheme.error,
-                                  size: AppSize.s7,
-                                ),
-                              ),
+                              // IconButton(
+                              //   onPressed: () async {
+                              //     final remove = await context
+                              //         .read<TasksCubit>()
+                              //         .removeTask(ele.name);
+                              //     if (remove) {
+                              //       ModernToast.showToast(
+                              //         context,
+                              //         'Success',
+                              //         'Task Removed Successfully',
+                              //         ToastificationType.success,
+                              //       );
+                              //     } else {
+                              //       ModernToast.showToast(
+                              //         context,
+                              //         'Error',
+                              //         "Can't delete This task Write now",
+                              //         ToastificationType.error,
+                              //       );
+                              //     }
+                              //   },
+                              //   icon: Icon(
+                              //     Icons.delete,
+                              //     color: Theme.of(context).colorScheme.error,
+                              //     size: AppSize.s7,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],

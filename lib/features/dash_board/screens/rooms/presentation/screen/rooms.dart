@@ -4,7 +4,6 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/add_reservation.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/available_rooms.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/room_reservation.dart';
 
 class Rooms extends StatefulWidget {
@@ -34,7 +33,7 @@ class _RoomsState extends State<Rooms> {
 
           RoomReservation(),
 
-          AvailableRooms(),
+          // AvailableRooms(),
         ],
       ),
     );

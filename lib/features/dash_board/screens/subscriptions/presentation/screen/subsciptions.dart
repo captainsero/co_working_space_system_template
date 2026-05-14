@@ -3,7 +3,6 @@ import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/widget/add_subscription.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/widget/plans_table.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/widget/subscription_table.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 
@@ -48,24 +47,24 @@ class _SubsciptionsState extends State<Subsciptions> {
             ),
           ),
 
-          Container(
-            height: ScreenSize.height / 2,
-            padding: EdgeInsets.all(AppPadding.p4),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(RadiusSize.r16),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                spacing: AppSize.s3,
-                children: [
-                  IconAndText(text: "Mannage Plans", icon: Icons.edit_square),
+          // Container(
+          //   height: ScreenSize.height / 2,
+          //   padding: EdgeInsets.all(AppPadding.p4),
+          //   decoration: BoxDecoration(
+          //     color: Theme.of(context).primaryColor,
+          //     borderRadius: BorderRadius.circular(RadiusSize.r16),
+          //   ),
+          //   child: SingleChildScrollView(
+          //     child: Column(
+          //       spacing: AppSize.s3,
+          //       children: [
+          //         IconAndText(text: "Mannage Plans", icon: Icons.edit_square),
 
-                  PlansTable(),
-                ],
-              ),
-            ),
-          ),
+          //         PlansTable(),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
