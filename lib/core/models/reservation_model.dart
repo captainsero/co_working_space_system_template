@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_egypt_v3/core/models/tools_model.dart';
 
 class ReservationModel {
   final int? id;
@@ -9,6 +10,10 @@ class ReservationModel {
   final DateTime date;
   final TimeOfDay from;
   final TimeOfDay to;
+  final int people;
+  final String description;
+  final List<ToolsModel> tools;
+  final String clientType;
 
   ReservationModel({
     this.id,
@@ -19,6 +24,10 @@ class ReservationModel {
     required this.date,
     required this.from,
     required this.to,
+    required this.people,
+    required this.description,
+    required this.tools,
+    required this.clientType,
   });
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +46,10 @@ class ReservationModel {
         minute: int.parse(fromParts[1]),
       ),
       to: TimeOfDay(hour: int.parse(toParts[0]), minute: int.parse(toParts[1])),
+      people: json['people'] as int,
+      description: json['decription'] as String,
+      tools: json['tools'] as List<ToolsModel>,
+      clientType: json['client_type'] as String,
     );
   }
 
@@ -49,6 +62,10 @@ class ReservationModel {
       "from": "${from.hour}:${from.minute.toString().padLeft(2, '0')}",
       "to": "${to.hour}:${to.minute.toString().padLeft(2, '0')}",
       "price": price,
+      "people": people,
+      "decription": description,
+      "tools": tools,
+      "client_type": clientType,
     };
   }
 }

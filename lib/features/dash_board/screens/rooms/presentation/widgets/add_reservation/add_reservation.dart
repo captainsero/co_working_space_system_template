@@ -109,6 +109,11 @@ class _AddReservationState extends State<AddReservation> {
                 from: selectedFromTime,
                 to: selectedToTime,
                 price: price,
+                //TODO: add variables
+                people: 0,
+                description: '',
+                tools: [],
+                clientType: '',
               );
 
               final isInsert = await context.read<ReservationCubit>().insertRev(

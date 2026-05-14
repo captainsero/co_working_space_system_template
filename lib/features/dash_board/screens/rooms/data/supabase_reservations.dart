@@ -8,7 +8,6 @@ class SupabaseReservations {
   // Insert Reservation
   static Future<bool> insertRev(ReservationModel rev) async {
     try {
-
       // 2. Conflict check
       final formattedDate = rev.date.toIso8601String().split('T').first;
       final fromStr =
@@ -42,6 +41,10 @@ class SupabaseReservations {
         'date': formattedDate,
         'from': fromStr,
         'to': toStr,
+        'people': rev.people,
+        'description': rev.description,
+        'tools': rev.tools,
+        'client_type': rev.clientType,
       }).select();
 
       return response.isNotEmpty;
