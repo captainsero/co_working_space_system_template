@@ -83,7 +83,6 @@ class _AddReservationState extends State<AddReservation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenSize.height,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
