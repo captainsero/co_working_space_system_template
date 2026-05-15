@@ -7,6 +7,7 @@ import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/rooms_logic.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_cell.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_header.dart';
 import 'package:toastification/toastification.dart';
@@ -58,10 +59,9 @@ class RoomReservation extends StatelessWidget {
                   columnWidths: const {
                     0: FlexColumnWidth(2),
                     1: FlexColumnWidth(2),
-                    2: FlexColumnWidth(1),
-                    3: FlexColumnWidth(1.5),
+                    2: FlexColumnWidth(2),
+                    3: FlexColumnWidth(2),
                     4: FlexColumnWidth(2),
-                    5: FlexColumnWidth(1),
                   },
                   children: [
                     TableRow(
@@ -69,9 +69,7 @@ class RoomReservation extends StatelessWidget {
                         TableHeader("Name"),
                         TableHeader("Number"),
                         TableHeader("Room"),
-                        Center(child: TableHeader("Date")),
                         Center(child: TableHeader("Time")),
-                        TableHeader("Price"),
                         Center(child: TableHeader("Action")),
                       ],
                     ),
@@ -81,53 +79,54 @@ class RoomReservation extends StatelessWidget {
                           TableCell1(ele.name),
                           TableCell1(ele.number),
                           TableCell1(ele.room),
-                          Center(
-                            child: TableCell1(
-                              StringExtensions.formatDate(ele.date),
-                            ),
-                          ),
                           TableCell1(
                             StringExtensions.formatTimeRange(ele.from, ele.to),
                           ),
-                          TableCell1(ele.price),
 
-                          IconButton(
-                            onPressed: () async {
-                              final delete = await context
-                                  .read<ReservationCubit>()
-                                  .deleteRev(ele.id!, date);
-
-                              if (delete) {
-                                ModernToast.showToast(
-                                  context,
-                                  'Success',
-                                  'Reservation Deleted successfully',
-                                  ToastificationType.success,
-                                );
-                              } else {
-                                ModernToast.showToast(
-                                  context,
-                                  'Error',
-                                  'Cannot delete the Reservation, try again',
-                                  ToastificationType.error,
-                                );
-                              }
-
-                              // ModernToast.showToast(
-                              //   context,
-                              //   'Success',
-                              //   "Reservation Deleted Successfully",
-                              //   ToastificationType.success,
-                              // );
-                            },
-                            icon: Padding(
-                              padding: EdgeInsets.all(AppPadding.p2),
-                              child: Icon(
-                                Icons.delete,
-                                color: Theme.of(context).colorScheme.error,
-                                size: AppSize.s7,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  RoomsLogic.showReservationDetailsDialog(
+                                    context,
+                                    ele,
+                                  );
+                                },
+                                child: Text("Show"),
                               ),
-                            ),
+                              IconButton(
+                                onPressed: () async {
+                                  final delete = await context
+                                      .read<ReservationCubit>()
+                                      .deleteRev(ele.id!, date);
+
+                                  if (delete) {
+                                    ModernToast.showToast(
+                                      context,
+                                      'Success',
+                                      'Reservation Deleted successfully',
+                                      ToastificationType.success,
+                                    );
+                                  } else {
+                                    ModernToast.showToast(
+                                      context,
+                                      'Error',
+                                      'Cannot delete the Reservation, try again',
+                                      ToastificationType.error,
+                                    );
+                                  }
+                                },
+                                icon: Padding(
+                                  padding: EdgeInsets.all(AppPadding.p2),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Theme.of(context).colorScheme.error,
+                                    size: AppSize.s7,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

@@ -4,6 +4,7 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/rooms_logic.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/reservations/checkout/reservation_checkout.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/reservations/room_condition.dart';
 
@@ -57,12 +58,14 @@ class TodayRevContainer extends StatelessWidget {
                     return Card(
                       child: Padding(
                         padding: EdgeInsets.all(AppPadding.p4),
-                        child: Column(
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           spacing: AppSize.s2,
                           children: [
                             /// Name + Status
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SelectableText(
                                   res.name,
@@ -70,26 +73,18 @@ class TodayRevContainer extends StatelessWidget {
                                     context,
                                   ).textTheme.titleMedium,
                                 ),
-                                const Spacer(),
-                                RoomCondition(from: res.from, to: res.to),
-                              ],
-                            ),
 
-                            /// Number
-                            IconAndText(
-                              text: res.number,
-                              icon: Icons.phone_outlined,
-                            ),
+                                /// Number
+                                IconAndText(
+                                  text: res.number,
+                                  icon: Icons.phone_outlined,
+                                ),
 
-                            /// Room
-                            IconAndText(
-                              text: res.room,
-                              icon: Icons.room_outlined,
-                            ),
-
-                            /// Time + Checkout
-                            Row(
-                              children: [
+                                /// Room
+                                IconAndText(
+                                  text: res.room,
+                                  icon: Icons.room_outlined,
+                                ),
                                 IconAndText(
                                   text: StringExtensions.formatTimeRange(
                                     res.from,
@@ -97,7 +92,25 @@ class TodayRevContainer extends StatelessWidget {
                                   ),
                                   icon: Icons.watch_later_outlined,
                                 ),
-                                const Spacer(),
+                              ],
+                            ),
+
+                            /// Time + Checkout
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              spacing: AppSize.s5,
+                              children: [
+                                RoomCondition(from: res.from, to: res.to),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    RoomsLogic.showReservationDetailsDialog(
+                                      context,
+                                      res,
+                                    );
+                                  },
+                                  child: Text("Show"),
+                                ),
+
                                 ReservationCheckout(res: res),
                               ],
                             ),
