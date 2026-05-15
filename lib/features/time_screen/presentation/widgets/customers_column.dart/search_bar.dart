@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
-import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customers_column.dart';
 
 class SearchByNumber extends StatelessWidget {
-  const SearchByNumber({super.key, required this.widget});
+  const SearchByNumber({
+    super.key,
+    required this.searchController,
+    required this.onSearchChanged,
+  });
 
-  final CustomerColumn widget;
+  final TextEditingController searchController;
+  final Function(String) onSearchChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class SearchByNumber extends StatelessWidget {
             color: Theme.of(context).colorScheme.tertiary,
             fontWeight: FontWeight.w600,
           ),
-          controller: widget.searchController,
+          controller: searchController,
           decoration: InputDecoration(
             hintText: "Search by number",
             prefixIcon: Icon(
@@ -31,7 +35,7 @@ class SearchByNumber extends StatelessWidget {
             ),
           ),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: widget.onSearchChanged,
+          onChanged: onSearchChanged,
         ),
       ),
     );

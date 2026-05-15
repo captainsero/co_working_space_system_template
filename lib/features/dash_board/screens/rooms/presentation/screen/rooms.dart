@@ -9,6 +9,7 @@ import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/rese
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/add_reservation.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/available_rooms.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/room_reservation.dart';
+import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/search_bar.dart';
 
 class Rooms extends StatefulWidget {
   const Rooms({super.key});
@@ -18,6 +19,8 @@ class Rooms extends StatefulWidget {
 }
 
 class _RoomsState extends State<Rooms> {
+  final TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     context.read<ReservationCubit>().getResByDate(date: Validators.choosenDay);
@@ -55,9 +58,20 @@ class _RoomsState extends State<Rooms> {
 
           AddReservation(date: selectedDate),
 
-          Align(
-            alignment: Alignment.centerRight,
-            child: DatePickerButton(onPick: _pickDate),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SearchByNumber(
+                searchController: searchController,
+                onSearchChanged: (value) {
+                  context.read<ReservationCubit>().searchReservation(value);
+                },
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: DatePickerButton(onPick: _pickDate),
+              ),
+            ],
           ),
 
           RoomReservation(date: selectedDate, dateFormate: dateFormat),
@@ -66,5 +80,11 @@ class _RoomsState extends State<Rooms> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }

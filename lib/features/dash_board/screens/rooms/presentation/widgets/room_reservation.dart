@@ -47,7 +47,7 @@ class RoomReservation extends StatelessWidget {
 
             BlocBuilder<ReservationCubit, ReservationState>(
               builder: (context, state) {
-                final reservations = state.reservationsByDate;
+                final reservations = state.filteredReservations;
 
                 if (state.isLoading) {
                   return CircularProgressIndicator();

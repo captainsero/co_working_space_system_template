@@ -192,4 +192,11 @@ class ReservationCubit extends Cubit<ReservationState> {
       state.copyWith(formState: state.formState.copyWith(selectedTools: tools)),
     );
   }
+
+  /// ========================
+  /// SEARCH BY NUMBER
+  /// ========================
+  void searchReservation(String query) {
+    emit(state.copyWith(searchQuery: query));
+  }
 }

@@ -3,10 +3,10 @@ part of 'reservation_cubit.dart';
 @immutable
 class ReservationState {
   final bool isLoading;
-
   final List<ReservationModel> reservationsByDate;
-
   final ReservationFormState formState;
+
+  final String searchQuery;
 
   final String? errorMessage;
   final String? successMessage;
@@ -15,26 +15,36 @@ class ReservationState {
     this.isLoading = false,
     this.reservationsByDate = const [],
     this.formState = const ReservationFormState(),
+    this.searchQuery = '',
     this.errorMessage,
     this.successMessage,
   });
+
+  /// filtered reservations
+  List<ReservationModel> get filteredReservations {
+    if (searchQuery.trim().isEmpty) {
+      return reservationsByDate;
+    }
+
+    return reservationsByDate.where((reservation) {
+      return reservation.number.contains(searchQuery);
+    }).toList();
+  }
 
   ReservationState copyWith({
     bool? isLoading,
     List<ReservationModel>? reservationsByDate,
     ReservationFormState? formState,
+    String? searchQuery,
     String? errorMessage,
     String? successMessage,
   }) {
     return ReservationState(
       isLoading: isLoading ?? this.isLoading,
-
       reservationsByDate: reservationsByDate ?? this.reservationsByDate,
-
       formState: formState ?? this.formState,
-
+      searchQuery: searchQuery ?? this.searchQuery,
       errorMessage: errorMessage,
-
       successMessage: successMessage,
     );
   }
