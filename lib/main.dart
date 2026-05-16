@@ -11,6 +11,7 @@ import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/themes/dark_theme.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/client_type/logic/cubit/client_type_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/sorting_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<TasksCubit>(create: (_) => TasksCubit()..getTasks()),
             BlocProvider<SortingCubit>(create: (_) => SortingCubit()),
             BlocProvider<ToolsCubit>(create: (_) => ToolsCubit()),
+            BlocProvider<ClientTypeCubit>(create: (_) => ClientTypeCubit()),
           ],
           child: MaterialApp(
             supportedLocales: S.delegate.supportedLocales,

@@ -145,6 +145,16 @@ class SideButtonContainer extends StatelessWidget {
               isChanged:
                   context.watch<CustomersDataCubit>().state.selectedPage == 12,
             ),
+
+            SideButton(
+              label: "Client Types",
+              icon: Icons.calendar_month,
+              onpressed: () {
+                context.read<CustomersDataCubit>().changePage(13);
+              },
+              isChanged:
+                  context.watch<CustomersDataCubit>().state.selectedPage == 13,
+            ),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/client_type/presentation/screen/client_type_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/screen/customers_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/screen/days_data.dart';
@@ -59,6 +60,8 @@ class ScreenSwitcher extends StatelessWidget {
                 return Reservations();
               case 12:
                 return ToolsScreen();
+              case 13:
+                return ClientTypeScreen();
               default:
                 return Center(child: Text("Unknown Page"));
             }
