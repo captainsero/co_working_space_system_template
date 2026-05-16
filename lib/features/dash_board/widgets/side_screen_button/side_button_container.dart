@@ -66,7 +66,7 @@ class SideButtonContainer extends StatelessWidget {
             ),
 
             SideButton(
-              label: "Rooms",
+              label: "Team Rooms",
               icon: Icons.room_service_sharp,
               onpressed: () {
                 context.read<CustomersDataCubit>().changePage(11);

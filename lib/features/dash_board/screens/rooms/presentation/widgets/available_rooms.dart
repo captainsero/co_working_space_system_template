@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
-import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/rooms_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/rooms_logic.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_cell.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_header.dart';
 import 'package:toastification/toastification.dart';
@@ -162,7 +162,7 @@ class AvailableRooms extends StatelessWidget {
             ),
 
             content: SizedBox(
-              width: ScreenSize.width / 1.4,
+              width: ScreenSize.width,
               height: ScreenSize.height / 1.6,
               child: reservationsState.isEmpty
                   ? Center(
@@ -177,10 +177,10 @@ class AvailableRooms extends StatelessWidget {
                             TableCellVerticalAlignment.middle,
 
                         columnWidths: const {
-                          0: FlexColumnWidth(2),
-                          1: FlexColumnWidth(2),
-                          2: FlexColumnWidth(1.5),
-                          3: FlexColumnWidth(1.5),
+                          0: FlexColumnWidth(1),
+                          1: FlexColumnWidth(1),
+                          2: FlexColumnWidth(2),
+                          3: FlexColumnWidth(1),
                           4: FlexColumnWidth(1),
                           5: FlexColumnWidth(1),
                           6: FlexColumnWidth(1),
@@ -191,11 +191,11 @@ class AvailableRooms extends StatelessWidget {
                             children: [
                               TableHeader("Name"),
                               TableHeader("Number"),
-                              TableHeader("Date"),
-                              TableHeader("Time"),
+                              TableHeader("Description"),
                               TableHeader("Hours"),
                               TableHeader("People"),
                               TableHeader("Price"),
+                              Center(child: TableHeader("Actions")),
                             ],
                           ),
 
@@ -211,35 +211,26 @@ class AvailableRooms extends StatelessWidget {
 
                                 TableCell1(reservation.number),
 
-                                Center(
-                                  child: TableCell1(
-                                    StringExtensions.formatDate(
-                                      reservation.date,
-                                    ),
-                                  ),
-                                ),
+                                TableCell1(reservation.description),
 
-                                TableCell1(
-                                  StringExtensions.formatTimeRange(
-                                    reservation.from,
-                                    reservation.to,
-                                  ),
-                                ),
+                                TableCell1(duration.inHours.toString()),
 
-                                Center(
-                                  child: TableCell1(
-                                    duration.inHours.toString(),
-                                  ),
-                                ),
-
-                                Center(
-                                  child: TableCell1(
-                                    reservation.people.toString(),
-                                  ),
-                                ),
+                                TableCell1(reservation.people.toString()),
 
                                 TableCell1(
                                   reservation.price.toStringAsFixed(2),
+                                ),
+
+                                Center(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      RoomsLogic.showReservationDetailsDialog(
+                                        context,
+                                        reservation,
+                                      );
+                                    },
+                                    child: Text("Show"),
+                                  ),
                                 ),
                               ],
                             );
