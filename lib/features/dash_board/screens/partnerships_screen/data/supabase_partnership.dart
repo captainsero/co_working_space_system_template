@@ -27,6 +27,7 @@ class SupabasePartnership {
         value: (offerData['offer_value'] as num).toDouble(),
         description: offerData['description'] as String,
         active: offerData['active'] as bool,
+        usage: offerData['usage'] as int,
       );
     } catch (e) {
       print("Error get offer: $e");
@@ -107,6 +108,7 @@ class SupabasePartnership {
           value: (offerData['offer_value'] as num).toDouble(),
           description: offerData['description'] as String,
           active: offerData['active'] as bool,
+          usage: offerData['usage'] as int,
         );
       }).toList();
     } catch (e) {
@@ -135,6 +137,7 @@ class SupabasePartnership {
           value: (offerData['offer_value'] as num).toDouble(),
           description: offerData['description'] as String,
           active: offerData['active'] as bool,
+          usage: offerData['usage'] as int,
         );
       }).toList();
     } catch (e) {
@@ -189,6 +192,20 @@ class SupabasePartnership {
           .eq('offer_code', code.trim());
     } catch (e) {
       print("Error deleting offer: $e");
+    }
+  }
+
+  static Future<void> updateUsage(String code) async {
+    try {
+      final offer = await getOfferByCode(code);
+      if (offer != null) {
+        await Supabase.instance.client
+            .from('partnership')
+            .update({'usage': offer.usage + 1})
+            .eq('offer_code', code.trim());
+      }
+    } catch (e) {
+      print("Didn't update usage: $e");
     }
   }
 }

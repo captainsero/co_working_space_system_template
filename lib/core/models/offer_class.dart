@@ -5,6 +5,7 @@ class OfferClass {
   final double value; // could be percentage, fixed amount, etc.
   final String description;
   final bool active;
+  final int usage;
 
   OfferClass({
     required this.name,
@@ -13,6 +14,7 @@ class OfferClass {
     required this.value,
     required this.description,
     required this.active,
+    required this.usage,
   });
 }
 
