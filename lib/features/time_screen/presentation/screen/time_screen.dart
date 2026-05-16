@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/app_bar/presentation/screen/app_bar_main.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
 import 'package:team_egypt_v3/features/time_screen/data/supabase_in_team.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/time_screen_cubit/time_screen_cubit.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/time_screen_logic.dart';
@@ -36,6 +37,7 @@ class _TimeScreenState extends State<TimeScreen> {
     super.initState();
     _keyboardFocusNode = FocusNode();
     _loadTotal();
+    context.read<ReservationCubit>().getResByDate(date: Validators.choosenDay);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _keyboardFocusNode.requestFocus();
@@ -56,7 +58,7 @@ class _TimeScreenState extends State<TimeScreen> {
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
-            focusNode: _keyboardFocusNode,
+      focusNode: _keyboardFocusNode,
       autofocus: true,
       onKeyEvent: (KeyEvent event) {
         if (event is KeyDownEvent) {
@@ -100,7 +102,7 @@ class _TimeScreenState extends State<TimeScreen> {
                   });
                 },
               ),
-      
+
               Expanded(
                 flex: 3,
                 child: Padding(
@@ -112,11 +114,11 @@ class _TimeScreenState extends State<TimeScreen> {
                           final total = (state is GetTotal)
                               ? state.total
                               : this.total;
-      
+
                           return PriceContainer(total: total);
                         },
                       ),
-      
+
                       SizedBox(height: AppSize.s10),
                       TodayRevContainer(),
                     ],

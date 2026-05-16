@@ -46,7 +46,10 @@ class ReservationPayButton extends StatelessWidget {
           res,
           itemsTotal,
         );
-        context.read<ReservationCubit>().deleteRev(res.id!);
+        context.read<ReservationCubit>().deleteRev(
+          res.id!,
+          Validators.choosenDay,
+        );
 
         context.read<ItemsCubit>().updateQuantity(res.id!.toString());
 

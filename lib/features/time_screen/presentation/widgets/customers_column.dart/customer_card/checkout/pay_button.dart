@@ -16,12 +16,14 @@ class PayButton extends StatelessWidget {
     required this.user,
     required this.time,
     required this.timespent,
+    required this.offerCode,
   });
 
   final TextEditingController priceController;
   final InTeamUsers user;
   final String time;
   final int timespent;
+  final String offerCode;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class PayButton extends StatelessWidget {
           collage: user.collage,
           price: confirmedPrice,
           itemsTotal: itemsTotal,
-
+          offerCode: offerCode,
           checkoutTime: now,
           partnershipCode: isSub ? "Subscriped" : user.partnershipCode,
           time: time,
