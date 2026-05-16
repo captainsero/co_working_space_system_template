@@ -54,7 +54,8 @@ class SupabaseItems {
   static Future<List<ItemsModel>> getByCategory(String category) async {
     try {
       final response = await _supabase.select().eq('category', category);
-      return (response as List)
+
+      final items = (response as List)
           .map(
             (e) => ItemsModel(
               name: e['name'],
@@ -64,6 +65,13 @@ class SupabaseItems {
             ),
           )
           .toList();
+
+      /// Sort A -> Z
+      items.sort(
+        (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+      );
+
+      return items;
     } catch (e) {
       print("Error getting items: $e");
       return [];

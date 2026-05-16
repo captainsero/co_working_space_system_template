@@ -7,7 +7,6 @@ import 'package:toastification/toastification.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/models/offer_class.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/data/supabase_partnership.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/logic/cubit/partner_ship_cubit.dart';
 import 'package:team_egypt_v3/core/widgets/custom_drop_down_field.dart';
 import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
@@ -65,9 +64,12 @@ class _PartnershipFormState extends State<PartnershipForm> {
         type: selectedOfferType!,
         description: descriptionController.text,
         active: true,
+        usage: 0,
       );
 
-      final success = await SupabasePartnership.insertOffer(offer);
+      final success = await context.read<PartnerShipCubit>().insertOffer(
+        offer: offer,
+      );
 
       if (success) {
         context.read<PartnerShipCubit>().partnerShipLoadData();

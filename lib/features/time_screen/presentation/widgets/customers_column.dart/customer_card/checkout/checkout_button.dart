@@ -62,11 +62,11 @@ class _CheckoutButtonState extends State<CheckoutButton> {
         final finalTotal = TimeScreenLogic.applyOffer(baseTotal, hours, offer);
         late String offerDis;
         if (widget.user.isSub && offer != null) {
-          offerDis = "Subscribed And ${offer.description}";
+          offerDis = "Subscribed And ${offer.name}";
         } else {
           offerDis = widget.user.isSub
               ? "Subscribed"
-              : (offer != null ? offer.description : "No Offer");
+              : (offer != null ? offer.name : "No Offer");
         }
 
         context.read<TimeScreenCubit>().getTotal(Validators.choosenDay);

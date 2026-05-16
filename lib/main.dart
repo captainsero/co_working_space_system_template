@@ -102,9 +102,7 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<PlansCubit>(create: (_) => PlansCubit()..getPlans()),
             BlocProvider<RoomsCubit>(create: (_) => RoomsCubit()..getRooms()),
-            BlocProvider<ReservationCubit>(
-              create: (_) => ReservationCubit()..getAllRev(),
-            ),
+            BlocProvider<ReservationCubit>(create: (_) => ReservationCubit()),
             BlocProvider<StuffCubit>(create: (_) => StuffCubit()..getAll()),
             BlocProvider<ItemsCubit>(create: (_) => ItemsCubit()),
             BlocProvider<MonthDataCubit>(create: (_) => MonthDataCubit()),

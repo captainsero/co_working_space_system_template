@@ -27,10 +27,11 @@ class PartnershipTable extends StatelessWidget {
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         columnWidths: const {
           0: FlexColumnWidth(2),
-          1: FlexColumnWidth(2),
+          1: FlexColumnWidth(1),
           2: FlexColumnWidth(2),
-          3: FlexColumnWidth(2),
-          4: FlexColumnWidth(1.5),
+          3: FlexColumnWidth(1.5),
+          4: FlexColumnWidth(1),
+          5: FlexColumnWidth(1),
         },
         children: [
           TableRow(
@@ -38,7 +39,8 @@ class PartnershipTable extends StatelessWidget {
               TableHeader("Name"),
               TableHeader("Code"),
               TableHeader("Description"),
-              TableHeader("Type"),
+              Center(child: TableHeader("Type")),
+              Center(child: TableHeader("Usage")),
               TableHeader("Actions"),
             ],
           ),
@@ -48,7 +50,8 @@ class PartnershipTable extends StatelessWidget {
                 TableCell1(offer.name),
                 TableCell1(offer.code),
                 TableCell1(offer.description),
-                TableCell1(offer.type),
+                Center(child: TableCell1(offer.type)),
+                Center(child: TableCell1(offer.usage)),
                 Row(
                   children: [
                     IconButton(

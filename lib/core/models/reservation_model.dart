@@ -9,6 +9,10 @@ class ReservationModel {
   final DateTime date;
   final TimeOfDay from;
   final TimeOfDay to;
+  final int people;
+  final String description;
+  final List tools;
+  final String clientType;
 
   ReservationModel({
     this.id,
@@ -19,6 +23,10 @@ class ReservationModel {
     required this.date,
     required this.from,
     required this.to,
+    required this.people,
+    required this.description,
+    required this.tools,
+    required this.clientType,
   });
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +45,10 @@ class ReservationModel {
         minute: int.parse(fromParts[1]),
       ),
       to: TimeOfDay(hour: int.parse(toParts[0]), minute: int.parse(toParts[1])),
+      people: json['people'] as int,
+      description: json['description'] as String,
+      tools: json['tools'],
+      clientType: json['client_type'] as String,
     );
   }
 
@@ -49,6 +61,10 @@ class ReservationModel {
       "from": "${from.hour}:${from.minute.toString().padLeft(2, '0')}",
       "to": "${to.hour}:${to.minute.toString().padLeft(2, '0')}",
       "price": price,
+      "people": people,
+      "description": description,
+      "tools": tools,
+      "client_type": clientType,
     };
   }
 }

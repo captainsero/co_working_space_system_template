@@ -62,6 +62,7 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
           partnershipCode: '00000',
           note: "${plan.name} Subscription",
           time: "no Time",
+          offerCode: "Subscriped",
         );
 
         getSubscriptions();
