@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 
 class SupabaseRooms {
@@ -81,6 +82,39 @@ class SupabaseRooms {
       return true;
     } catch (e) {
       print("Delete room error: $e");
+      return false;
+    }
+  }
+
+  static Future<bool> addReservationToRoom(ReservationModel reservation) async {
+    try {
+      /// 1. Get current reservations
+      final room = await supabase
+          .from("rooms")
+          .select("reservations")
+          .eq("name", reservation.room)
+          .maybeSingle();
+
+      if (room == null) {
+        print("Room not found");
+        return false;
+      }
+
+      /// 2. Get current jsonb array
+      List<dynamic> currentReservations = room["reservations"] ?? [];
+
+      /// 3. Add new reservation
+      currentReservations.add(reservation.toJson());
+
+      /// 4. Update room
+      await supabase
+          .from("rooms")
+          .update({"reservations": currentReservations})
+          .eq("name", reservation.room);
+
+      return true;
+    } catch (e) {
+      print("Add reservation to room error: $e");
       return false;
     }
   }
