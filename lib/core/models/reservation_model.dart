@@ -47,8 +47,8 @@ class ReservationModel {
       to: TimeOfDay(hour: int.parse(toParts[0]), minute: int.parse(toParts[1])),
       people: json['people'] as int,
       description: json['description'] as String,
-      tools: json['tools'],
-      clientType: json['client_type'] as String,
+      tools: json['tools'] ?? [],
+      clientType: json['client_type'] ?? '',
     );
   }
 
