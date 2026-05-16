@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/data/supabase_rooms.dart';
 
@@ -11,6 +12,12 @@ class RoomsCubit extends Cubit<RoomsState> {
   void getRooms() async {
     final rooms = await SupabaseRooms.getRooms();
     emit(GetRooms(rooms: rooms));
+  }
+
+  void getRoomReservations(String room) async {
+    emit(RoomsLoading());
+    final reservation = await SupabaseRooms.getRoomReservations(room);
+    emit(GetRoomReservations(reservations: reservation));
   }
 
   Future<bool> insertRoom(RoomsModel room) async {

@@ -38,6 +38,9 @@ class AddRoom extends StatelessWidget {
                   name: nameController.text,
                   price: price,
                   reservationNum: 0,
+                  minHours: 0,
+                  maxHours: 0,
+                  averageHours: 0,
                 );
                 final isInsert = await context.read<RoomsCubit>().insertRoom(
                   room,

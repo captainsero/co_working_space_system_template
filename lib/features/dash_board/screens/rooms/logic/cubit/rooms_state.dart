@@ -22,3 +22,9 @@ class GetRooms extends RoomsState {
 
   GetRooms({required this.rooms});
 }
+
+class GetRoomReservations extends RoomsState {
+  final List<ReservationModel> reservations;
+
+  GetRoomReservations({required this.reservations});
+}

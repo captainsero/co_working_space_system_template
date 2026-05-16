@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:team_egypt_v3/core/models/reservation_model.dart';
+import 'package:team_egypt_v3/core/models/reservation_states_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 
 class SupabaseRooms {
@@ -116,6 +117,101 @@ class SupabaseRooms {
     } catch (e) {
       print("Add reservation to room error: $e");
       return false;
+    }
+  }
+
+  static Future<List<ReservationModel>> getRoomReservations(
+    String roomName,
+  ) async {
+    try {
+      /// get room
+      final room = await supabase
+          .from("rooms")
+          .select("reservations")
+          .eq("name", roomName)
+          .maybeSingle();
+
+      if (room == null) {
+        return [];
+      }
+
+      final reservationsJson = room["reservations"];
+
+      /// no reservations
+      if (reservationsJson == null ||
+          reservationsJson is! List ||
+          reservationsJson.isEmpty) {
+        return [];
+      }
+
+      /// convert json -> model
+      final reservations = reservationsJson
+          .map<ReservationModel>(
+            (e) => ReservationModel.fromJson(Map<String, dynamic>.from(e)),
+          )
+          .toList();
+
+      /// optional: sort by date newest first
+      reservations.sort((a, b) => b.date.compareTo(a.date));
+
+      return reservations;
+    } catch (e) {
+      print("Get room reservations error: $e");
+      return [];
+    }
+  }
+
+  static Future<ReservationStatsModel?> getRoomReservationStats(
+    String roomName,
+  ) async {
+    try {
+      /// get room reservations
+      final room = await supabase
+          .from("rooms")
+          .select("reservations")
+          .eq("name", roomName)
+          .maybeSingle();
+
+      if (room == null) return null;
+
+      final reservationsJson = room["reservations"];
+
+      if (reservationsJson == null ||
+          reservationsJson is! List ||
+          reservationsJson.isEmpty) {
+        return ReservationStatsModel(maxHours: 0, minHours: 0, averageHours: 0);
+      }
+
+      /// convert json -> ReservationModel
+      final reservations = reservationsJson
+          .map((e) => ReservationModel.fromJson(e))
+          .toList();
+
+      /// calculate durations in hours
+      final durations = reservations.map((res) {
+        final fromMinutes = (res.from.hour * 60) + res.from.minute;
+
+        final toMinutes = (res.to.hour * 60) + res.to.minute;
+
+        return ((toMinutes - fromMinutes) / 60).round();
+      }).toList();
+
+      /// stats
+      final maxHours = durations.reduce((a, b) => a > b ? a : b);
+
+      final minHours = durations.reduce((a, b) => a < b ? a : b);
+
+      final averageHours =
+          (durations.reduce((a, b) => a + b) / durations.length).round();
+
+      return ReservationStatsModel(
+        maxHours: maxHours,
+        minHours: minHours,
+        averageHours: averageHours,
+      );
+    } catch (e) {
+      print("Get room reservation stats error: $e");
+      return null;
     }
   }
 }
