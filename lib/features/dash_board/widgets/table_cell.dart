@@ -9,7 +9,7 @@ class TableCell1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Text(
+      child: SelectableText(
         text?.toString() ?? "Empty",
         style: Theme.of(context).textTheme.titleSmall,
       ),

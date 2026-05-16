@@ -33,7 +33,10 @@ class _CustomerColumnState extends State<CustomerColumn> {
           Row(
             children: [
               // Search Bar
-              SearchByNumber(widget: widget),
+              SearchByNumber(
+                searchController: widget.searchController,
+                onSearchChanged: widget.onSearchChanged,
+              ),
 
               const Spacer(),
 

@@ -15,6 +15,13 @@ class PartnerShipCubit extends Cubit<PartnerShipState> {
     emit(PartnerShipLoadOffers(offers: offers));
   }
 
+  Future<bool> insertOffer({required OfferClass offer}) async {
+    emit(PartnerShipLoading());
+    final isSuccess = await SupabasePartnership.insertOffer(offer);
+    partnerShipLoadData();
+    return isSuccess;
+  }
+
   Future<void> toggleActive(String code) async {
     await SupabasePartnership.toggleActive(code);
     partnerShipLoadData(); // refresh data after update

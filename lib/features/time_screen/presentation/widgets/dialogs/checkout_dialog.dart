@@ -43,6 +43,7 @@ class CheckoutDialog extends StatefulWidget {
 
 class _CheckoutDialogState extends State<CheckoutDialog> {
   String? selectedOfferId;
+  String offerCode = '00000';
   List<OfferClass> offers = [];
 
   @override
@@ -72,6 +73,7 @@ class _CheckoutDialogState extends State<CheckoutDialog> {
       } else {
         widget.offerDis = offer2.name;
       }
+      offerCode = offer2.code;
     });
   }
 
@@ -100,46 +102,49 @@ class _CheckoutDialogState extends State<CheckoutDialog> {
           ),
 
           Spacer(),
-          SizedBox(
-            width: ScreenSize.width / 5.5,
-            child: DropdownButtonFormField<String>(
-              initialValue: selectedOfferId,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
+
+          Column(
+            children: [
+              SizedBox(
+                width: ScreenSize.width / 4.5,
+                child: DropdownButtonFormField<String>(
+                  initialValue: selectedOfferId,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                  ),
+                  hint: const Text("Select Offer"),
+                  items: offers
+                      .map(
+                        (offer) => DropdownMenuItem<String>(
+                          value: offer.code, // or offer.name
+                          child: Text(offer.name), // visible text
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) return;
+                    final selected = offers.firstWhere(
+                      (o) => o.code == value,
+                    ); // same key as above
+                    selectedOfferId = value;
+                    applyOfferToState(selected);
+                  },
+                  validator: (value) {
+                    // if you want it required:
+                    // if (value == null || value.isEmpty) return 'Please select an offer';
+                    return null;
+                  },
                 ),
               ),
-              hint: const Text("Select Offer"),
-              items: offers
-                  .map(
-                    (offer) => DropdownMenuItem<String>(
-                      value: offer.code, // or offer.name
-                      child: Text(offer.name), // visible text
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                if (value == null) return;
-                final selected = offers.firstWhere(
-                  (o) => o.code == value,
-                ); // same key as above
-                selectedOfferId = value;
-                applyOfferToState(selected);
-              },
-              validator: (value) {
-                // if you want it required:
-                // if (value == null || value.isEmpty) return 'Please select an offer';
-                return null;
-              },
-            ),
-          ),
-          Spacer(),
-
-          Text(
-            "Price After Offer = ${widget.finalTotal} EGP",
-            style: Theme.of(context).textTheme.headlineLarge,
+              Text(
+                "Price After Offer = ${widget.finalTotal} EGP",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ],
           ),
 
           Spacer(),
@@ -218,6 +223,9 @@ class _CheckoutDialogState extends State<CheckoutDialog> {
               user: widget.user,
               time: widget.durationString,
               timespent: widget.timeSpent,
+              offerCode: offerCode == '00000'
+                  ? widget.user.partnershipCode
+                  : offerCode,
             ),
 
             const Spacer(),

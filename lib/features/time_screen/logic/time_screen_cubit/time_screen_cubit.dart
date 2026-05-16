@@ -43,10 +43,10 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
     required String time,
     required double price,
     double? itemsTotal,
-
     DateTime? checkoutTime,
     String? note,
     required String partnershipCode,
+    required String offerCode,
   }) async {
     final existingUsers = await SupabaseDaysData.getDayUsers(date);
     final box = Hive.box<String>('noteBox');
@@ -78,6 +78,9 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
     final newTotal = cerruntTotal + price;
 
     await SupabaseInTeam.updateDaysData(date, newTotal, existingUsers);
+    if (offerCode != "Subscriped" || offerCode != "00000") {
+      await SupabasePartnership.updateUsage(offerCode);
+    }
 
     box.delete(number);
 
