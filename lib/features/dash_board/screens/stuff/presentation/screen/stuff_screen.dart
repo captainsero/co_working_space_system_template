@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/prices/widgets/add_expenses.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/presentation/widgets/checkin_checkout.dart';
 
 class StuffScreen extends StatefulWidget {
@@ -18,6 +19,8 @@ class _StuffScreenState extends State<StuffScreen> {
       children: [
         HeadText(text: "Staff"),
         CheckinCheckout(),
+        AddExpenses(),
+
         // OurStuff(),
       ],
     );

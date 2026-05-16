@@ -7,7 +7,6 @@ import 'package:team_egypt_v3/features/dash_board/screens/customers_data/present
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/customers_table.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/date_picker_button.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/rooms_reservation_card.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/total_salary_card.dart';
 
 class DaysData extends StatefulWidget {
@@ -90,7 +89,7 @@ class _DaysDataState extends State<DaysData> {
                 itemsTotal: itemsTotal,
               ),
 
-              RoomsReservationCard(dateFormat: dateFormat),
+              // RoomsReservationCard(dateFormat: dateFormat),
 
               // StuffData(dateFormat: dateFormat),
 
