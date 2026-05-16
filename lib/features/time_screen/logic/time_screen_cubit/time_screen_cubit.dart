@@ -1,4 +1,4 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:team_egypt_v3/core/models/in_team_users.dart';
@@ -8,6 +8,7 @@ import 'package:team_egypt_v3/core/models/users_class.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/data/supabase_customers_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/data/supabase_days_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/data/supabase_partnership.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/rooms/data/supabase_rooms.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/data/supabase_subscriptions.dart';
 import 'package:team_egypt_v3/features/time_screen/data/supabase_in_team.dart';
 import 'package:team_egypt_v3/features/time_screen/data/supabase_rooms_data.dart';
@@ -101,6 +102,7 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
     // 3. Save reservation with updated total
     await SupabaseRoomsData.saveReservation(date, newTotal, reservation);
     final _ = await SupabaseInTeam.addToItemsTotal(itemsTotal);
+    await SupabaseRooms.addReservationToRoom(reservation);
 
     // 4. Update local state
     emit(GetTotal(total: newTotal));
