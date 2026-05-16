@@ -17,7 +17,7 @@ class AvailableRooms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenSize.height / 2,
+      height: ScreenSize.height / 1.3,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,

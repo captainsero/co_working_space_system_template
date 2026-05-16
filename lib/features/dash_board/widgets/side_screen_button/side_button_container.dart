@@ -67,6 +67,16 @@ class SideButtonContainer extends StatelessWidget {
 
             SideButton(
               label: "Rooms",
+              icon: Icons.room_service_sharp,
+              onpressed: () {
+                context.read<CustomersDataCubit>().changePage(11);
+              },
+              isChanged:
+                  context.watch<CustomersDataCubit>().state.selectedPage == 11,
+            ),
+
+            SideButton(
+              label: "Reservations",
               icon: Icons.location_on,
               onpressed: () {
                 context.read<CustomersDataCubit>().changePage(5);

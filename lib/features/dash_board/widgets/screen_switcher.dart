@@ -8,6 +8,7 @@ import 'package:team_egypt_v3/features/dash_board/screens/month_data/presentatio
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/logic/cubit/partner_ship_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/presentation/screen/partnership_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/screen/prices_screen.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/reservations/screens/reservations.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/screen/rooms.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/presentation/screen/stuff_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/screen/subsciptions.dart';
@@ -53,6 +54,8 @@ class ScreenSwitcher extends StatelessWidget {
                 return MonthlyOverview();
               case 10:
                 return TasksScreen();
+              case 11:
+                return Reservations();
               default:
                 return Center(child: Text("Unknown Page"));
             }
