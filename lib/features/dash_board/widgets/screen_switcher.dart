@@ -13,6 +13,7 @@ import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/scr
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/presentation/screen/stuff_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/screen/subsciptions.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/tasks/presentation/screens/tasks_screen.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/tools/presentation/screen/tools_screen.dart';
 
 class ScreenSwitcher extends StatelessWidget {
   const ScreenSwitcher({super.key});
@@ -56,6 +57,8 @@ class ScreenSwitcher extends StatelessWidget {
                 return TasksScreen();
               case 11:
                 return Reservations();
+              case 12:
+                return ToolsScreen();
               default:
                 return Center(child: Text("Unknown Page"));
             }
