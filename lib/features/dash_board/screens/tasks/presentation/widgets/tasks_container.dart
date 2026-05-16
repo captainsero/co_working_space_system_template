@@ -19,7 +19,7 @@ class TasksContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: ScreenSize.width / 1.5,
-      height: ScreenSize.height / 2,
+      height: ScreenSize.height / 1.3,
       padding: EdgeInsets.all(AppPadding.p4),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
