@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/widgets/head_text.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/presentation/widgets/checkin_checkout.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/stuff/presentation/widgets/our_stuff.dart';
 
 class StuffScreen extends StatefulWidget {
   const StuffScreen({super.key});
@@ -19,7 +18,7 @@ class _StuffScreenState extends State<StuffScreen> {
       children: [
         HeadText(text: "Staff"),
         CheckinCheckout(),
-        OurStuff(),
+        // OurStuff(),
       ],
     );
   }

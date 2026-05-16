@@ -7,7 +7,6 @@ import 'package:team_egypt_v3/features/dash_board/screens/customers_data/present
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/date_picker_button.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/add_reservation/add_reservation.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/available_rooms.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/widgets/room_reservation.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/search_bar.dart';
 
@@ -76,7 +75,7 @@ class _RoomsState extends State<Rooms> {
 
           RoomReservation(date: selectedDate, dateFormate: dateFormat),
 
-          AvailableRooms(),
+          // AvailableRooms(),
         ],
       ),
     );

@@ -7,9 +7,7 @@ import 'package:team_egypt_v3/features/dash_board/screens/customers_data/present
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/customers_table.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/date_picker_button.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/expenses_table.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/rooms_reservation_card.dart';
-import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/stuff_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/widget/total_salary_card.dart';
 
 class DaysData extends StatefulWidget {
@@ -52,7 +50,6 @@ class _DaysDataState extends State<DaysData> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<DaysDataCubit, DaysDataState>(
       builder: (context, state) {
         List<Map<String, dynamic>> customers = [];
@@ -65,7 +62,7 @@ class _DaysDataState extends State<DaysData> {
           customers = state.data;
           revenues = state.total;
           expenses = state.expensesTotal;
-                    itemsTotal = state.itemsTotal;
+          itemsTotal = state.itemsTotal;
 
           total = revenues - expenses;
         }
@@ -90,15 +87,14 @@ class _DaysDataState extends State<DaysData> {
                 dateFormat: dateFormat,
                 expenses: expenses,
                 revenues: revenues,
-                                itemsTotal: itemsTotal,
-
+                itemsTotal: itemsTotal,
               ),
 
               RoomsReservationCard(dateFormat: dateFormat),
 
-              StuffData(dateFormat: dateFormat),
+              // StuffData(dateFormat: dateFormat),
 
-              ExpensesTable(dateFormat: dateFormat, date: selectedDate),
+              // ExpensesTable(dateFormat: dateFormat, date: selectedDate),
             ],
           ),
         );
