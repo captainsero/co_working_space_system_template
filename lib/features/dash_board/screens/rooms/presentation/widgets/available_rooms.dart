@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/screen_size.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/core/models/reservation_model.dart';
 import 'package:team_egypt_v3/core/models/rooms_model.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
@@ -134,120 +135,227 @@ class AvailableRooms extends StatelessWidget {
   Future<void> showRoomReservationsDialog(BuildContext context) async {
     await showDialog(
       context: context,
-      builder: (_) => BlocBuilder<RoomsCubit, RoomsState>(
-        builder: (context, state) {
-          if (state is RoomsLoading) {
-            return const AlertDialog(
+      builder: (_) => BlocProvider.value(
+        // ✅ reuse the same cubit instance from the parent tree
+        value: context.read<RoomsCubit>(),
+        child: BlocBuilder<RoomsCubit, RoomsState>(
+          builder: (context, state) {
+            // ─── Loading ───────────────────────────────────────────
+            if (state is RoomsLoading) {
+              return const AlertDialog(
+                content: SizedBox(
+                  height: 100,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+              );
+            }
+
+            // ─── Resolve active list & filter dates ───────────────
+            final List<ReservationModel> reservationsToShow;
+            DateTime? fromDate;
+            DateTime? toDate;
+
+            if (state is FilteredRoomReservations) {
+              reservationsToShow = state.filteredReservations;
+              fromDate = state.fromDate;
+              toDate = state.toDate;
+            } else if (state is GetRoomReservations) {
+              reservationsToShow = state.reservations;
+            } else {
+              return const AlertDialog(
+                content: Text("No reservation data found"),
+              );
+            }
+
+            // title room name — works for both states
+            final allReservations = state is FilteredRoomReservations
+                ? state.allReservations
+                : (state as GetRoomReservations).reservations;
+
+            final roomName = allReservations.isNotEmpty
+                ? allReservations.first.room
+                : 'Reservations';
+
+            // ─── Dialog ────────────────────────────────────────────
+            return AlertDialog(
+              title: Text(
+                '$roomName Reservations',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+
               content: SizedBox(
-                height: 100,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            );
-          }
-
-          if (state is! GetRoomReservations) {
-            return const AlertDialog(
-              content: Text("No reservation data found"),
-            );
-          }
-
-          final reservationsState = state.reservations;
-
-          return AlertDialog(
-            title: Text(
-              reservationsState.isNotEmpty
-                  ? '${reservationsState.first.room} Reservations'
-                  : 'Reservations',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-
-            content: SizedBox(
-              width: ScreenSize.width,
-              height: ScreenSize.height / 1.6,
-              child: reservationsState.isEmpty
-                  ? Center(
-                      child: Text(
-                        "No Reservations Yet",
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    )
-                  : SingleChildScrollView(
-                      child: Table(
-                        defaultVerticalAlignment:
-                            TableCellVerticalAlignment.middle,
-
-                        columnWidths: const {
-                          0: FlexColumnWidth(1),
-                          1: FlexColumnWidth(1),
-                          2: FlexColumnWidth(2),
-                          3: FlexColumnWidth(1),
-                          4: FlexColumnWidth(1),
-                          5: FlexColumnWidth(1),
-                          6: FlexColumnWidth(1),
-                        },
-
-                        children: [
-                          TableRow(
-                            children: [
-                              TableHeader("Name"),
-                              TableHeader("Number"),
-                              TableHeader("Description"),
-                              TableHeader("Hours"),
-                              TableHeader("People"),
-                              TableHeader("Price"),
-                              Center(child: TableHeader("Actions")),
-                            ],
+                width: ScreenSize.width,
+                height: ScreenSize.height / 1.6,
+                child: Column(
+                  children: [
+                    // ── Date filter row ──────────────────────────
+                    Row(
+                      children: [
+                        // FROM date picker
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            icon: const Icon(Icons.calendar_today),
+                            label: Text(
+                              fromDate != null
+                                  ? '${fromDate.day}/${fromDate.month}/${fromDate.year}'
+                                  : 'From date',
+                            ),
+                            onPressed: () async {
+                              final picked = await showDatePicker(
+                                context: context,
+                                initialDate: fromDate ?? DateTime.now(),
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime(2100),
+                              );
+                              if (picked != null) {
+                                context
+                                    .read<RoomsCubit>()
+                                    .filterReservationsByDate(
+                                      fromDate: picked,
+                                      toDate: toDate,
+                                    );
+                              }
+                            },
                           ),
+                        ),
 
-                          ...reservationsState.map((reservation) {
-                            final duration = getDurationBetween(
-                              reservation.from,
-                              reservation.to,
-                            );
+                        const SizedBox(width: 8),
 
-                            return TableRow(
-                              children: [
-                                TableCell1(reservation.name),
+                        // TO date picker
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            icon: const Icon(Icons.calendar_today),
+                            label: Text(
+                              toDate != null
+                                  ? '${toDate.day}/${toDate.month}/${toDate.year}'
+                                  : 'To date',
+                            ),
+                            onPressed: () async {
+                              final picked = await showDatePicker(
+                                context: context,
+                                initialDate: toDate ?? DateTime.now(),
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime(2100),
+                              );
+                              if (picked != null) {
+                                context
+                                    .read<RoomsCubit>()
+                                    .filterReservationsByDate(
+                                      fromDate: fromDate,
+                                      toDate: picked,
+                                    );
+                              }
+                            },
+                          ),
+                        ),
 
-                                TableCell1(reservation.number),
+                        const SizedBox(width: 8),
 
-                                TableCell1(reservation.description),
-
-                                TableCell1(duration.inHours.toString()),
-
-                                TableCell1(reservation.people.toString()),
-
-                                TableCell1(
-                                  reservation.price.toStringAsFixed(2),
-                                ),
-
-                                Center(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      RoomsLogic.showReservationDetailsDialog(
-                                        context,
-                                        reservation,
-                                      );
-                                    },
-                                    child: Text("Show"),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                        ],
-                      ),
+                        // Clear filter button — only shown when a filter is active
+                        if (fromDate != null || toDate != null)
+                          IconButton(
+                            tooltip: 'Clear filter',
+                            icon: const Icon(Icons.filter_alt_off),
+                            onPressed: () {
+                              context
+                                  .read<RoomsCubit>()
+                                  .filterReservationsByDate(
+                                    fromDate: null,
+                                    toDate: null,
+                                  );
+                            },
+                          ),
+                      ],
                     ),
-            ),
 
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Close"),
+                    const SizedBox(height: 8),
+
+                    // ── Table or empty state ─────────────────────
+                    Expanded(
+                      child: reservationsToShow.isEmpty
+                          ? Center(
+                              child: Text(
+                                fromDate != null || toDate != null
+                                    ? "No reservations in this date range"
+                                    : "No Reservations Yet",
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineSmall,
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              child: Table(
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                columnWidths: const {
+                                  0: FlexColumnWidth(1),
+                                  1: FlexColumnWidth(1),
+                                  2: FlexColumnWidth(2),
+                                  3: FlexColumnWidth(1),
+                                  4: FlexColumnWidth(1),
+                                  5: FlexColumnWidth(1),
+                                  6: FlexColumnWidth(1),
+                                },
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      TableHeader("Name"),
+                                      TableHeader("Number"),
+                                      TableHeader("Description"),
+                                      TableHeader("Hours"),
+                                      TableHeader("People"),
+                                      TableHeader("Price"),
+                                      Center(child: TableHeader("Actions")),
+                                    ],
+                                  ),
+                                  ...reservationsToShow.map((reservation) {
+                                    final duration = getDurationBetween(
+                                      reservation.from,
+                                      reservation.to,
+                                    );
+                                    return TableRow(
+                                      children: [
+                                        TableCell1(reservation.name),
+                                        TableCell1(reservation.number),
+                                        TableCell1(reservation.description),
+                                        TableCell1(duration.inHours.toString()),
+                                        TableCell1(
+                                          reservation.people.toString(),
+                                        ),
+                                        TableCell1(
+                                          reservation.price.toStringAsFixed(2),
+                                        ),
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              RoomsLogic.showReservationDetailsDialog(
+                                                context,
+                                                reservation,
+                                              );
+                                            },
+                                            child: const Text("Show"),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                ],
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          );
-        },
+
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Close"),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

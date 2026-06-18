@@ -28,3 +28,17 @@ class GetRoomReservations extends RoomsState {
 
   GetRoomReservations({required this.reservations});
 }
+
+class FilteredRoomReservations extends RoomsState {
+  final List<ReservationModel> allReservations;
+  final List<ReservationModel> filteredReservations;
+  final DateTime? fromDate;
+  final DateTime? toDate;
+
+  FilteredRoomReservations({
+    required this.allReservations,
+    required this.filteredReservations,
+    this.fromDate,
+    this.toDate,
+  });
+}
