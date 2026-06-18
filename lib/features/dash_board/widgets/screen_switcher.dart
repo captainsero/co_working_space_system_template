@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/client_type/presentation/screen/client_type_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/customers_data_cubit/customers_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/presentation/screen/customers_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/presentation/screen/days_data.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/presentation/screen/items_screen.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/items_categories/presentation/screen/items_categories_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/month_data/presentation/monthly_overview.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/logic/cubit/partner_ship_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/presentation/screen/partnership_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/prices/screen/prices_screen.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/reservations/screens/reservations.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/presentation/screen/rooms.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/stuff/presentation/screen/stuff_screen.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/subscriptions/presentation/screen/subsciptions.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/tasks/presentation/screens/tasks_screen.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/tools/presentation/screen/tools_screen.dart';
 
 class ScreenSwitcher extends StatelessWidget {
   const ScreenSwitcher({super.key});
@@ -53,6 +57,14 @@ class ScreenSwitcher extends StatelessWidget {
                 return MonthlyOverview();
               case 10:
                 return TasksScreen();
+              case 11:
+                return Reservations();
+              case 12:
+                return ToolsScreen();
+              case 13:
+                return ClientTypeScreen();
+              case 14:
+                return ItemsCategoriesScreen();
               default:
                 return Center(child: Text("Unknown Page"));
             }

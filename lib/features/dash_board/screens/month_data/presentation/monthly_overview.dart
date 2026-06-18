@@ -92,6 +92,8 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
               if (state is GetMonthlyTotal) {
                 final totals = state.total;
                 final expensesTotals = state.expensesTotal;
+                final itemsTotals = state.itemsTotal; // ✅ NEW
+                final roomsTotals = state.roomsTotal;
 
                 return ListView.builder(
                   // padding: const EdgeInsets.symmetric(vertical: 8),
@@ -101,6 +103,12 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                     final total = totals.length > index ? totals[index] : 0.0;
                     final expensesTotal = expensesTotals.length > index
                         ? expensesTotals[index]
+                        : 0.0;
+                    final itemsTotal = itemsTotals.length > index
+                        ? itemsTotals[index]
+                        : 0.0; // ✅ NEW
+                    final roomsTotal = roomsTotals.length > index
+                        ? roomsTotals[index]
                         : 0.0;
                     final difference = total - expensesTotal;
 
@@ -119,7 +127,7 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                       },
                       child: Container(
                         width: ScreenSize.width / 1.5,
-                        height: ScreenSize.height / 2.5,
+                        height: ScreenSize.height / 1.7,
                         margin: EdgeInsets.all(AppMargin.m4),
                         padding: EdgeInsets.all(AppPadding.p4),
                         decoration: BoxDecoration(
@@ -134,7 +142,13 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                               '${_monthName(month)} $selectedYear',
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
-                            _buildRow('Total', total),
+                            _buildRow(
+                              'People revenues',
+                              total - itemsTotal - roomsTotal,
+                            ),
+                            _buildRow('Items revenues', itemsTotal),
+                            _buildRow('Rooms revenues', roomsTotal),
+                            _buildRow('Total revenues', total),
                             _buildRow('Expenses', expensesTotal),
                             Divider(
                               color: Theme.of(
@@ -201,10 +215,14 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
   ) async {
     List<double> dailyTotals = [];
     List<ExpensesModel> expensesList = [];
+    double itemsTotal = 0.0; // ✅ NEW
+    double roomsTotal = 0.0; // ✅ NEW
 
     if (state is GetMonthTotals) {
       dailyTotals = state.total;
       expensesList = state.expensesTotal;
+      itemsTotal = state.itemsTotal; // ✅ NEW
+      roomsTotal = state.roomsTotal; // ✅ NEW
     }
 
     await showDialog(
@@ -226,21 +244,26 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                         'Daily Totals:',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-
                       ...dailyTotals.asMap().entries.map((e) {
-                        int dayNum = e.key + 1;
-                        double value = e.value;
                         return Text(
-                          'Day $dayNum: ${value.toStringAsFixed(2)}',
+                          'Day ${e.key + 1}: ${e.value.toStringAsFixed(2)}',
                           style: Theme.of(context).textTheme.headlineSmall,
                         );
                       }),
+                      // ✅ NEW — Items & Rooms summary at the bottom of the left column
+                      Divider(),
+                      Text(
+                        'Items Total: ${itemsTotal.toStringAsFixed(2)}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        'Rooms Total: ${roomsTotal.toStringAsFixed(2)}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ],
                   ),
                 ),
-
                 SizedBox(width: AppSize.s5),
-
                 Column(
                   spacing: AppSize.s3,
                   children: [
@@ -248,7 +271,6 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
                       'Expenses:',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-
                     ...expensesList.map((expense) {
                       return Text(
                         '${expense.name}: ${expense.price.toStringAsFixed(2)}',
@@ -261,7 +283,6 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
             ),
           ),
         ),
-
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -270,6 +291,7 @@ class _MonthlyOverviewState extends State<MonthlyOverview>
         ],
       ),
     );
-    context.read<MonthDataCubit>().getMonthlyTotal(year);
+
+    context.read<MonthDataCubit>().restoreYearlyState();
   }
 }
