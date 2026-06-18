@@ -9,6 +9,7 @@ import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/logic/cubit/items_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/presentation/widgets/item_status.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/items_categories/logic/cubit/items_categories_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_cell.dart';
 import 'package:team_egypt_v3/features/dash_board/widgets/table_header.dart';
 import 'package:toastification/toastification.dart';
@@ -23,8 +24,9 @@ class ItemsListContainer extends StatefulWidget {
 class _ItemsListContainerState extends State<ItemsListContainer> {
   @override
   void initState() {
-    context.read<ItemsCubit>().getAll();
     super.initState();
+    context.read<ItemsCubit>().getAll();
+    context.read<ItemsCategoriesCubit>().getCategories();
   }
 
   @override
@@ -45,87 +47,123 @@ class _ItemsListContainerState extends State<ItemsListContainer> {
 
           return AlertDialog(
             title: Text("Edit ${item.name}"),
-            content: SizedBox(
-              width: ScreenSize.width / 3,
-              height: ScreenSize.height / 3,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
+            content: StatefulBuilder(
+              builder: (context, setDialogState) {
+                return SizedBox(
+                  width: ScreenSize.width / 3,
+                  height: ScreenSize.height / 3,
+
+                  child: Form(
+                    key: formKey,
+
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                       children: [
-                        SizedBox(
-                          width: ScreenSize.width / 5.5,
-                          child: CustomTextField(
-                            controller: priceController,
-                            hint: "Price",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Price cannot be empty";
-                              }
-                              if (double.tryParse(value) == null) {
-                                return "Price must be a number";
-                              }
-                              return null;
-                            },
-                          ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: ScreenSize.width / 5.5,
+
+                              child: CustomTextField(
+                                controller: priceController,
+
+                                hint: "Price",
+
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Price cannot be empty";
+                                  }
+
+                                  if (double.tryParse(value) == null) {
+                                    return "Price must be a number";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+
+                            Text("=> Price"),
+                          ],
                         ),
 
-                        Text(
-                          "=> Price",
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: ScreenSize.width / 5.5,
+
+                              child: CustomTextField(
+                                controller: quantityController,
+
+                                hint: "Quantity",
+
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Quantity cannot be empty";
+                                  }
+
+                                  if (int.tryParse(value) == null) {
+                                    return "Quantity must be a number";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+
+                            Text("=> Quantity"),
+                          ],
+                        ),
+
+                        BlocBuilder<ItemsCategoriesCubit, ItemsCategoriesState>(
+                          builder: (context, state) {
+                            if (state is ItemsCategoriesLoading) {
+                              return CircularProgressIndicator();
+                            }
+
+                            List<String> categories = [];
+
+                            if (state is GetItemsCategories) {
+                              categories = state.categories
+                                  .map((e) => e.name)
+                                  .toList();
+                            }
+
+                            return SizedBox(
+                              width: ScreenSize.width / 5.5,
+
+                              child: CustomDropdownField(
+                                value: category,
+
+                                items: categories,
+
+                                hint: "Select Category",
+
+                                onChanged: (value) {
+                                  setDialogState(() {
+                                    category = value!;
+                                  });
+                                },
+
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please select category";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
-
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: ScreenSize.width / 5.5,
-                          child: CustomTextField(
-                            controller: quantityController,
-                            hint: "Quantity",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Quantity cannot be empty";
-                              }
-                              if (int.tryParse(value) == null) {
-                                return "Quantity must be a number";
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-
-                        Text(
-                          "=> Quantity",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(
-                      width: ScreenSize.width / 5.5,
-                      child: CustomDropdownField(
-                        value: category,
-                        items: ["Drink", "Snack"],
-                        hint: "Select Category",
-                        onChanged: (value) {
-                          category = value!;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please select a Room";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
             actions: [
               TextButton.icon(

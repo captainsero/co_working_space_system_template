@@ -8,6 +8,7 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/models/checkout_items.dart';
 import 'package:team_egypt_v3/core/models/items_model.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/logic/cubit/items_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/items_categories/logic/cubit/items_categories_cubit.dart';
 
 class ItemsContainer extends StatefulWidget {
   const ItemsContainer({super.key, required this.user});
@@ -28,26 +29,37 @@ class _ItemsContainerState extends State<ItemsContainer> {
   //   context.read<ItemsCubit>().getByCategory(item);
   // }
 
-  void onDrink() {
+  String selectedCategory = '';
+
+  // void onDrink() {
+  //   setState(() {
+  //     item = "Drink";
+  //     isChosen = true;
+  //   });
+  //   context.read<ItemsCubit>().getByCategory(item);
+  // }
+
+  void selectCategory(String category) {
     setState(() {
-      item = "Drink";
-      isChosen = true;
+      selectedCategory = category;
     });
-    context.read<ItemsCubit>().getByCategory(item);
+
+    context.read<ItemsCubit>().getByCategory(category);
   }
 
-  void onSnack() {
-    setState(() {
-      item = "Snack";
-      isChosen = false;
-    });
-    context.read<ItemsCubit>().getByCategory(item);
-  }
+  // void onSnack() {
+  //   setState(() {
+  //     item = "Snack";
+  //     isChosen = false;
+  //   });
+  //   context.read<ItemsCubit>().getByCategory(item);
+  // }
 
   @override
   void initState() {
     super.initState();
-    context.read<ItemsCubit>().getByCategory(item);
+    // context.read<ItemsCubit>().getByCategory(item);
+    context.read<ItemsCategoriesCubit>().getCategories();
   }
 
   @override
@@ -73,29 +85,57 @@ class _ItemsContainerState extends State<ItemsContainer> {
             ),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: onDrink,
-                      child: Text(
-                        "Drinks",
-                        style: isChosen
-                            ? Theme.of(context).textTheme.titleMedium
-                            : Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ),
+                BlocBuilder<ItemsCategoriesCubit, ItemsCategoriesState>(
+                  builder: (context, categoryState) {
+                    if (categoryState is ItemsCategoriesLoading) {
+                      return CircularProgressIndicator();
+                    }
 
-                    TextButton(
-                      onPressed: onSnack,
-                      child: Text(
-                        "Snacks",
-                        style: isChosen
-                            ? Theme.of(context).textTheme.bodyLarge
-                            : Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                  ],
+                    if (categoryState is GetItemsCategories) {
+                      final categories = categoryState.categories;
+
+                      // Select first category automatically
+                      if (selectedCategory.isEmpty && categories.isNotEmpty) {
+                        selectedCategory = categories.first.name;
+
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          context.read<ItemsCubit>().getByCategory(
+                            selectedCategory,
+                          );
+                        });
+                      }
+
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+
+                        child: Row(
+                          children: categories.map((category) {
+                            final selected = selectedCategory == category.name;
+
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppPadding.p2,
+                              ),
+
+                              child: TextButton(
+                                onPressed: () => selectCategory(category.name),
+
+                                child: Text(
+                                  category.name,
+
+                                  style: selected
+                                      ? Theme.of(context).textTheme.titleMedium
+                                      : Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    }
+
+                    return SizedBox();
+                  },
                 ),
                 Expanded(
                   child: SizedBox(
