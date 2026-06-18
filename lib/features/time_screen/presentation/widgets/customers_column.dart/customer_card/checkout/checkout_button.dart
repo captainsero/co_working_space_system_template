@@ -39,6 +39,8 @@ class _CheckoutButtonState extends State<CheckoutButton> {
         double baseTotal = (hours * Validators.hourFee).roundToDouble();
         if (baseTotal > 80) {
           baseTotal = 80;
+        } else if (baseTotal < 25) {
+          baseTotal = 25;
         }
 
         if (widget.user.isSub) {
