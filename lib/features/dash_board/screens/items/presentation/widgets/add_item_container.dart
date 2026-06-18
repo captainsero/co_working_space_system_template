@@ -8,6 +8,7 @@ import 'package:team_egypt_v3/core/widgets/custom_text_field.dart';
 import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/core/widgets/modern_toast.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/logic/cubit/items_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/items_categories/logic/cubit/items_categories_cubit.dart';
 import 'package:toastification/toastification.dart';
 
 class AddItemContainer extends StatefulWidget {
@@ -27,6 +28,13 @@ class _AddItemContainerState extends State<AddItemContainer> {
   String? category;
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<ItemsCategoriesCubit>().getCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,22 +113,47 @@ class _AddItemContainerState extends State<AddItemContainer> {
               children: [
                 SizedBox(
                   width: ScreenSize.width / 5.5,
-                  child: CustomDropdownField(
-                    value: category,
-                    items: ["Drink", "Snack"],
-                    hint: "Select Category",
-                    onChanged: (value) {
-                      setState(() {
-                        category = value;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please select a Room";
-                      }
-                      return null;
-                    },
-                  ),
+
+                  child:
+                      BlocBuilder<ItemsCategoriesCubit, ItemsCategoriesState>(
+                        builder: (context, state) {
+                          if (state is ItemsCategoriesLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          List<String> categories = [];
+
+                          if (state is GetItemsCategories) {
+                            categories = state.categories
+                                .map((e) => e.name)
+                                .toList();
+                          }
+
+                          return CustomDropdownField(
+                            value: category,
+
+                            items: categories,
+
+                            hint: "Select Category",
+
+                            onChanged: (value) {
+                              setState(() {
+                                category = value;
+                              });
+                            },
+
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please select category";
+                              }
+
+                              return null;
+                            },
+                          );
+                        },
+                      ),
                 ),
 
                 BlocBuilder<ItemsCubit, ItemsState>(
