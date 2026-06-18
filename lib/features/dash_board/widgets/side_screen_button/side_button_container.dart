@@ -33,29 +33,29 @@ class SideButtonContainer extends StatelessWidget {
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 1,
               ),
-          
+
               SideButton(
                 label: "Days Data",
                 icon: Icons.bar_chart_rounded,
-          
+
                 onpressed: () {
                   context.read<CustomersDataCubit>().changePage(2);
                 },
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 2,
               ),
-          
+
               SideButton(
                 label: "Partnerships",
                 icon: Icons.people_alt_sharp,
-          
+
                 onpressed: () {
                   context.read<CustomersDataCubit>().changePage(3);
                 },
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 3,
               ),
-          
+
               SideButton(
                 label: "Subscriptions",
                 icon: Icons.payment,
@@ -65,7 +65,7 @@ class SideButtonContainer extends StatelessWidget {
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 4,
               ),
-          
+
               SideButton(
                 label: "Team Rooms",
                 icon: Icons.room_service_sharp,
@@ -73,9 +73,10 @@ class SideButtonContainer extends StatelessWidget {
                   context.read<CustomersDataCubit>().changePage(11);
                 },
                 isChanged:
-                    context.watch<CustomersDataCubit>().state.selectedPage == 11,
+                    context.watch<CustomersDataCubit>().state.selectedPage ==
+                    11,
               ),
-          
+
               SideButton(
                 label: "Reservations",
                 icon: Icons.location_on,
@@ -85,18 +86,18 @@ class SideButtonContainer extends StatelessWidget {
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 5,
               ),
-          
+
               SideButton(
                 label: "Staff",
                 icon: Icons.person_add_alt_1,
-          
+
                 onpressed: () {
                   context.read<CustomersDataCubit>().changePage(6);
                 },
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 6,
               ),
-          
+
               SideButton(
                 label: "Items",
                 icon: Icons.inventory,
@@ -106,7 +107,7 @@ class SideButtonContainer extends StatelessWidget {
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 7,
               ),
-          
+
               SideButton(
                 label: "Prices",
                 icon: Icons.monetization_on,
@@ -116,7 +117,7 @@ class SideButtonContainer extends StatelessWidget {
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 8,
               ),
-          
+
               SideButton(
                 label: "Tasks",
                 icon: Icons.task_rounded,
@@ -124,9 +125,10 @@ class SideButtonContainer extends StatelessWidget {
                   context.read<CustomersDataCubit>().changePage(10);
                 },
                 isChanged:
-                    context.watch<CustomersDataCubit>().state.selectedPage == 10,
+                    context.watch<CustomersDataCubit>().state.selectedPage ==
+                    10,
               ),
-          
+
               SideButton(
                 label: "Monthly Report",
                 icon: Icons.calendar_month,
@@ -136,25 +138,27 @@ class SideButtonContainer extends StatelessWidget {
                 isChanged:
                     context.watch<CustomersDataCubit>().state.selectedPage == 9,
               ),
-          
+
               SideButton(
                 label: "Tools",
-                icon: Icons.calendar_month,
+                icon: Icons.tv,
                 onpressed: () {
                   context.read<CustomersDataCubit>().changePage(12);
                 },
                 isChanged:
-                    context.watch<CustomersDataCubit>().state.selectedPage == 12,
+                    context.watch<CustomersDataCubit>().state.selectedPage ==
+                    12,
               ),
-          
+
               SideButton(
                 label: "Client Types",
-                icon: Icons.calendar_month,
+                icon: Icons.person_search,
                 onpressed: () {
                   context.read<CustomersDataCubit>().changePage(13);
                 },
                 isChanged:
-                    context.watch<CustomersDataCubit>().state.selectedPage == 13,
+                    context.watch<CustomersDataCubit>().state.selectedPage ==
+                    13,
               ),
             ],
           ),
