@@ -109,6 +109,17 @@ class SideButtonContainer extends StatelessWidget {
               ),
 
               SideButton(
+                label: "Items Categories",
+                icon: Icons.nature,
+                onpressed: () {
+                  context.read<CustomersDataCubit>().changePage(14);
+                },
+                isChanged:
+                    context.watch<CustomersDataCubit>().state.selectedPage ==
+                    14,
+              ),
+
+              SideButton(
                 label: "Prices",
                 icon: Icons.monetization_on,
                 onpressed: () {

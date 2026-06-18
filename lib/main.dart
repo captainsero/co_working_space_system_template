@@ -16,6 +16,7 @@ import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/c
 import 'package:team_egypt_v3/features/dash_board/screens/customers_data/logic/sorting_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/days_data/logic/days_data_cubit/days_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/items/logic/cubit/items_cubit.dart';
+import 'package:team_egypt_v3/features/dash_board/screens/items_categories/logic/cubit/items_categories_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/month_data/logic/cubit/month_data_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/partnerships_screen/logic/cubit/partner_ship_cubit.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
@@ -112,6 +113,9 @@ class MyApp extends StatelessWidget {
             BlocProvider<SortingCubit>(create: (_) => SortingCubit()),
             BlocProvider<ToolsCubit>(create: (_) => ToolsCubit()),
             BlocProvider<ClientTypeCubit>(create: (_) => ClientTypeCubit()),
+            BlocProvider<ItemsCategoriesCubit>(
+              create: (_) => ItemsCategoriesCubit()..getCategories(),
+            ),
           ],
           child: MaterialApp(
             supportedLocales: S.delegate.supportedLocales,
