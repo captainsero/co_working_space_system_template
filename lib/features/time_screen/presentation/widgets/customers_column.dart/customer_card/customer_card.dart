@@ -3,7 +3,6 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/string_extensions.dart';
 import 'package:team_egypt_v3/core/models/in_team_users.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/checkout/checkout_button.dart';
-import 'package:team_egypt_v3/core/widgets/icon_and_text.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customer_card/note_button/note_button.dart';
 
 class CustomerCard extends StatelessWidget {
@@ -36,10 +35,20 @@ class CustomerCard extends StatelessWidget {
                   Row(
                     spacing: AppSize.s5,
                     children: [
-                      IconAndText(
-                        icon: Icons.phone_outlined,
-                        text: item.number,
+                      Row(
+                        spacing: AppSize.s2,
+                        children: [
+                          Icon(
+                            Icons.phone_outlined,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          SelectableText(
+                            item.number,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
                       ),
+
                       Row(
                         spacing: AppSize.s2,
                         children: [
