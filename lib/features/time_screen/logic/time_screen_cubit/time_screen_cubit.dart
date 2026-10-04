@@ -17,12 +17,18 @@ part 'time_screen_state.dart';
 
 class TimeScreenCubit extends Cubit<TimeScreenState> {
   double htotal = 0;
+  bool _isTotalVisible = false;
   TimeScreenCubit() : super(TimeScreenInitial());
+
+  void toggleTotalVisibility() {
+    _isTotalVisible = !_isTotalVisible;
+    emit(GetTotal(total: htotal, isTotalVisible: _isTotalVisible));
+  }
 
   void getTotal(DateTime date) async {
     final double total = await SupabaseInTeam.getTotal(date);
     htotal = total;
-    emit(GetTotal(total: total));
+    emit(GetTotal(total: total, isTotalVisible: _isTotalVisible));
   }
 
   Future<double> updateTotal(DateTime date, double price) async {
@@ -31,7 +37,7 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
     // ignore: unused_local_variable
     final updateTotal = await SupabaseDaysData.updateDayTotal(date, newTotal);
     htotal = newTotal;
-    emit(GetTotal(total: newTotal));
+    emit(GetTotal(total: newTotal, isTotalVisible: _isTotalVisible));
     return newTotal;
   }
 
@@ -87,7 +93,7 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
 
     htotal = newTotal;
 
-    emit(GetTotal(total: newTotal));
+    emit(GetTotal(total: newTotal, isTotalVisible: _isTotalVisible));
   }
 
   // ✅ Upsert room reservation
@@ -105,7 +111,7 @@ class TimeScreenCubit extends Cubit<TimeScreenState> {
     await SupabaseRooms.addReservationToRoom(reservation);
 
     // 4. Update local state
-    emit(GetTotal(total: newTotal));
+    emit(GetTotal(total: newTotal, isTotalVisible: _isTotalVisible));
   }
 
   void deleteInTeamUserAndAddMinets(

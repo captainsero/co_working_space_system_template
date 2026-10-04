@@ -30,21 +30,47 @@ class SupabaseDaysData {
     try {
       final dateOnly = DateTime(date.year, date.month, date.day);
 
+      // Fetch all rooms with their reservations from the "rooms" table
       final response = await Supabase.instance.client
-          .from("days_data")
-          .select("rooms_data")
-          .eq("date", dateOnly.toIso8601String())
-          .maybeSingle();
+          .from("rooms")
+          .select("reservations");
 
-      if (response == null || response["rooms_data"] == null) return [];
+      // ignore: unnecessary_null_comparison
+      if (response == null || response.isEmpty) return [];
 
-      final List<dynamic> roomsData = response["rooms_data"];
-      return roomsData
-          .map(
-            (json) =>
-                ReservationModel.fromJson(Map<String, dynamic>.from(json)),
-          )
-          .toList();
+      final List<ReservationModel> allReservations = [];
+
+      for (final room in response) {
+        final reservationsJson = room["reservations"];
+        if (reservationsJson == null ||
+            reservationsJson is! List ||
+            reservationsJson.isEmpty) {
+          continue;
+        }
+
+        for (final json in reservationsJson) {
+          try {
+            final reservation = ReservationModel.fromJson(
+              Map<String, dynamic>.from(json),
+            );
+
+            // Filter by the selected date
+            final reservationDateOnly = DateTime(
+              reservation.date.year,
+              reservation.date.month,
+              reservation.date.day,
+            );
+
+            if (reservationDateOnly == dateOnly) {
+              allReservations.add(reservation);
+            }
+          } catch (_) {
+            // Skip malformed reservation entries
+          }
+        }
+      }
+
+      return allReservations;
     } catch (e) {
       print("Error fetching reservations: $e");
       return [];

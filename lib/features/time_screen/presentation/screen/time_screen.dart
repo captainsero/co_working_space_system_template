@@ -114,8 +114,14 @@ class _TimeScreenState extends State<TimeScreen> {
                           final total = (state is GetTotal)
                               ? state.total
                               : this.total;
+                          final isVisible = (state is GetTotal)
+                              ? state.isTotalVisible
+                              : false;
 
-                          return PriceContainer(total: total);
+                          return PriceContainer(
+                            total: total,
+                            isVisible: isVisible,
+                          );
                         },
                       ),
 

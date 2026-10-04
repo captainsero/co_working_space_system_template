@@ -1,10 +1,19 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:team_egypt_v3/core/constants/values_manager.dart';
+import 'package:team_egypt_v3/features/time_screen/logic/time_screen_cubit/time_screen_cubit.dart';
 
 class PriceContainer extends StatelessWidget {
-  const PriceContainer({super.key, required this.total});
+  const PriceContainer({
+    super.key,
+    required this.total,
+    required this.isVisible,
+  });
 
   final double total;
+  final bool isVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +43,31 @@ class PriceContainer extends StatelessWidget {
                   "Total Salary Today",
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
+                Spacer(),
+                IconButton(
+                  onPressed: () {
+                    context.read<TimeScreenCubit>().toggleTotalVisibility();
+                  },
+                  icon: Icon(
+                    isVisible ? Icons.visibility : Icons.visibility_off,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    size: AppSize.s10,
+                  ),
+                ),
               ],
             ),
 
             SizedBox(height: AppSize.s5),
 
-            Text("$total EGP", style: Theme.of(context).textTheme.titleMedium),
+            ImageFiltered(
+              imageFilter: isVisible
+                  ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
+                  : ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Text(
+                "$total EGP",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
 
             SizedBox(height: AppSize.s5),
 

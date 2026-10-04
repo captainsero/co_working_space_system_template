@@ -7,8 +7,9 @@ final class TimeScreenInitial extends TimeScreenState {}
 
 class GetTotal extends TimeScreenState {
   final double total;
+  final bool isTotalVisible;
 
-  GetTotal({required this.total});
+  GetTotal({required this.total, this.isTotalVisible = false});
 }
 
 class RoomsDataLoaded extends TimeScreenState {
