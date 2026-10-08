@@ -5,7 +5,6 @@ import 'package:team_egypt_v3/core/constants/values_manager.dart';
 import 'package:team_egypt_v3/core/utils/validators.dart';
 import 'package:team_egypt_v3/features/app_bar/presentation/screen/app_bar_main.dart';
 import 'package:team_egypt_v3/features/dash_board/screens/rooms/logic/cubit/reservation_cubit.dart';
-import 'package:team_egypt_v3/features/time_screen/data/supabase_in_team.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/time_screen_cubit/time_screen_cubit.dart';
 import 'package:team_egypt_v3/features/time_screen/logic/time_screen_logic.dart';
 import 'package:team_egypt_v3/features/time_screen/presentation/widgets/customers_column.dart/customers_column.dart';
@@ -22,7 +21,6 @@ class TimeScreen extends StatefulWidget {
 class _TimeScreenState extends State<TimeScreen> {
   final TextEditingController _searchController = TextEditingController();
   String searchQuery = '';
-  double total = 0.0;
 
   // NEW: hidden barcode listener field
   String _barcodeBuffer = '';
@@ -36,7 +34,7 @@ class _TimeScreenState extends State<TimeScreen> {
   void initState() {
     super.initState();
     _keyboardFocusNode = FocusNode();
-    _loadTotal();
+    context.read<TimeScreenCubit>().getTotal(Validators.choosenDay);
     context.read<ReservationCubit>().getResByDate(date: Validators.choosenDay);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -48,11 +46,6 @@ class _TimeScreenState extends State<TimeScreen> {
   void dispose() {
     _keyboardFocusNode.dispose();
     super.dispose();
-  }
-
-  void _loadTotal() async {
-    total = await SupabaseInTeam.getTotal(Validators.choosenDay);
-    setState(() {});
   }
 
   @override
@@ -113,7 +106,7 @@ class _TimeScreenState extends State<TimeScreen> {
                         builder: (context, state) {
                           final total = (state is GetTotal)
                               ? state.total
-                              : this.total;
+                              : 0.0;
                           final isVisible = (state is GetTotal)
                               ? state.isTotalVisible
                               : false;
